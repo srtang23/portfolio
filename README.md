@@ -10,6 +10,12 @@ npm run dev      # local site at http://localhost:4321
 npm run build    # static site in dist/, ready for any host
 ```
 
+## Publishing
+
+Every push to `main` builds the site and publishes it to GitHub Pages at
+https://sophia-tang.com (see `.github/workflows/deploy.yml`). The domain is set
+by `public/CNAME`.
+
 ## Where things live
 
 - `src/data/projects.ts` — project cards (titles, blurbs, images, order) and the Resume / LinkedIn links

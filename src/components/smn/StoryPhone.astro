@@ -1,0 +1,191 @@
+---
+// Phone that plays the screen recording for whichever solution step is on screen.
+// Each recording plays once, with a progress bar under it and a Replay button at the end.
+interface Props {
+    count: number
+}
+const { count } = Astro.props
+const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1}.mp4`)
+---
+
+<div class="story-phone" data-story-phone>
+    <div class="screen">
+        {videos.map((src, i) => <video src={src} muted playsinline preload={i === 0 ? "auto" : "metadata"} class={i === 0 ? "on" : ""} aria-hidden={i === 0 ? undefined : "true"} />)}
+        <button type="button" class="replay" aria-label="Replay video" hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 3-6.7"></path>
+                <path d="M3 4v5h5"></path>
+            </svg>
+            Replay
+        </button>
+    </div>
+    <div class="bar" aria-hidden="true"><div></div></div>
+</div>
+
+<style>
+    .story-phone {
+        position: relative;
+        width: 15.75rem;
+        height: 32.375rem;
+    }
+    .screen {
+        position: absolute;
+        inset: 0 0 1.125rem 0;
+        overflow: hidden;
+        border-radius: 1.75rem;
+        background: #66bcc2;
+    }
+    video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+    video.on {
+        opacity: 1;
+    }
+    .bar {
+        position: absolute;
+        left: 30%;
+        right: 30%;
+        bottom: 0;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(17, 17, 17, 0.12);
+        overflow: hidden;
+    }
+    .bar > div {
+        width: 100%;
+        height: 100%;
+        background: #111;
+        transform: scaleX(0);
+        transform-origin: left center;
+    }
+    .replay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.125rem;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(17, 17, 17, 0.82);
+        color: #fff;
+        font: 500 0.875rem/1 var(--sans);
+        white-space: nowrap;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    }
+    .replay[hidden] {
+        display: none;
+    }
+
+    @media (max-width: 1199.98px) {
+        .story-phone {
+            width: 13.125rem;
+            height: 27rem;
+        }
+        .screen {
+            border-radius: 1.5rem;
+        }
+    }
+    @media (max-width: 809.98px) {
+        .story-phone {
+            width: 8.25rem;
+            height: 16.9375rem;
+        }
+        .screen {
+            inset: 0 0 0.75rem 0;
+            border-radius: 1rem;
+        }
+        .bar {
+            height: 3px;
+        }
+        .replay {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+        }
+    }
+</style>
+
+<script>
+    for (const root of document.querySelectorAll<HTMLElement>("[data-story-phone]")) {
+        const videos = [...root.querySelectorAll("video")]
+        const bar = root.querySelector<HTMLElement>(".bar > div")!
+        const replay = root.querySelector<HTMLButtonElement>(".replay")!
+        const steps = [...document.querySelectorAll<HTMLElement>("[data-step]")]
+        let active = 0
+        let visible = false
+        let frame = 0
+
+        const tick = () => {
+            const v = videos[active]
+            if (v.duration > 0) bar.style.transform = `scaleX(${Math.min(1, v.currentTime / v.duration)})`
+            if (!v.paused && !v.ended) frame = requestAnimationFrame(tick)
+        }
+        const play = () => {
+            const v = videos[active]
+            if (visible && !v.ended) v.play().catch(() => {})
+        }
+        const show = (i: number) => {
+            if (i === active) return
+            videos[active].pause()
+            active = i
+            videos.forEach((v, j) => {
+                v.classList.toggle("on", j === i)
+                if (j === i) v.removeAttribute("aria-hidden")
+                else v.setAttribute("aria-hidden", "true")
+            })
+            const v = videos[i]
+            v.currentTime = 0
+            bar.style.transform = "scaleX(0)"
+            replay.hidden = true
+            play()
+        }
+
+        videos.forEach((v) => {
+            v.addEventListener("play", () => {
+                cancelAnimationFrame(frame)
+                frame = requestAnimationFrame(tick)
+            })
+            v.addEventListener("ended", () => {
+                if (v !== videos[active]) return
+                tick()
+                replay.hidden = false
+            })
+        })
+        replay.addEventListener("click", () => {
+            const v = videos[active]
+            v.currentTime = 0
+            bar.style.transform = "scaleX(0)"
+            replay.hidden = true
+            v.play().catch(() => {})
+        })
+
+        // Only play while the phone is on screen.
+        new IntersectionObserver(
+            ([e]) => {
+                visible = e.isIntersecting
+                if (visible) play()
+                else videos[active].pause()
+            },
+            { threshold: 0.5 },
+        ).observe(root)
+
+        // Switch recordings as each step crosses the middle of the screen.
+        const sio = new IntersectionObserver(
+            (entries) => {
+                for (const e of entries) if (e.isIntersecting) show(Number((e.target as HTMLElement).dataset.step))
+            },
+            { rootMargin: "-50% 0px -50% 0px" },
+        )
+        steps.forEach((s) => sio.observe(s))
+    }
+</script>

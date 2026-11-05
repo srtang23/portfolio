@@ -6,8 +6,9 @@ import "../styles/global.css"
 interface Props {
     title: string
     description?: string
+    nav?: "default" | "case"
 }
-const { title, description = "Sophia Tang is a product designer creating experiences through research and systems thinking." } = Astro.props
+const { title, nav = "default", description = "Sophia Tang is a product designer creating experiences through research and systems thinking." } = Astro.props
 ---
 
 <!doctype html>
@@ -25,7 +26,7 @@ const { title, description = "Sophia Tang is a product designer creating experie
     </head>
     <body>
         <div class="paper" aria-hidden="true"></div>
-        <Nav />
+        <Nav variant={nav} />
         <slot />
 
         <script>

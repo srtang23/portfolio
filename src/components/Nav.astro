@@ -1,8 +1,14 @@
 ---
 import { links } from "../data/projects"
+
+// "case" is the lighter nav used on case studies: just a soft blur, no paper-coloured fade.
+interface Props {
+    variant?: "default" | "case"
+}
+const { variant = "default" } = Astro.props
 ---
 
-<nav class="top-nav" aria-label="Main">
+<nav class:list={["top-nav", variant]} aria-label="Main">
     <div class="fade" aria-hidden="true"></div>
     <div class="center">
         <a class="link" href="/work">Work</a>
@@ -42,6 +48,14 @@ import { links } from "../data/projects"
         mask-image: linear-gradient(#000 40%, transparent 100%);
         -webkit-mask-image: linear-gradient(#000 40%, transparent 100%);
         pointer-events: none;
+    }
+    .case .fade {
+        inset: 0;
+        background: none;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        mask-image: linear-gradient(#000 50%, transparent 100%);
+        -webkit-mask-image: linear-gradient(#000 50%, transparent 100%);
     }
     .center {
         position: relative;

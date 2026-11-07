@@ -16,7 +16,7 @@ const halves = [
     ["Explore", "Evaluate"],
     ["Refine", "Prioritize"],
 ]
-const milestones = ["Brief", "Hypotheses", "P.O.C.", "Recommendations"]
+const milestones = ["Brief", "Hypotheses", "P.O.C.", "Pitch"]
 
 // Ten evenly spaced columns: milestone, left half, right half, milestone, ...
 const cols = [
@@ -29,7 +29,7 @@ const cols = [
     { x: 656, kind: "m", t: "Identify promising concepts" },
     { x: 760, kind: "h", t: "Refine through feedback" },
     { x: 864, kind: "h", t: "Define strategic opportunities" },
-    { x: 968, kind: "m", t: "Recommend next steps" },
+    { x: 968, kind: "m", t: "Present proposed directions to P&G" },
 ]
 const mx = [32, 344, 656, 968]
 const VB_X = -50
@@ -42,7 +42,7 @@ const pct = (x: number) => ((x - VB_X) / VB_W) * 100
         <svg viewBox={`${VB_X} -12 ${VB_W} ${DOT + 22}`} role="img" aria-labelledby="process-desc">
             <desc id="process-desc">
                 Process in three phases. Research: investigate and synthesize, from the brief to hypotheses. Experiment: explore and evaluate, from hypotheses to a proof of concept.
-                Strategy: refine and prioritize, from the proof of concept to recommendations.
+                Strategy: refine and prioritize, from the proof of concept to the pitch to P&amp;G.
             </desc>
 
             <!-- drop-lines (drawn first, so the diamonds sit on top) -->

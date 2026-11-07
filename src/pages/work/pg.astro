@@ -30,10 +30,10 @@ const info = [
     { h: "Skills", items: ["Consumer Research", "Insight Synthesis", "Design Strategy"] },
 ]
 
-const outcomes = [
-    { label: "[Outcome label]", value: "[Result]", text: "[One line on what this result means.]" },
-    { label: "[Outcome label]", value: "[Result]", text: "[One line on what this result means.]" },
-    { label: "[Outcome label]", value: "[Result]", text: "[One line on what this result means.]" },
+const approach = [
+    { h: "Consumer Research", p: "Visiting 8 homes to understand how people manage the smell of their space." },
+    { h: "Insight Synthesis", p: "Turning what we heard into unmet needs air care could answer." },
+    { h: "Design Strategy", p: "Translating findings into opportunities that fit naturally into everyday routines." },
 ]
 
 const steps = [
@@ -88,35 +88,17 @@ const reflections = [
                 }
             </dl>
 
-            <!-- Overview: key insight, the brief / tension / direction, then outcomes -->
-            <section id="overview" class="sec">
+            <!-- Overview: the question, the goal, and how we approached it -->
+            <section id="overview" class="sec ov">
                 <p class="tag">#overview</p>
-                <div class="key-insight">
-                    <svg class="bulb" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M24 3v4M10 9l2.8 2.8M38 9l-2.8 2.8M4 22h4M40 22h4M11 33l2.8-2.8M37 33l-2.8-2.8"></path>
-                        <path d="M18.5 37c0-4-1.6-5.6-3.6-8.3A11.5 11.5 0 1 1 35.5 22c0 2.6-.9 4.7-2.4 6.7-2 2.7-3.6 4.3-3.6 8.3"></path>
-                        <path d="M19 41h10M21 45h6"></path>
-                    </svg>
-                    <h2 class="h">
-                        Air care is reached for on a narrow set of occasions. To earn a broader role in the home, innovation must meet unmet needs and fit naturally into the
-                        routines people already have.
-                    </h2>
-                </div>
-                <dl class="framing body">
-                    <div><dt>The brief:</dt> <dd>Find opportunities for innovation in the air care space.</dd></div>
-                    <div>
-                        <dt>The tension:</dt>
-                        <dd>Everyday products are used out of habit, valued for what they solve rather than how they make people feel.</dd>
-                    </div>
-                    <div><dt>The direction:</dt> <dd>Design for the emotional experience, not just functional performance.</dd></div>
-                </dl>
-                <div class="outcomes">
+                <h2 class="ov-question">How can air care earn a broader role in the home?</h2>
+                <p class="ov-goal">Our goal was to find opportunities for innovation in the air care space.</p>
+                <div class="ov-cols">
                     {
-                        outcomes.map((o, i) => (
-                            <div class="card outcome reveal" style={`--delay:${i * 0.08}s`}>
-                                <p class="tag">{o.label}</p>
-                                <p class="value">{o.value}</p>
-                                <p class="body">{o.text}</p>
+                        approach.map((x) => (
+                            <div>
+                                <h3>{x.h}</h3>
+                                <p>{x.p}</p>
                             </div>
                         ))
                     }
@@ -744,32 +726,6 @@ const reflections = [
         will-change: transform;
     }
 
-    .key-insight {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-    }
-    .bulb {
-        flex-shrink: 0;
-        width: 2.75rem;
-        height: 2.75rem;
-        color: var(--ink);
-    }
-    .framing {
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .framing dt,
-    .framing dd {
-        display: inline;
-        margin: 0;
-    }
-    .framing dt {
-        font-weight: 500;
-        color: var(--ink);
-    }
 
     .solution-visual {
         width: 15.75rem;
@@ -801,18 +757,56 @@ const reflections = [
         .hero .title-area h1 {
             max-width: 90%;
         }
-        .key-insight {
-            align-items: flex-start;
-            gap: 1rem;
-        }
-        .bulb {
-            width: 2.25rem;
-            height: 2.25rem;
-        }
         .solution-visual {
             width: 8.25rem;
             height: 16.9375rem;
             padding: 0.5rem;
+        }
+    }
+    /* Overview: a question as the headline, a one-line goal, then three approach columns */
+    .ov {
+        gap: 1rem;
+    }
+    .ov-question {
+        font: 500 2.25rem/1.2 var(--serif);
+        letter-spacing: -0.02em;
+        color: var(--ink);
+    }
+    .ov-goal {
+        font: 400 1.0625rem/1.5 var(--sans);
+        letter-spacing: 0.01em;
+        color: var(--label);
+    }
+    .ov-cols {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+    .ov-cols > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .ov-cols h3 {
+        font: 500 0.9375rem/1.4 var(--sans);
+        color: var(--ink);
+    }
+    .ov-cols p {
+        font: 400 0.875rem/1.6 var(--sans);
+        letter-spacing: 0.01em;
+        color: var(--body);
+    }
+    @media (max-width: 809.98px) {
+        .ov-question {
+            font-size: 1.75rem;
+        }
+        .ov-goal {
+            font-size: 0.9375rem;
+        }
+        .ov-cols {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
         }
     }
 </style>

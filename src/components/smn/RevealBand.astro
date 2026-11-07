@@ -5,8 +5,9 @@
 interface Props {
     id: string
     text: string
+    bg?: string // background image; defaults to the Spilt Milk Nannies teal
 }
-const { id, text } = Astro.props
+const { id, text, bg = "/images/smn/hero-bg.jpg" } = Astro.props
 
 const words: { w: string; strong: boolean }[] = []
 text.split(/(\*\*[^*]+\*\*)/).forEach((part) => {
@@ -19,7 +20,7 @@ const plain = text.replace(/\*\*/g, "")
 
 <section id={id} class="band" data-band>
     <div class="pin">
-        <div class="bg" aria-hidden="true"><img src="/images/smn/hero-bg.jpg" alt="" /></div>
+        <div class="bg" aria-hidden="true"><img src={bg} alt="" /></div>
         <p class="label">#{id}</p>
         <p class="statement">
             <span class="sr">{plain}</span>

@@ -3,17 +3,15 @@ import Base from "../../layouts/Base.astro"
 import CaseNav from "../../components/CaseNav.astro"
 
 /*
- * Procter & Gamble case study.
- * Structure: hero → project info → overview → timeline of phases → challenge →
- * one section per phase (number, text, captioned gallery) → closing band → next project.
+ * Procter & Gamble case study, laid out like the Spilt Milk Nannies page:
+ * hero → project info → overview → one section per stage, each with a visual.
  * Text in [square brackets] is a placeholder still to be written.
  */
 
 const sections = [
     { id: "overview", label: "Overview" },
-    { id: "timeline", label: "Timeline" },
     { id: "challenge", label: "Challenge" },
-    { id: "empathize-define", label: "Empathize & Define" },
+    { id: "research", label: "Research" },
     { id: "concept-design", label: "Concept & Design" },
     { id: "final-deliverable", label: "Final deliverable" },
 ]
@@ -25,32 +23,32 @@ const info = [
     { h: "Skills", items: ["Consumer Research", "Insight Synthesis", "Design Strategy"] },
 ]
 
-// Each phase appears as a card in the timeline and as its own section below.
-const phases = [
+const stages = [
     {
-        id: "empathize-define",
-        title: "Empathize & Define",
-        steps: ["In-home interviews", "Insight synthesis"],
+        id: "challenge",
+        heading: "[The challenge, in one line]",
+        text: "[Describe the brief from P&G, what made it hard, and the constraints you worked within.]",
+        visual: false,
+    },
+    {
+        id: "research",
+        heading: "[Research headline]",
         text: "We conducted 8 in-home visit interviews to understand the underlying motivations, needs, and feelings that shape how a typical user manages the smell of their homes.",
-        gallery: [{ caption: "In-home interviews" }, { caption: "Insight synthesis" }],
+        visual: true,
     },
     {
         id: "concept-design",
-        title: "Concept & Design",
-        steps: ["[Activity]", "[Activity]"],
+        heading: "[Concept & Design headline]",
         text: "[Add your concepts, explorations and design decisions here.]",
-        gallery: [{ caption: "[Caption]" }, { caption: "[Caption]" }, { caption: "[Caption]" }],
+        visual: true,
     },
     {
         id: "final-deliverable",
-        title: "Final deliverable",
-        steps: ["[Activity]", "[Activity]"],
+        heading: "[Final deliverable headline]",
         text: "[Add the final deliverable and its impact here.]",
-        gallery: [],
+        visual: true,
     },
 ]
-
-const pad = (n: number) => String(n).padStart(2, "0")
 ---
 
 <Base nav="case" title="Procter & Gamble · Sophia Tang" description="Design research and strategy to uncover new opportunities for product innovation.">
@@ -61,14 +59,14 @@ const pad = (n: number) => String(n).padStart(2, "0")
         <header id="introduction" class="hero">
             <div class="grain" aria-hidden="true"></div>
             <div class="title-area">
-                <h1><em>Procter &amp; Gamble</em> Product Innovation</h1>
+                <h1>Procter &amp; Gamble<br />Product Innovation</h1>
             </div>
             <div class="hero-window">
                 <img src="/images/pg/hero.png" alt="The P&G logo above a row of P&G products" width="1536" height="1024" fetchpriority="high" />
             </div>
         </header>
 
-        <div class="content first">
+        <div class="content">
             <!-- Project info -->
             <dl class="info">
                 {
@@ -85,21 +83,21 @@ const pad = (n: number) => String(n).padStart(2, "0")
                 }
             </dl>
 
-            <!-- Overview -->
+            <!-- Overview: key insight, then the brief / tension / direction -->
             <section id="overview" class="sec">
                 <p class="tag">#overview</p>
                 <div class="insight">
                     <svg class="bulb" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M24 3v4M10 9l2.8 2.8M38 9l-2.8 2.8M4 22h4M40 22h4M11 33l2.8-2.8M37 33l-2.8-2.8" />
-                        <path d="M18.5 37c0-4-1.6-5.6-3.6-8.3A11.5 11.5 0 1 1 35.5 22c0 2.6-.9 4.7-2.4 6.7-2 2.7-3.6 4.3-3.6 8.3" />
-                        <path d="M19 41h10M21 45h6" />
+                        <path d="M24 3v4M10 9l2.8 2.8M38 9l-2.8 2.8M4 22h4M40 22h4M11 33l2.8-2.8M37 33l-2.8-2.8"></path>
+                        <path d="M18.5 37c0-4-1.6-5.6-3.6-8.3A11.5 11.5 0 1 1 35.5 22c0 2.6-.9 4.7-2.4 6.7-2 2.7-3.6 4.3-3.6 8.3"></path>
+                        <path d="M19 41h10M21 45h6"></path>
                     </svg>
-                    <h2 class="statement">
-                        In air care, scent is used to fix a smell rather than to shape how a home feels, so meaningful innovation must make creating a pleasant home feel as
-                        effortless as covering up an odor.
+                    <h2 class="h">
+                        In air care, scent is used to fix a smell rather than to shape how a home feels, so meaningful innovation must make creating a pleasant home feel as effortless
+                        as covering up an odor.
                     </h2>
                 </div>
-                <dl class="framing">
+                <dl class="framing body">
                     <div><dt>The brief:</dt> <dd>Find opportunities for innovation in the air care space.</dd></div>
                     <div>
                         <dt>The tension:</dt>
@@ -112,95 +110,27 @@ const pad = (n: number) => String(n).padStart(2, "0")
                 </p>
             </section>
 
-            <!-- Timeline -->
-            <section id="timeline" class="sec">
-                <p class="tag">#timeline</p>
-                <h2 class="h">How the work unfolded</h2>
-                <ol class="phases">
-                    {
-                        phases.map((p, i) => (
-                            <li class="reveal" style={`--delay:${i * 0.08}s`}>
-                                <a class="card phase-card" href={`#${p.id}`}>
-                                    <span class="phase-num">{pad(i + 1)}</span>
-                                    <span class="phase-title">{p.title}</span>
-                                    <span class="phase-steps">
-                                        {p.steps.map((s) => (
-                                            <span>{s}</span>
-                                        ))}
-                                    </span>
-                                </a>
-                            </li>
-                        ))
-                    }
-                </ol>
-            </section>
-
-            <!-- Challenge -->
-            <section id="challenge" class="sec">
-                <p class="tag">#challenge</p>
-                <h2 class="h">[The challenge, in one line]</h2>
-                <p class="body">[Describe the brief from P&G, what made it hard, and the constraints you worked within.]</p>
-            </section>
-
-            <!-- Phases -->
+            <!-- One section per stage -->
             {
-                phases.map((p, i) => (
-                    <section id={p.id} class="sec phase">
-                        <div class="phase-head">
-                            <span class="big-num" aria-hidden="true">
-                                {pad(i + 1)}
-                            </span>
-                            <div class="phase-intro">
-                                <p class="tag">
-                                    Phase {pad(i + 1)} · #{p.id}
-                                </p>
-                                <h2 class="h">{p.title}</h2>
-                                <p class="body">{p.text}</p>
-                            </div>
-                        </div>
-                        {p.gallery.length > 0 && (
-                            <div class:list={["gallery", `n${p.gallery.length}`]}>
-                                {p.gallery.map((g) => (
-                                    <figure>
-                                        <div class="panel placeholder">
-                                            <p>[Placeholder: image]</p>
-                                        </div>
-                                        <figcaption>{g.caption}</figcaption>
-                                    </figure>
-                                ))}
+                stages.map((s) => (
+                    <section id={s.id} class="sec">
+                        <p class="tag">#{s.id}</p>
+                        <h2 class="h">{s.heading}</h2>
+                        <p class="body">{s.text}</p>
+                        {s.visual && (
+                            <div class="panel placeholder">
+                                <p>[Placeholder: visual]</p>
                             </div>
                         )}
                     </section>
                 ))
             }
         </div>
-
-        <!-- Closing band: final deliverable visuals -->
-        <section class="band" aria-label="Final deliverable visuals">
-            <div class="bg" aria-hidden="true"><img src="/images/pg/hero-bg.jpg" alt="" /></div>
-            <div class="band-row">
-                {
-                    [0, 1, 2, 3].map(() => (
-                        <div class="band-tile">
-                            <p>[Placeholder: final design]</p>
-                        </div>
-                    ))
-                }
-            </div>
-        </section>
-
-        <!-- Next project -->
-        <nav class="next" aria-label="Next project">
-            <a href="/work/smn">
-                <span class="tag">Next project</span>
-                <span class="next-title">Spilt Milk Nannies <span aria-hidden="true">→</span></span>
-            </a>
-        </nav>
     </main>
 </Base>
 
 <style>
-    /* ---------- Hero (same frame as the other case studies) ---------- */
+    /* ---------- Hero ---------- */
     .hero {
         position: relative;
         height: 90vh;
@@ -230,15 +160,10 @@ const pad = (n: number) => String(n).padStart(2, "0")
     }
     .hero h1 {
         max-width: 66.67%;
-        font: 500 4.25rem/1.15 var(--serif);
+        font: 500 4.25rem/1.25 var(--serif);
         letter-spacing: -0.02em;
         color: #fff;
         text-align: center;
-    }
-    .hero h1 em {
-        display: block;
-        font-style: italic;
-        font-weight: 400;
     }
     .hero-window {
         position: relative;
@@ -297,11 +222,35 @@ const pad = (n: number) => String(n).padStart(2, "0")
         color: var(--ink-2);
     }
 
-    .card {
-        background: var(--white);
-        border-radius: 1rem;
-        box-shadow: inset 0 0 0 1px var(--border);
+    /* Overview */
+    .insight {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
     }
+    .bulb {
+        flex-shrink: 0;
+        width: 2.75rem;
+        height: 2.75rem;
+        color: var(--ink);
+    }
+    .framing {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .framing dt,
+    .framing dd {
+        display: inline;
+        margin: 0;
+    }
+    .framing dt {
+        font-weight: 500;
+        color: var(--ink);
+    }
+
+    /* Visuals */
     .panel {
         position: relative;
         overflow: hidden;
@@ -317,234 +266,13 @@ const pad = (n: number) => String(n).padStart(2, "0")
         pointer-events: none;
     }
     .placeholder {
-        display: grid;
-        place-items: center;
-        aspect-ratio: 4 / 3;
-        padding: 1rem;
-    }
-    .placeholder p,
-    .band-tile p {
-        font: 400 0.8125rem/1.4 var(--sans);
-        color: var(--label);
-        text-align: center;
-    }
-
-    /* Overview: key insight, then the brief / tension / direction */
-    .insight {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        padding: 0.5rem 0 2rem;
-        border-bottom: 1px solid var(--border);
-    }
-    .bulb {
-        flex-shrink: 0;
-        width: 3.5rem;
-        height: 3.5rem;
-        color: var(--ink);
-    }
-    .statement {
-        font: 500 1.375rem/1.35 var(--serif);
-        letter-spacing: -0.015em;
-        color: var(--ink);
-    }
-    .framing {
-        margin: 0.75rem 0 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        font: 400 0.875rem/1.6 var(--sans);
-        letter-spacing: 0.01em;
-        color: var(--body);
-    }
-    .framing dt,
-    .framing dd {
-        display: inline;
-        margin: 0;
-    }
-    .framing dt {
-        font-weight: 500;
-        color: var(--ink);
-    }
-
-    /* Timeline cards */
-    .phases {
-        list-style: none;
-        margin: 0;
-        padding: 0.5rem 0;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.75rem;
-    }
-    .phases li {
-        display: flex;
-    }
-    .phases li.reveal {
-        transform: none;
-        transition: opacity 0.5s ease;
-    }
-    .phase-card {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 1.5rem;
-        transition:
-            transform 0.4s var(--spring),
-            box-shadow 0.3s ease;
-    }
-    .phase-card:hover {
-        transform: translateY(-0.25rem);
-        box-shadow:
-            inset 0 0 0 1px var(--border),
-            0 0.75rem 1.5rem -1rem rgba(17, 17, 17, 0.25);
-    }
-    .phase-num {
-        font: 400 0.75rem/1.4 var(--sans);
-        color: var(--accent);
-    }
-    .phase-title {
-        font: 500 1.375rem/1.15 var(--serif);
-        letter-spacing: -0.02em;
-        color: var(--ink);
-    }
-    .phase-steps {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-        font: 400 0.875rem/1.6 var(--sans);
-        letter-spacing: 0.01em;
-        color: var(--body);
-    }
-
-    /* Phase sections: big number beside the text, then a captioned gallery */
-    .phase {
-        gap: 1.75rem;
-    }
-    .phase-head {
-        display: flex;
-        gap: 1.5rem;
-        align-items: flex-start;
-    }
-    .big-num {
-        flex-shrink: 0;
-        width: 4.5rem;
-        font: 400 3rem/1 var(--serif);
-        letter-spacing: -0.03em;
-        color: var(--accent);
-    }
-    .phase-intro {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    .gallery {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-    }
-    .gallery.n3 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    figure {
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.625rem;
-    }
-    figcaption {
-        font: 400 0.75rem/1.4 var(--sans);
-        letter-spacing: 0.01em;
-        color: var(--label);
-        text-align: center;
-    }
-
-    /* Closing band with the final visuals */
-    .band {
-        position: relative;
-        overflow: hidden;
-        padding: 6rem 3rem;
-    }
-    .bg {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-    }
-    .bg img {
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        object-fit: cover;
-        transform: scale(1.3);
-        animation: pg-flow 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-    }
-    @keyframes pg-flow {
-        0%,
-        100% {
-            transform: scale(1.3) translate(0, 0) rotate(0deg);
-        }
-        33% {
-            transform: scale(1.36) translate(-4%, 3%) rotate(3deg);
-        }
-        66% {
-            transform: scale(1.34) translate(4%, -2%) rotate(-3deg);
-        }
-    }
-    @media (prefers-reduced-motion: reduce) {
-        .bg img {
-            animation: none;
-        }
-    }
-    .band-row {
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.25rem;
-        max-width: 62.5rem;
-        margin: 0 auto;
-        align-items: center;
-    }
-    .band-tile {
-        display: grid;
-        place-items: center;
-        aspect-ratio: 3 / 4;
-        padding: 1rem;
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.55);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-    }
-    .band-tile:nth-child(even) {
-        aspect-ratio: 4 / 3;
-    }
-    .band-tile p {
-        color: rgba(17, 17, 17, 0.55);
-    }
-
-    /* Next project */
-    .next {
+        padding: 7.5rem 1.75rem;
         display: flex;
         justify-content: center;
-        padding: 6rem 1.25rem 7.5rem;
     }
-    .next a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    .next-title {
-        font: 500 1.75rem/1.15 var(--serif);
-        letter-spacing: -0.02em;
-        color: var(--ink);
-    }
-    .next-title span {
-        display: inline-block;
-        transition: transform 0.4s var(--spring);
-    }
-    .next a:hover .next-title span {
-        transform: translateX(0.375rem);
+    .placeholder p {
+        font: 400 0.8125rem/1.4 var(--sans);
+        color: var(--label);
     }
 
     /* ---------- Tablet ---------- */
@@ -554,20 +282,16 @@ const pad = (n: number) => String(n).padStart(2, "0")
         }
         .hero h1 {
             font-size: 3rem;
-            line-height: 1.08;
+            line-height: 1.05;
         }
         .content {
-            padding: 4rem 3rem 6rem 11.5rem;
+            padding: 4rem 3rem 10rem 11.5rem;
         }
         .info {
             gap: 2rem;
         }
         .info dd {
             white-space: nowrap;
-        }
-        .band-row {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 36rem;
         }
     }
 
@@ -579,60 +303,37 @@ const pad = (n: number) => String(n).padStart(2, "0")
         .hero h1 {
             max-width: 80%;
             font-size: 2.25rem;
+            line-height: 1.08;
         }
         .hero-window {
             height: 12rem;
         }
         .content {
             gap: 5rem;
-            padding: 4rem 1.25rem 5rem;
+            padding: 4rem 1.25rem 8.75rem;
         }
         .info {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.75rem;
+            padding-bottom: 1.5rem;
         }
         .info dd {
             white-space: normal;
         }
         .insight {
-            flex-direction: column;
             align-items: flex-start;
-            gap: 1.25rem;
+            gap: 1rem;
         }
         .bulb {
-            width: 2.75rem;
-            height: 2.75rem;
-        }
-        .statement {
-            font-size: 1.25rem;
+            width: 2.25rem;
+            height: 2.25rem;
         }
         .panel {
             border-radius: 0.75rem;
         }
-        .phases {
-            grid-template-columns: 1fr;
-        }
-        .phase-head {
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        .big-num {
-            width: auto;
-            font-size: 2.25rem;
-        }
-        .gallery,
-        .gallery.n3 {
-            grid-template-columns: 1fr;
-        }
-        .band {
-            padding: 4rem 1.25rem;
-        }
-        .band-row {
-            gap: 0.75rem;
-        }
-        .next {
-            padding: 4rem 1.25rem 6rem;
+        .placeholder {
+            padding: 4.5rem 1rem;
         }
     }
 </style>

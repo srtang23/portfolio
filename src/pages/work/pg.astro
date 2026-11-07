@@ -53,7 +53,7 @@ const phases = [
 const pad = (n: number) => String(n).padStart(2, "0")
 ---
 
-<Base nav="case" title="Procter & Gamble · Sophia Tang" description="Research and strategy to shift home scenting from masking odors to creating moments of delight.">
+<Base nav="case" title="Procter & Gamble · Sophia Tang" description="Research and strategy to shift air care from masking odors to creating moments of delight.">
     <CaseNav sections={sections} />
 
     <main class="case">
@@ -88,19 +88,28 @@ const pad = (n: number) => String(n).padStart(2, "0")
             <!-- Overview -->
             <section id="overview" class="sec">
                 <p class="tag">#overview</p>
-                <div class="intro">
-                    <div class="panel logo-panel">
-                        <img src="/images/pg/hero.png" alt="" loading="lazy" />
-                    </div>
-                    <div class="intro-text">
-                        <h2 class="h">Shifting home scenting from reactive to proactive.</h2>
-                        <p class="body">
-                            I served as the Design Research Lead and Design Strategist, leading consumer research, synthesizing insights, and translating findings into strategic
-                            opportunities to shift home scenting from reactive to proactive experiences.
-                        </p>
-                        <p class="body">Our research and strategy set out to move home scenting from masking odors to creating moments of delight.</p>
-                    </div>
+                <div class="insight">
+                    <svg class="bulb" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M24 3v4M10 9l2.8 2.8M38 9l-2.8 2.8M4 22h4M40 22h4M11 33l2.8-2.8M37 33l-2.8-2.8" />
+                        <path d="M18.5 37c0-4-1.6-5.6-3.6-8.3A11.5 11.5 0 1 1 35.5 22c0 2.6-.9 4.7-2.4 6.7-2 2.7-3.6 4.3-3.6 8.3" />
+                        <path d="M19 41h10M21 45h6" />
+                    </svg>
+                    <h2 class="statement">
+                        In air care, scent is used to fix a smell rather than to shape how a home feels, so meaningful innovation must make creating a pleasant home feel as
+                        effortless as covering up an odor.
+                    </h2>
                 </div>
+                <dl class="framing">
+                    <div><dt>The brief:</dt> <dd>Find opportunities for innovation in the air care space.</dd></div>
+                    <div>
+                        <dt>The tension:</dt>
+                        <dd>People reach for air care only to mask odors after the fact, so scent stays a quick fix instead of part of how they enjoy their home.</dd>
+                    </div>
+                    <div><dt>The direction:</dt> <dd>Shift air care from masking odors to creating moments of delight.</dd></div>
+                </dl>
+                <p class="body">
+                    As Design Research Lead and Design Strategist, I led consumer research, synthesized insights, and translated findings into strategic opportunities for air care.
+                </p>
             </section>
 
             <!-- Timeline -->
@@ -320,24 +329,42 @@ const pad = (n: number) => String(n).padStart(2, "0")
         text-align: center;
     }
 
-    /* Overview: image beside the summary */
-    .intro {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+    /* Overview: key insight, then the brief / tension / direction */
+    .insight {
+        display: flex;
         align-items: center;
+        gap: 2rem;
+        padding: 0.5rem 0 2rem;
+        border-bottom: 1px solid var(--border);
     }
-    .logo-panel {
-        padding: 1.5rem;
+    .bulb {
+        flex-shrink: 0;
+        width: 3.5rem;
+        height: 3.5rem;
+        color: var(--ink);
     }
-    .logo-panel img {
-        width: 100%;
-        height: auto;
+    .statement {
+        font: 500 1.375rem/1.35 var(--serif);
+        letter-spacing: -0.015em;
+        color: var(--ink);
     }
-    .intro-text {
+    .framing {
+        margin: 0.75rem 0 0;
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        font: 400 0.875rem/1.6 var(--sans);
+        letter-spacing: 0.01em;
+        color: var(--body);
+    }
+    .framing dt,
+    .framing dd {
+        display: inline;
+        margin: 0;
+    }
+    .framing dt {
+        font-weight: 500;
+        color: var(--ink);
     }
 
     /* Timeline cards */
@@ -538,12 +565,6 @@ const pad = (n: number) => String(n).padStart(2, "0")
         .info dd {
             white-space: nowrap;
         }
-        .intro {
-            grid-template-columns: 1fr;
-        }
-        .logo-panel {
-            max-width: 22rem;
-        }
         .band-row {
             grid-template-columns: repeat(2, 1fr);
             max-width: 36rem;
@@ -574,8 +595,17 @@ const pad = (n: number) => String(n).padStart(2, "0")
         .info dd {
             white-space: normal;
         }
-        .logo-panel {
-            max-width: none;
+        .insight {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.25rem;
+        }
+        .bulb {
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+        .statement {
+            font-size: 1.25rem;
         }
         .panel {
             border-radius: 0.75rem;

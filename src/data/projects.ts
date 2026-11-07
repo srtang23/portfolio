@@ -23,7 +23,7 @@ export const projects: Project[] = [
         slug: "pg",
         href: "/work/pg",
         title: "Procter & Gamble",
-        blurb: "Research and strategy to shift air care from masking odors to creating moments of delight.",
+        blurb: "Design research and strategy to uncover new opportunities for product innovation.",
         image: "/images/card-pg.jpg",
         alt: "P&G logo with household products",
     },

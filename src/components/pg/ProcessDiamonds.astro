@@ -9,7 +9,7 @@
 const CY = 185 // vertical centre of the diamonds
 const H = 156 // half-size of a big diamond
 const M = 53 // half-size of a milestone diamond
-const DOT = 418 // where the drop-lines end
+const DOT = 385 // where the drop-lines end
 const centers = [188, 500, 812]
 const phases = ["Research", "Experiment", "Strategy"]
 const halves = [
@@ -119,10 +119,9 @@ const pct = (x: number) => ((x - VB_X) / VB_W) * 100
 </div>
 
 <style>
-    /* On desktop the panel runs a little past the text column on the right, to give the columns room. */
     .process {
         position: relative;
-        width: calc(100% + 7rem);
+        width: 100%;
         overflow-x: auto;
         border-radius: 1rem;
         background: url("/images/smn/grid.png") center / cover;
@@ -168,18 +167,18 @@ const pct = (x: number) => ((x - VB_X) / VB_W) * 100
         fill: rgba(17, 17, 17, 0.35);
     }
     .half {
-        font: 500 17px var(--serif);
+        font: 500 19px var(--serif);
         letter-spacing: -0.01em;
         fill: var(--ink);
         text-anchor: middle;
     }
     .phase-t {
-        font: 500 15px var(--serif);
+        font: 500 17px var(--serif);
         fill: var(--ink);
         text-anchor: middle;
     }
     .phase-n {
-        font: 400 11px var(--sans);
+        font: 400 12px var(--sans);
         fill: var(--label);
         text-anchor: middle;
     }
@@ -187,7 +186,7 @@ const pct = (x: number) => ((x - VB_X) / VB_W) * 100
         fill: var(--ink);
     }
     .ms-t {
-        font: 400 9.75px var(--serif);
+        font: 400 11px var(--serif);
         fill: #fff;
         text-anchor: middle;
     }
@@ -275,11 +274,6 @@ const pct = (x: number) => ((x - VB_X) / VB_W) * 100
         }
     }
 
-    @media (max-width: 1199.98px) {
-        .process {
-            width: 100%;
-        }
-    }
 </style>
 
 <script>

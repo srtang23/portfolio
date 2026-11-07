@@ -31,9 +31,21 @@ const info = [
 ]
 
 const approach = [
-    { h: "Consumer Research", p: "Visiting 8 homes to understand how people manage the smell of their space." },
-    { h: "Insight Synthesis", p: "Turning what we heard into unmet needs air care could answer." },
-    { h: "Design Strategy", p: "Translating findings into opportunities that fit naturally into everyday routines." },
+    {
+        label: "Consumer Research",
+        h: "Looking beyond stated preferences",
+        p: "Exploring how everyday routines, emotional associations, and unspoken motivations shape consumer behaviors and decisions.",
+    },
+    {
+        label: "Insight Synthesis",
+        h: "Connecting behaviors to deeper needs",
+        p: "Uncovering the tensions between what consumers say, what they do, and what they ultimately value.",
+    },
+    {
+        label: "Design Strategy",
+        h: "Turning insights into opportunities",
+        p: "Translating unmet needs and underlying motivations into meaningful opportunities grounded in real-life contexts.",
+    },
 ]
 
 const steps = [
@@ -97,8 +109,9 @@ const reflections = [
                     {
                         approach.map((x) => (
                             <div>
+                                <p class="tag">{x.label}</p>
                                 <h3>{x.h}</h3>
-                                <p>{x.p}</p>
+                                <p class="ov-desc">{x.p}</p>
                             </div>
                         ))
                     }
@@ -789,10 +802,11 @@ const reflections = [
         gap: 0.5rem;
     }
     .ov-cols h3 {
-        font: 500 0.9375rem/1.4 var(--sans);
+        font: 500 1.1875rem/1.25 var(--serif);
+        letter-spacing: -0.01em;
         color: var(--ink);
     }
-    .ov-cols p {
+    .ov-cols .ov-desc {
         font: 400 0.875rem/1.6 var(--sans);
         letter-spacing: 0.01em;
         color: var(--body);
@@ -806,7 +820,7 @@ const reflections = [
         }
         .ov-cols {
             grid-template-columns: 1fr;
-            gap: 1.25rem;
+            gap: 2rem;
         }
     }
 </style>

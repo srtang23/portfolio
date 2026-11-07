@@ -1,0 +1,196 @@
+---
+/*
+ * Triple-diamond process diagram on the grid-paper panel.
+ * Dark milestones sit where the diamonds meet; each diamond is split into two halves;
+ * a dashed line drops from every milestone and half down to a short line of text.
+ * Drawn in a 1000-wide coordinate space; the small text is HTML so it stays crisp.
+ */
+const CY = 185 // vertical centre of the diamonds
+const H = 156 // half-size of a big diamond
+const M = 53 // half-size of a milestone diamond
+const DOT = 418 // where the drop-lines end
+const centers = [188, 500, 812]
+const phases = ["Research", "Experiment", "Strategy"]
+const halves = [
+    ["Investigate", "Synthesize"],
+    ["Explore", "Evaluate"],
+    ["Refine", "Prioritize"],
+]
+const milestones = ["Brief", "Hypotheses", "P.O.C.", "Recommendations"]
+
+// Ten evenly spaced columns: milestone, left half, right half, milestone, ...
+const cols = [
+    { x: 32, kind: "m", t: "Align on goals" },
+    { x: 136, kind: "h", t: "8 in-home interviews" },
+    { x: 240, kind: "h", t: "Uncover behavioral tensions" },
+    { x: 344, kind: "m", t: "Form opportunity hypotheses" },
+    { x: 448, kind: "h", t: "Explore design directions" },
+    { x: 552, kind: "h", t: "Challenge assumptions with consumers" },
+    { x: 656, kind: "m", t: "Identify promising concepts" },
+    { x: 760, kind: "h", t: "Refine through feedback" },
+    { x: 864, kind: "h", t: "Define strategic opportunities" },
+    { x: 968, kind: "m", t: "Recommend next steps" },
+]
+const mx = [32, 344, 656, 968]
+const VB_X = -50
+const VB_W = 1100
+const pct = (x: number) => ((x - VB_X) / VB_W) * 100
+---
+
+<div class="process">
+    <div class="canvas">
+        <svg viewBox={`${VB_X} -12 ${VB_W} ${DOT + 22}`} role="img" aria-labelledby="process-desc">
+            <desc id="process-desc">
+                Process in three phases. Research: investigate and synthesize, from the brief to hypotheses. Experiment: explore and evaluate, from hypotheses to a proof of concept.
+                Strategy: refine and prioritize, from the proof of concept to recommendations.
+            </desc>
+
+            <!-- drop-lines (drawn first, so the diamonds sit on top) -->
+            {
+                cols.map((c) => (
+                    <g class="drop">
+                        <line x1={c.x} y1={c.kind === "m" ? CY + M + 6 : CY + 24} x2={c.x} y2={DOT} />
+                        <circle cx={c.x} cy={DOT} r="3.5" />
+                    </g>
+                ))
+            }
+
+            {
+                centers.map((cx, i) => (
+                    <g>
+                        <text class="phase-n" x={cx} y="5">{`0${i + 1}`}</text>
+                        <text class="phase-t" x={cx} y="20">
+                            {phases[i]}
+                        </text>
+                        <polygon class="big" points={`${cx - H},${CY} ${cx},${CY - H} ${cx + H},${CY} ${cx},${CY + H}`} />
+                        <line class="mid" x1={cx} y1={CY - H} x2={cx} y2={CY + H} />
+                        <line class="arr" x1={cx - 48} y1={CY - 66} x2={cx + 48} y2={CY - 66} />
+                        <polyline class="arr" points={`${cx + 40},${CY - 71} ${cx + 48},${CY - 66} ${cx + 40},${CY - 61}`} />
+                        <circle class="arr-dot" cx={cx - 48} cy={CY - 66} r="3" />
+                        <line class="arr" x1={cx + 48} y1={CY + 66} x2={cx - 48} y2={CY + 66} />
+                        <polyline class="arr" points={`${cx - 40},${CY + 61} ${cx - 48},${CY + 66} ${cx - 40},${CY + 71}`} />
+                        <circle class="arr-dot" cx={cx + 48} cy={CY + 66} r="3" />
+                        <text class="half" x={cx - 52} y={CY + 6}>
+                            {halves[i][0]}
+                        </text>
+                        <text class="half" x={cx + 52} y={CY + 6}>
+                            {halves[i][1]}
+                        </text>
+                    </g>
+                ))
+            }
+
+            {
+                mx.map((x, i) => (
+                    <g>
+                        <polygon class="ms" points={`${x - M},${CY} ${x},${CY - M} ${x + M},${CY} ${x},${CY + M}`} />
+                        <text class="ms-t" x={x} y={CY + 4}>
+                            {milestones[i]}
+                        </text>
+                    </g>
+                ))
+            }
+        </svg>
+
+        <div class="steps" aria-hidden="true">
+            {cols.map((c) => <p style={`left:${pct(c.x)}%`}>{c.t}</p>)}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* On desktop the panel runs a little past the text column on the right, to give the columns room. */
+    .process {
+        position: relative;
+        width: calc(100% + 7rem);
+        overflow-x: auto;
+        border-radius: 1rem;
+        background: url("/images/smn/grid.png") center / cover;
+        box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .canvas {
+        min-width: 42rem;
+        padding: 2.75rem 1.5rem 2.5rem;
+    }
+    svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+    .big {
+        fill: #fff;
+        stroke: #cfcfcf;
+        stroke-width: 1;
+        vector-effect: non-scaling-stroke;
+    }
+    .mid {
+        stroke: #d9d9d9;
+        stroke-width: 1;
+        vector-effect: non-scaling-stroke;
+    }
+    .arr {
+        fill: none;
+        stroke: #cdcdcd;
+        stroke-width: 1.25;
+        vector-effect: non-scaling-stroke;
+    }
+    .arr-dot {
+        fill: #cdcdcd;
+    }
+    .drop line {
+        stroke: rgba(17, 17, 17, 0.22);
+        stroke-width: 1;
+        stroke-dasharray: 3 4;
+        vector-effect: non-scaling-stroke;
+    }
+    .drop circle {
+        fill: rgba(17, 17, 17, 0.35);
+    }
+    .half {
+        font: 500 17px var(--serif);
+        letter-spacing: -0.01em;
+        fill: var(--ink);
+        text-anchor: middle;
+    }
+    .phase-t {
+        font: 500 15px var(--serif);
+        fill: var(--ink);
+        text-anchor: middle;
+    }
+    .phase-n {
+        font: 400 11px var(--sans);
+        fill: var(--label);
+        text-anchor: middle;
+    }
+    .ms {
+        fill: var(--ink);
+    }
+    .ms-t {
+        font: 400 9.75px var(--serif);
+        fill: #fff;
+        text-anchor: middle;
+    }
+
+    .steps {
+        position: relative;
+        height: 3.75rem;
+        margin-top: 0.625rem;
+    }
+    .steps p {
+        position: absolute;
+        top: 0;
+        width: 9%;
+        transform: translateX(-50%);
+        font: 400 0.6875rem/1.35 var(--sans);
+        letter-spacing: 0.01em;
+        color: var(--body);
+        text-align: center;
+    }
+
+    @media (max-width: 1199.98px) {
+        .process {
+            width: 100%;
+        }
+    }
+</style>

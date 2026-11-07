@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro"
 import CaseNav from "../../components/CaseNav.astro"
 import RevealBand from "../../components/smn/RevealBand.astro"
+import ProcessDiamonds from "../../components/pg/ProcessDiamonds.astro"
 
 /*
  * Procter & Gamble case study. Tells the story in the same order as Spilt Milk Nannies:
@@ -28,21 +29,6 @@ const info = [
     { h: "Team", items: ["[Team size]"] },
     { h: "Timeline", items: ["[Dates]", "([Length])"] },
     { h: "Skills", items: ["Consumer Research", "Insight Synthesis", "Design Strategy"] },
-]
-
-const approach = [
-    {
-        label: "Consumer Research",
-        p: "Exploring how everyday routines, emotional associations, and unspoken motivations shape consumer behaviors and decisions.",
-    },
-    {
-        label: "Insight Synthesis",
-        p: "Uncovering the tensions between what consumers say, what they do, and what they ultimately value.",
-    },
-    {
-        label: "Design Strategy",
-        p: "Translating unmet needs and underlying motivations into meaningful opportunities grounded in real-life contexts.",
-    },
 ]
 
 const steps = [
@@ -97,21 +83,12 @@ const reflections = [
                 }
             </dl>
 
-            <!-- Overview: the question, the goal, and how we approached it -->
+            <!-- Overview: the question, the goal, and the process -->
             <section id="overview" class="sec ov">
                 <p class="tag">#overview</p>
                 <h2 class="h">How can air care earn a broader role in the home?</h2>
                 <p class="body">Our goal was to find opportunities for innovation in the air care space.</p>
-                <div class="ov-cols">
-                    {
-                        approach.map((x) => (
-                            <div>
-                                <h3>{x.label}</h3>
-                                <p class="ov-desc">{x.p}</p>
-                            </div>
-                        ))
-                    }
-                </div>
+                <ProcessDiamonds />
             </section>
 
             <!-- Solution -->
@@ -772,36 +749,9 @@ const reflections = [
             padding: 0.5rem;
         }
     }
-    /* Overview: a question as the headline, a one-line goal, then three approach columns */
+    /* Overview: the question, a one-line goal, then the process diagram */
     .ov {
         gap: 1.25rem;
-    }
-    .ov-cols {
-        margin-top: 0.5rem;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-    }
-    .ov-cols > div {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .ov-cols h3 {
-        font: 500 0.875rem/1.4 var(--sans);
-        letter-spacing: 0.01em;
-        color: var(--ink);
-    }
-    .ov-cols .ov-desc {
-        font: 400 0.875rem/1.6 var(--sans);
-        letter-spacing: 0.01em;
-        color: var(--body);
-    }
-    @media (max-width: 809.98px) {
-        .ov-cols {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
     }
 </style>
 

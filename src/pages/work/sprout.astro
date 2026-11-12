@@ -1,0 +1,252 @@
+---
+import Base from "../../layouts/Base.astro"
+import CaseNav from "../../components/CaseNav.astro"
+import RevealBand from "../../components/smn/RevealBand.astro"
+import StoryMedia from "../../components/StoryMedia.astro"
+import "../../styles/case.css"
+
+/*
+ * Sprout, a one-minute case study in the same order as Spilt Milk Nannies:
+ * overview → solution → problem → challenge → research → reflection.
+ */
+
+const sections = [
+    { id: "overview", label: "Overview" },
+    { id: "solution", label: "Solution" },
+    { id: "problem", label: "Problem" },
+    { id: "challenge", label: "Challenge" },
+    { id: "research", label: "Research" },
+    { id: "reflection", label: "Reflection" },
+]
+
+const info = [
+    { h: "My Role", items: ["UX Designer"] },
+    { h: "Team", items: ["4 Members", "(2 Researchers,", "2 Designers)"] },
+    { h: "Timeline", items: ["Sep 2024 – Mar 2025"] },
+    { h: "Skills", items: ["Visual Design", "Mobile App Design", "UX Research"] },
+]
+
+const outcomes = [
+    { label: "Usability testing", value: "2 rounds", text: "Lo-fi and mid-fi tests reshaped navigation and wording." },
+    { label: "Navigation", value: "86%", text: "couldn’t reach goal statistics in one try, so we added a clear icon entry." },
+    { label: "Wording", value: "57%", text: "were confused by “task” vs “goal”, so we settled on one term." },
+]
+
+const steps = [
+    { h: "Completing a goal", p: "Check off a goal from Home, and progress updates across the app, including the plant.", v: "complete-goal" },
+    { h: "Creating a goal", p: "Add new goals from the Goals view as routines change.", v: "add-goal" },
+    { h: "Goal statistics", p: "See completion history at a glance, without tracking anything by hand.", v: "goal-stats" },
+    { h: "Plant status", p: "Connect the physical plant over Bluetooth and see how it’s doing.", v: "plant-status" },
+]
+
+const insights = [
+    { h: "Resources", p: "“When I’m stressed, I don’t even know where to look for help, and trying to figure that out just makes me more anxious.”" },
+    { h: "Structure", p: "“There’s too much happening at once, and I don’t know how to organize it in my head.”" },
+    { h: "Emotion", p: "“When I’m already overwhelmed, taking care of myself feels like something I don’t deserve time for.”" },
+]
+
+const reflections = [
+    { h: "Architecture shapes the experience", p: "Planning the information architecture and state transitions early kept interactions predictable as the app grew." },
+    { h: "Let behavior lead", p: "Watching testers hesitate showed where flows weren’t as intuitive as I expected, and simplified the navigation." },
+]
+---
+
+<Base nav="case" title="Sprout · Sophia Tang" description="A self-care app with a physical plant companion that makes small daily wellness goals feel rewarding.">
+    <CaseNav sections={sections} />
+
+    <main class="case" style="--hero-bg: url('/images/sprout/hero-bg.jpg')">
+        <!-- Hero -->
+        <header id="introduction" class="hero">
+            <div class="grain" aria-hidden="true"></div>
+            <div class="title-area">
+                <h1>Sprout<br />Tangible Self-Care Plant</h1>
+            </div>
+            <div class="hero-window plant-window">
+                <img class="plant" data-parallax src="/images/sprout/hero.png" alt="The Sprout app on two phones beside a potted monstera" width="1268" height="984" fetchpriority="high" />
+            </div>
+        </header>
+
+        <div class="content first">
+            <dl class="info">
+                {
+                    info.map((col) => (
+                        <div class="info-col">
+                            <dt>{col.h}</dt>
+                            <dd>
+                                {col.items.map((t) => (
+                                    <span>{t}</span>
+                                ))}
+                            </dd>
+                        </div>
+                    ))
+                }
+            </dl>
+
+            <!-- Overview -->
+            <section id="overview" class="sec">
+                <p class="tag">#overview</p>
+                <h2 class="h">Designing a self-care app with a living plant companion, so small daily goals feel rewarding instead of like another task.</h2>
+                <p class="body">
+                    Anxiety is common among UW STEM undergrads, and self-care is often the first thing to slip under stress. Sprout pairs a simple goal-tracking app with a
+                    physical plant whose status reflects a student’s progress.
+                </p>
+                <div class="outcomes">
+                    {
+                        outcomes.map((o, i) => (
+                            <div class="card outcome reveal" style={`--delay:${i * 0.08}s`}>
+                                <p class="tag">{o.label}</p>
+                                <p class="value">{o.value}</p>
+                                <p class="body">{o.text}</p>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <!-- Solution -->
+            <section id="solution" class="sec story">
+                <div class="phone-col">
+                    <p class="tag">#solution</p>
+                    <StoryMedia
+                        items={steps.map((s) => ({
+                            mp4: `/video/sprout/${s.v}.mp4`,
+                            webm: `/video/sprout/${s.v}.webm`,
+                            poster: `/images/sprout/${s.v}-poster.jpg`,
+                            label: `${s.h} in the Sprout app`,
+                        }))}
+                    />
+                </div>
+                <div class="steps">
+                    {
+                        steps.map((s, i) => (
+                            <div class="step" data-step={i}>
+                                <h3>{s.h}</h3>
+                                <p class="body">{s.p}</p>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <!-- Problem -->
+            <section id="problem" class="sec">
+                <p class="tag">#problem</p>
+                <h2 class="h">Self-care is the first thing to slip under stress.</h2>
+                <p class="body">
+                    Smartwatches, light therapy, breathing apps and weighted blankets all offer quick relief, but many ask for tracking and setup that feels exhausting, and their
+                    metrics and reminders turn self-care into one more task.
+                </p>
+            </section>
+        </div>
+
+        <RevealBand
+            id="challenge"
+            bg="/images/sprout/hero-bg.jpg"
+            text="How might we support students in **engaging in self-care** when they are **under high stress?**"
+        />
+
+        <div class="content last">
+            <!-- Research -->
+            <section id="research" class="sec gap-16">
+                <p class="tag">#research</p>
+                <h2 class="h">Stress gets in the way of the help itself.</h2>
+                <p class="body">
+                    Interviews surfaced three themes. We explored one concept for each, and moved forward with the tangible self-care plant as the most engaging and feasible.
+                </p>
+                <div class="panel insights three">
+                    {
+                        insights.map((x) => (
+                            <div class="insight">
+                                <div class="insight-text">
+                                    <h3>{x.h}</h3>
+                                    <p>{x.p}</p>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <!-- Reflection -->
+            <section id="reflection" class="sec reflection">
+                <p class="tag">#reflection</p>
+                <h2 class="h">Structure and testing shaped the experience.</h2>
+                <ol class="reflections">
+                    {
+                        reflections.map((r, i) => (
+                            <li>
+                                <span class="num">{String(i + 1).padStart(2, "0")}</span>
+                                <div>
+                                    <h3>{r.h}</h3>
+                                    <p class="body">{r.p}</p>
+                                </div>
+                            </li>
+                        ))
+                    }
+                </ol>
+            </section>
+        </div>
+    </main>
+</Base>
+
+<style>
+    /* The product shot sits higher in the hero and drifts up as you scroll */
+    .plant-window {
+        width: 34rem;
+        max-width: 88%;
+        height: 21rem;
+        display: block;
+    }
+    .plant {
+        width: 100%;
+        height: auto;
+        will-change: transform;
+    }
+    /* Shorter steps than the nanny page: this is a one-minute read */
+    .case .step {
+        height: 24rem;
+    }
+    .case .insights.three {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 1199.98px) {
+        .case .step {
+            height: 22rem;
+        }
+    }
+    @media (max-width: 809.98px) {
+        .case .hero h1 {
+            max-width: 92%;
+        }
+        .plant-window {
+            height: 13rem;
+        }
+        .case .step {
+            height: 17rem;
+        }
+        .case .insights.three {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<style is:global>
+    :root {
+        --paper: #f8f8f7;
+    }
+</style>
+
+<script>
+    // Hero image drifts up as you scroll (capped).
+    const el = document.querySelector<HTMLElement>("[data-parallax]")
+    if (el && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        let frame = 0
+        const update = () => {
+            frame = 0
+            const k = parseFloat(getComputedStyle(document.documentElement).fontSize) / 16
+            el.style.transform = `translate3d(0, ${-Math.min(Math.max(scrollY, 0) * 0.2, 300 * k)}px, 0)`
+        }
+        addEventListener("scroll", () => frame || (frame = requestAnimationFrame(update)), { passive: true })
+        update()
+    }
+</script>

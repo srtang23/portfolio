@@ -46,15 +46,23 @@ export const projects: Project[] = [
     {
         slug: "sprout",
         href: "/work/sprout",
-        title: "Sprout Redesign",
-        blurb: "Rethinking habit tracking for student well-being",
-        image: "/images/card-sprout.jpg",
-        alt: "Sprout Redesign placeholder thumbnail",
+        title: "Sprout",
+        blurb: "A self-care app with a physical plant companion that makes small daily wellness goals feel rewarding.",
+        image: "/images/card-sprout-plant.jpg",
+        alt: "The Sprout app on two phones beside a potted monstera",
+    },
+    {
+        slug: "turtlup",
+        href: "/work/turtlup",
+        title: "TurtlUp",
+        blurb: "A posture-sensing wearable and web app that turns unconscious slouching into gentle, real-time awareness.",
+        image: "/images/card-turtlup.jpg",
+        alt: "The TurtlUp web app on a laptop, showing posture statistics",
     },
 ]
 
 // Order on the Work page (Home uses the array order above).
-export const workOrder = ["pg", "smn", "novera", "pitlane", "sprout"]
+export const workOrder = ["pg", "smn", "novera", "pitlane", "sprout", "turtlup"]
 
 export const links = {
     resume: "https://drive.google.com/file/d/1Mk_Z4-TMrCxXZYJlwGhiEVzxTm4-wct0/view?usp=sharing",

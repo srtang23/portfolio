@@ -28,22 +28,6 @@ export const projects: Project[] = [
         alt: "P&G logo with household products",
     },
     {
-        slug: "novera",
-        href: "/work/novera",
-        title: "Novera",
-        blurb: "An AI-assisted contract workspace that speeds up legal review while keeping people in control.",
-        image: "/images/card-novera.jpg",
-        alt: "Novera contract workspace on a laptop",
-    },
-    {
-        slug: "pitlane",
-        href: "/work/pitlane",
-        title: "Pitlane",
-        blurb: "A real-time analytics product that takes data teams from raw events to decisions in seconds.",
-        image: "/images/card-pitlane.jpg",
-        alt: "Pitlane analytics dashboard on a tablet",
-    },
-    {
         slug: "sprout",
         href: "/work/sprout",
         title: "Sprout",
@@ -62,7 +46,7 @@ export const projects: Project[] = [
 ]
 
 // Order on the Work page (Home uses the array order above).
-export const workOrder = ["pg", "smn", "novera", "pitlane", "sprout", "turtlup"]
+export const workOrder = ["pg", "smn", "sprout", "turtlup"]
 
 export const links = {
     resume: "https://drive.google.com/file/d/1Mk_Z4-TMrCxXZYJlwGhiEVzxTm4-wct0/view?usp=sharing",

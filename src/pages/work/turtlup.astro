@@ -5,16 +5,18 @@ import RevealBand from "../../components/smn/RevealBand.astro"
 import "../../styles/case.css"
 
 /*
- * TurtlUp, a one-minute case study in the same order as Spilt Milk Nannies:
- * overview → solution → problem → challenge → research → reflection.
+ * TurtlUp, focused on the UX of the companion web app:
+ * 01 overview → 02 challenge → 03 defining the experience → 04 designing the app →
+ * 05 key design decisions → 06 final experience → 07 reflection.
  */
 
 const sections = [
     { id: "overview", label: "Overview" },
-    { id: "solution", label: "Solution" },
-    { id: "problem", label: "Problem" },
-    { id: "challenge", label: "Challenge" },
-    { id: "research", label: "Research" },
+    { id: "challenge", label: "The challenge" },
+    { id: "defining", label: "Defining the experience" },
+    { id: "designing", label: "Designing the app" },
+    { id: "decisions", label: "Key design decisions" },
+    { id: "final", label: "Final experience" },
     { id: "reflection", label: "Reflection" },
 ]
 
@@ -22,39 +24,89 @@ const info = [
     { h: "My Role", items: ["UX Engineer"] },
     { h: "Team", items: ["4 Members", "(Electrical, Bio,", "Web, UX)"] },
     { h: "Timeline", items: ["Mar – June 2025", "(11 weeks)"] },
-    { h: "Skills", items: ["UX Research", "Hardware Design", "Frontend Development"] },
+    { h: "Skills", items: ["UX Research", "Interaction Design", "Frontend Development"] },
 ]
 
-const outcomes = [
-    { label: "User research", value: "10 interviews", text: "With college students on when and why they slouch." },
-    { label: "Build", value: "11 weeks", text: "From first concept to a working prototype." },
-    { label: "Business model", value: "$50 kit", text: "Plus an optional subscription under $10 a month." },
+const ecosystem = [
+    { tag: "The shirt", h: "Senses posture", p: "Five IMU sensors along the spine and shoulder blades." },
+    { tag: "The motor", h: "Nudges in the moment", p: "A gentle vibration when you slouch, with no screen needed." },
+    { tag: "The web app", h: "Sets up, explains, adapts", p: "Calibration, posture history and alert settings." },
 ]
 
-const features = [
-    { h: "Personalization", p: "Calibrate the shirt to your own upright posture.", v: "calibration" },
-    { h: "Real-time tracking", p: "See posture statistics and progress over time.", v: "posture-stats" },
-    { h: "Customization", p: "Tune vibration sensitivity, intensity and reminders.", v: "settings" },
+const gaps = [
+    { h: "No baseline", p: "Everyone’s “upright” is different, so the shirt has to learn yours first." },
+    { h: "No reflection", p: "A buzz fixes the moment, but nothing shows whether habits are improving." },
+    { h: "No control", p: "Feedback you can’t tune quickly starts to feel like nagging." },
 ]
 
-const insights = [
-    { h: "Slouching happens during focused work", p: "“I only slouch when I’m really focused on my laptop, like writing papers or coding.”" },
-    { h: "It happens unconsciously", p: "“I don’t realize I’m slouching until my back or shoulders start hurting.”" },
-    { h: "Phones break concentration", p: "“I wouldn’t check my phone for notifications while I’m deep in work.”" },
-    { h: "Nudges, not nagging", p: "“I don’t want something constantly nagging me. Just a gentle nudge would be helpful.”" },
+const needs = [
+    { need: "Understand", q: "Is my posture okay right now?", f: "Live alignment status on the dashboard" },
+    { need: "Control", q: "Does the shirt know my posture? Can I tune it?", f: "Guided calibration, and alert settings" },
+    { need: "Review", q: "Am I actually improving?", f: "Posture statistics over time" },
+]
+
+const ia = [
+    { h: "Dashboard", items: ["Alignment status", "Shortcut to stats"] },
+    { h: "Posture stats", items: ["Last-hour distribution", "Readings and good-posture %"] },
+    { h: "Calibration", items: ["Connect device", "Sit in neutral position", "Complete"] },
+    { h: "Settings", items: ["Connection notifications", "Posture alerts"] },
+]
+
+const flow = [
+    { img: "wf-1", t: "Empty dashboard points to calibration" },
+    { img: "wf-2", t: "Connect the shirt" },
+    { img: "wf-3", t: "Connected, so Next unlocks" },
+    { img: "wf-4", t: "Sit in a neutral position" },
+    { img: "wf-5", t: "Live feedback if you’re out of alignment" },
+    { img: "wf-6", t: "Calibration complete" },
+]
+
+const decisions = [
+    {
+        h: "One glanceable status",
+        p: "The dashboard leads with a single indicator, paired with a text label and a short encouragement, so it reads in a second and never relies on colour alone.",
+        before: "wf-7.jpg",
+        after: "final-dashboard.jpg",
+        alt: "Dashboard showing an Out of Alignment status with the message Sit tall, feel strong",
+    },
+    {
+        h: "Progress as a percentage",
+        p: "Raw counts didn’t say whether things were getting better. Adding a good-posture percentage turns the stats into a quick read on progress.",
+        before: "wf-8.jpg",
+        after: "final-stats.jpg",
+        alt: "Posture statistics with total readings, good posture count and good posture percentage",
+    },
+    {
+        h: "Guide the first run",
+        p: "With no data yet, the dashboard points straight to calibration, and each step only unlocks once the one before it is done.",
+        before: "wf-1.jpg",
+        after: "final-connected.jpg",
+        alt: "Calibration step one, with the device connected and the Next button enabled",
+    },
+]
+
+const final = [
+    { n: "01", h: "Calibrate", p: "Pair the shirt and save your own upright posture.", v: "calibration" },
+    { n: "02", h: "Track", p: "Check your status at a glance, and see how the last hour went.", v: "posture-stats" },
+    { n: "03", h: "Customize", p: "Turn posture alerts and connection notifications on or off.", v: "settings" },
 ]
 
 const reflections = [
-    { h: "Design meets engineering", p: "Balancing the design vision with hardware limits, from Bluetooth debugging to sensor placement that’s both comfortable and accurate." },
-    { h: "Business-minded design", p: "My first project weighing market fit and commercial viability alongside the user experience." },
-    { h: "Cross-disciplinary collaboration", p: "Translating design for engineers, and keeping the team aligned through clear documentation and regular check-ins." },
+    { h: "Design meets engineering", p: "Designing and building the app taught me to shape interactions around what the hardware can reliably report." },
+    { h: "Designing beyond the screen", p: "The most important feedback happens off-screen, so the app’s job is to explain and tune it, not compete with it." },
+]
+
+const nextSteps = [
+    "Test the app with students across a full week of studying, not just in a session.",
+    "Check whether the good-posture percentage motivates people or adds pressure.",
+    "Use real usage data to tune vibration sensitivity and timing.",
 ]
 ---
 
-<Base nav="case" title="TurtlUp · Sophia Tang" description="A posture-sensing wearable and web app that turns unconscious slouching into gentle, real-time awareness.">
+<Base nav="case" title="TurtlUp · Sophia Tang" description="A posture-sensing wearable and the companion web app that makes its feedback understandable and adjustable.">
     <CaseNav sections={sections} />
 
-    <main class="case" style="--hero-bg: url('/images/turtlup/hero-bg.jpg')">
+    <main class="case tu" style="--hero-bg: url('/images/turtlup/hero-bg.jpg')">
         <!-- Hero -->
         <header id="introduction" class="hero">
             <div class="grain" aria-hidden="true"></div>
@@ -82,43 +134,182 @@ const reflections = [
                 }
             </dl>
 
-            <!-- Overview -->
+            <!-- 01 Overview -->
             <section id="overview" class="sec">
                 <p class="tag">#overview</p>
-                <h2 class="h">Designing a wearable that turns unconscious slouching into gentle, real-time awareness.</h2>
+                <h2 class="h">A posture-sensing shirt, and the app that makes its feedback make sense.</h2>
                 <p class="body">
-                    As the only designer on an interdisciplinary team, I designed TurtlUp: a sensor-embedded shirt that vibrates when you slouch, paired with a web app for calibration
-                    and tracking.
+                    TurtlUp is a shirt that vibrates gently when you slouch. As the UX engineer on a four-person team, I designed and built its companion web app: where people set
+                    up the shirt, check their posture, and decide how it should nudge them.
                 </p>
-                <div class="outcomes">
+                <div class="panel ecosystem">
+                    <img src="/images/turtlup/ecosystem.png" alt="The TurtlUp ecosystem: sensors on the shirt connect to a microcontroller in a waist pack, which triggers a vibration motor and sends data to the web app" loading="lazy" />
+                </div>
+                <div class="eco-row">
                     {
-                        outcomes.map((o, i) => (
-                            <div class="card outcome reveal" style={`--delay:${i * 0.08}s`}>
-                                <p class="tag">{o.label}</p>
-                                <p class="value">{o.value}</p>
-                                <p class="body">{o.text}</p>
+                        ecosystem.map((e) => (
+                            <div class="card eco">
+                                <p class="tag">{e.tag}</p>
+                                <h3>{e.h}</h3>
+                                <p class="body">{e.p}</p>
                             </div>
                         ))
                     }
                 </div>
             </section>
 
-            <!-- Solution -->
-            <section id="solution" class="sec">
-                <p class="tag">#solution</p>
-                <h2 class="h">A shirt that notices, and an app that adapts to you.</h2>
+            <!-- 02 The challenge -->
+            <section id="challenge" class="sec">
+                <p class="tag">#challenge</p>
+                <h2 class="h">A vibration says you slouched, but not why, or what “good” looks like.</h2>
                 <p class="body">
-                    IMU sensors along the spine and shoulders track alignment, and a small motor gives a gentle vibration when you slouch. The shirt connects over Bluetooth to a
-                    companion web app. <a class="link" href="https://www.youtube.com/watch?v=IXgoF7fWUYQ" target="_blank" rel="noopener noreferrer">Watch the demo ↗</a>
+                    We interviewed 10 college students. Slouching happens unconsciously during deep focus, and phone notifications are too disruptive to help, which is why the
+                    shirt vibrates instead. But a vibration on its own leaves three gaps.
                 </p>
-                <div class="panel wearable">
-                    <img src="/images/turtlup/wearable.png" alt="Sensor placement on the shirt: upper, mid and lower spine, both shoulder blades, a vibration motor, and a microcontroller in a waist pack" loading="lazy" />
+                <figure class="scenario">
+                    <blockquote>
+                        <p>
+                            Sara is writing her thesis in the library. An hour in, she’s hunched over her laptop and the shirt buzzes. She sits up, but she can’t tell if her
+                            “upright” is right, how her afternoon went, or how to make it buzz less during a deadline.
+                        </p>
+                    </blockquote>
+                    <figcaption class="tag">User scenario, based on our research</figcaption>
+                </figure>
+                <div class="gaps">
+                    {
+                        gaps.map((g, i) => (
+                            <div class="gap">
+                                <span class="num">{String(i + 1).padStart(2, "0")}</span>
+                                <h3>{g.h}</h3>
+                                <p class="body">{g.p}</p>
+                            </div>
+                        ))
+                    }
                 </div>
+            </section>
+        </div>
+
+        <RevealBand
+            id="how-might-we"
+            bg="/images/turtlup/hero-bg.jpg"
+            text="How might we help users **understand, trust and tune** the feedback their **wearable** gives them?"
+        />
+
+        <div class="content">
+            <!-- 03 Defining the experience -->
+            <section id="defining" class="sec">
+                <p class="tag">#defining</p>
+                <h2 class="h">Understand it, control it, review it.</h2>
+                <p class="body">I turned the three gaps into three jobs for the app, then kept only the features that served them within an 11-week build.</p>
+                <div class="needs-table" role="table" aria-label="User needs mapped to features">
+                    <div class="row head" role="row">
+                        <span role="columnheader">Need</span>
+                        <span role="columnheader">The user asks</span>
+                        <span role="columnheader">Feature</span>
+                    </div>
+                    {
+                        needs.map((n) => (
+                            <div class="row" role="row">
+                                <span class="need" role="cell">
+                                    {n.need}
+                                </span>
+                                <span role="cell">“{n.q}”</span>
+                                <span class="feat" role="cell">
+                                    {n.f}
+                                </span>
+                            </div>
+                        ))
+                    }
+                </div>
+                <div class="panel ia-panel">
+                    <p class="ia-root">TurtlUp web app</p>
+                    <div class="ia">
+                        {
+                            ia.map((n) => (
+                                <div class="ia-node">
+                                    <p class="ia-h">{n.h}</p>
+                                    <ul>
+                                        {n.items.map((t) => (
+                                            <li>{t}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+                <p class="body note">Personalized analytics and a physical-therapy mode were saved for a later subscription tier.</p>
+            </section>
+
+            <!-- 04 Designing the app -->
+            <section id="designing" class="sec">
+                <p class="tag">#designing</p>
+                <h2 class="h">Starting with the first-run flow.</h2>
+                <p class="body">
+                    Calibration is the first thing everyone does, and the one place the app works directly with the hardware. I mapped it as a three-step flow and wireframed
+                    each state before building it.
+                </p>
+                <div class="panel flow-panel">
+                    <ol class="flow">
+                        {
+                            flow.map((f, i) => (
+                                <li>
+                                    <img src={`/images/turtlup/${f.img}.jpg`} alt={`Wireframe: ${f.t}`} loading="lazy" />
+                                    <p>
+                                        <span>{i + 1}</span>
+                                        {f.t}
+                                    </p>
+                                </li>
+                            ))
+                        }
+                    </ol>
+                </div>
+                <p class="body note">Scroll sideways to follow the flow.</p>
+            </section>
+
+            <!-- 05 Key design decisions -->
+            <section id="decisions" class="sec">
+                <p class="tag">#decisions</p>
+                <h2 class="h">From wireframe to working app.</h2>
+                <div class="decisions">
+                    {
+                        decisions.map((d, i) => (
+                            <article class="decision">
+                                <div class="decision-text">
+                                    <span class="num">{String(i + 1).padStart(2, "0")}</span>
+                                    <h3>{d.h}</h3>
+                                    <p class="body">{d.p}</p>
+                                </div>
+                                <div class="ba">
+                                    <figure>
+                                        <img src={`/images/turtlup/${d.before}`} alt="" loading="lazy" />
+                                        <figcaption>Wireframe</figcaption>
+                                    </figure>
+                                    <figure>
+                                        <img src={`/images/turtlup/${d.after}`} alt={d.alt} loading="lazy" />
+                                        <figcaption>Built</figcaption>
+                                    </figure>
+                                </div>
+                            </article>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <!-- 06 Final experience -->
+            <section id="final" class="sec">
+                <p class="tag">#final</p>
+                <h2 class="h">Set it up once, glance often, tune it when you need to.</h2>
+                <p class="body">
+                    Together with the shirt, the app covers the whole loop, from first setup to everyday check-ins.
+                    <a class="link" href="https://www.youtube.com/watch?v=IXgoF7fWUYQ" target="_blank" rel="noopener noreferrer">Watch the full demo ↗</a>
+                </p>
                 <div class="features">
                     {
-                        features.map((f) => (
+                        final.map((f) => (
                             <div class="feature">
                                 <div class="feature-text">
+                                    <span class="num">{f.n}</span>
                                     <h3>{f.h}</h3>
                                     <p class="body">{f.p}</p>
                                 </div>
@@ -133,51 +324,13 @@ const reflections = [
                     }
                 </div>
             </section>
-
-            <!-- Problem -->
-            <section id="problem" class="sec">
-                <p class="tag">#problem</p>
-                <h2 class="h">Most people don’t notice they’re slouching until it hurts.</h2>
-                <p class="body">
-                    Back pain affects 39% of U.S. adults, often from posture habits people aren’t aware of. Students and desk workers sit for hours, and existing posture products
-                    either nag constantly or ask for attention they don’t have.
-                </p>
-            </section>
         </div>
 
-        <RevealBand
-            id="challenge"
-            bg="/images/turtlup/hero-bg.jpg"
-            text="How might we help users build **healthy sitting habits** through **real-time awareness and feedback?**"
-        />
-
         <div class="content last">
-            <!-- Research -->
-            <section id="research" class="sec gap-16">
-                <p class="tag">#research</p>
-                <h2 class="h">Feedback has to fit around deep focus.</h2>
-                <p class="body">
-                    A size, pay and access comparison pointed us to college students first. We interviewed 10 of them, and four insights shaped the design toward subtle,
-                    vibration-based nudges instead of phone notifications.
-                </p>
-                <div class="panel insights">
-                    {
-                        insights.map((x) => (
-                            <div class="insight">
-                                <div class="insight-text">
-                                    <h3>{x.h}</h3>
-                                    <p>{x.p}</p>
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </section>
-
-            <!-- Reflection -->
+            <!-- 07 Reflection -->
             <section id="reflection" class="sec reflection">
                 <p class="tag">#reflection</p>
-                <h2 class="h">My first end-to-end product, from concept to working hardware.</h2>
+                <h2 class="h">What I learned, and what’s left to validate.</h2>
                 <ol class="reflections">
                     {
                         reflections.map((r, i) => (
@@ -191,13 +344,19 @@ const reflections = [
                         ))
                     }
                 </ol>
+                <div class="next">
+                    <p class="next-h">Next steps</p>
+                    <ul>
+                        {nextSteps.map((n) => <li class="body">{n}</li>)}
+                    </ul>
+                </div>
             </section>
         </div>
     </main>
 </Base>
 
 <style>
-    /* The laptop sits higher in the hero and drifts up as you scroll */
+    /* Hero laptop sits higher and drifts up as you scroll */
     .device-window {
         width: 40rem;
         max-width: 84%;
@@ -218,13 +377,258 @@ const reflections = [
     .link:hover {
         text-decoration-color: var(--ink);
     }
-    .wearable {
+    .num {
+        font: 400 0.75rem/1.4 var(--sans);
+        color: var(--label);
+    }
+    h3 {
+        font: 500 1.0625rem/1.3 var(--serif);
+        letter-spacing: -0.01em;
+        color: var(--ink);
+    }
+    .note {
+        color: var(--label);
+        font-size: 0.8125rem;
+    }
+
+    /* 01 Overview */
+    .ecosystem {
         padding: 2rem 1.75rem;
     }
-    .wearable img {
+    .ecosystem img {
         width: 100%;
         height: auto;
     }
+    .eco-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+    .eco {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1.25rem;
+    }
+
+    /* 02 Challenge */
+    .scenario {
+        margin: 0.5rem 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+    }
+    .scenario blockquote {
+        margin: 0;
+        padding: 1.25rem 1.5rem;
+        background: var(--white);
+        border-radius: 4px 1rem 1rem 1rem;
+        box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .scenario blockquote p {
+        font: italic 400 1rem/1.55 var(--serif);
+        letter-spacing: -0.01em;
+        color: var(--ink);
+    }
+    .gaps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+    }
+    .gap {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    /* 03 Defining */
+    .needs-table {
+        border-top: 1px solid var(--border);
+    }
+    .needs-table .row {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr 1fr;
+        gap: 1.25rem;
+        padding: 0.875rem 0;
+        border-bottom: 1px solid var(--border);
+        font: 400 0.875rem/1.5 var(--sans);
+        letter-spacing: 0.01em;
+        color: var(--body);
+    }
+    .needs-table .head {
+        font-size: 0.75rem;
+        color: var(--label);
+        padding: 0.625rem 0;
+    }
+    .needs-table .need {
+        font: 500 1.0625rem/1.3 var(--serif);
+        color: var(--ink);
+    }
+    .needs-table .feat {
+        color: var(--ink);
+    }
+    .ia-panel {
+        padding: 1.75rem 1.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .ia-root {
+        position: relative;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        font: 500 0.8125rem/1.3 var(--sans);
+        margin-bottom: 1.5rem;
+    }
+    .ia-root::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        height: 1.5rem;
+        border-left: 1px solid #c9c9c9;
+    }
+    .ia {
+        position: relative;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+        padding-top: 1rem;
+    }
+    .ia::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 12.5%;
+        right: 12.5%;
+        border-top: 1px solid #c9c9c9;
+    }
+    .ia-node {
+        position: relative;
+        padding: 0.875rem 1rem 1rem;
+        background: var(--white);
+        border-radius: 0.75rem;
+        box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .ia-node::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 100%;
+        height: 1rem;
+        border-left: 1px solid #c9c9c9;
+    }
+    .ia-h {
+        font: 500 0.875rem/1.4 var(--sans);
+        color: var(--ink);
+        margin-bottom: 0.375rem;
+    }
+    .ia-node ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font: 400 0.75rem/1.5 var(--sans);
+        color: var(--body);
+    }
+
+    /* 04 Designing */
+    .flow-panel {
+        padding: 1.5rem 0 1.25rem;
+    }
+    .flow {
+        list-style: none;
+        margin: 0;
+        padding: 0 1.5rem;
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+    }
+    .flow li {
+        flex: 0 0 15rem;
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+    }
+    .flow img {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        background: #fff;
+        box-shadow: 0 0 0 1px var(--border);
+    }
+    .flow p {
+        display: flex;
+        gap: 0.5rem;
+        font: 400 0.75rem/1.45 var(--sans);
+        color: var(--body);
+    }
+    .flow p span {
+        flex-shrink: 0;
+        width: 1.125rem;
+        height: 1.125rem;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--ink);
+        color: #fff;
+        font-size: 0.625rem;
+    }
+
+    /* 05 Decisions */
+    .decisions {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        margin-top: 0.5rem;
+    }
+    .decision {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .decision-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+    .ba {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+    .ba figure {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .ba img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: contain;
+        object-position: top left;
+        border-radius: 0.5rem;
+        background: #fff;
+        box-shadow: 0 0 0 1px var(--border);
+    }
+    .ba figcaption {
+        font: 400 0.75rem/1.4 var(--sans);
+        color: var(--label);
+    }
+    .ba figure:last-child figcaption {
+        color: var(--accent);
+    }
+
+    /* 06 Final */
     .features {
         margin-top: 0.75rem;
         display: flex;
@@ -242,11 +646,6 @@ const reflections = [
         flex-direction: column;
         gap: 0.375rem;
     }
-    .feature h3 {
-        font: 500 1.0625rem/1.3 var(--serif);
-        letter-spacing: -0.01em;
-        color: var(--ink);
-    }
     .screen {
         padding: 0.75rem;
     }
@@ -258,6 +657,27 @@ const reflections = [
         background: #fff;
         box-shadow: 0 0 0 1px var(--border);
     }
+
+    /* 07 Reflection */
+    .next {
+        margin-top: 1rem;
+        padding: 1.25rem 1.5rem;
+        border-radius: 1rem;
+        background: rgba(17, 17, 17, 0.035);
+    }
+    .next-h {
+        font: 500 0.875rem/1.4 var(--sans);
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+    }
+    .next ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
     @media (max-width: 809.98px) {
         .case .hero h1 {
             max-width: 92%;
@@ -265,6 +685,32 @@ const reflections = [
         .device-window {
             max-width: 90%;
             height: 13rem;
+        }
+        .eco-row,
+        .gaps {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        .needs-table .row {
+            grid-template-columns: 1fr;
+            gap: 0.25rem;
+        }
+        .needs-table .head {
+            display: none;
+        }
+        .ia {
+            grid-template-columns: 1fr 1fr;
+        }
+        .ia::before,
+        .ia-node::before,
+        .ia-root::after {
+            display: none;
+        }
+        .ia-root {
+            margin-bottom: 0.75rem;
+        }
+        .ba {
+            grid-template-columns: 1fr;
         }
         .feature {
             grid-template-columns: 1fr;
@@ -294,7 +740,12 @@ const reflections = [
     }
     // Looping recordings play only while on screen.
     const io = new IntersectionObserver(
-        (es) => es.forEach((e) => ((e.target as HTMLVideoElement)[e.isIntersecting ? "play" : "pause"]() as any)?.catch?.(() => {})),
+        (es) =>
+            es.forEach((e) => {
+                const v = e.target as HTMLVideoElement
+                if (e.isIntersecting) v.play().catch(() => {})
+                else v.pause()
+            }),
         { threshold: 0.25 },
     )
     document.querySelectorAll("video[data-loop]").forEach((v) => io.observe(v))

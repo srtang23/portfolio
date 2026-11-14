@@ -44,7 +44,7 @@ const plain = text.replace(/\*\*/g, "")
         flex-direction: column;
         justify-content: center;
         gap: 1.25rem;
-        padding: 0 8.875rem 0 24.5rem;
+        padding: 0 var(--gutter) 0 24.5rem;
         will-change: opacity;
     }
     .label,
@@ -181,7 +181,7 @@ const plain = text.replace(/\*\*/g, "")
 
     @media (max-width: 1199.98px) {
         .pin {
-            padding: 0 3rem 0 11.5rem;
+            padding: 0 var(--gutter) 0 11.5rem;
         }
     }
     @media (max-width: 809.98px) {

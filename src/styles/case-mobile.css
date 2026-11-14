@@ -1,0 +1,57 @@
+/*
+ * Case studies on phones: a compact hero (title on top, product image at the bottom),
+ * larger, more readable text, and a little more room at the sides.
+ * Loaded by every case study page; desktop and tablet are unchanged.
+ * Selectors start with main.case so they outrank each page's own styles.
+ */
+@media (max-width: 809.98px) {
+    /* ---------- Hero ---------- */
+    main.case .hero {
+        height: auto;
+        min-height: 0;
+        padding-top: 0;
+        border-radius: 0 0 1.75rem 1.75rem;
+    }
+    main.case .hero .title-area {
+        flex: none;
+        padding: 6.25rem 1.5rem 1.75rem;
+    }
+    main.case .hero .title-area h1 {
+        max-width: 100%;
+        font-size: 1.875rem;
+        line-height: 1.15;
+    }
+
+    /* ---------- Text ---------- */
+    main.case .content {
+        padding-left: var(--gutter);
+        padding-right: var(--gutter);
+    }
+    main.case .tag {
+        font-size: 0.8125rem;
+    }
+    main.case .h {
+        font-size: 1.375rem;
+        line-height: 1.3;
+    }
+    main.case .body,
+    main.case .body p {
+        font-size: 1.0625rem;
+        line-height: 1.55;
+    }
+    main.case .info dt {
+        font-size: 1.125rem;
+    }
+    main.case .info dd {
+        font-size: 0.9375rem;
+    }
+    main.case .step h3 {
+        font-size: 1.25rem;
+    }
+    main.case .reflections h3 {
+        font-size: 1.1875rem;
+    }
+    main.case .value {
+        font-size: 2rem;
+    }
+}

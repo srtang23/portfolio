@@ -32,8 +32,8 @@ interface Props {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        /* lines up with the Home work column (48rem wide, centred) */
-        padding: 1.25rem max(1.25rem, calc((100% - 48rem) / 2));
+        /* lines up with the page edges (Home cards, case study side nav and text) */
+        padding: 1.25rem var(--gutter);
         pointer-events: none;
     }
     .pill {
@@ -103,7 +103,7 @@ interface Props {
 
     @media (max-width: 809.98px) {
         .top-nav {
-            padding: 1rem 1.25rem;
+            padding: 1rem var(--gutter);
         }
         .pill {
             height: 2.5rem;

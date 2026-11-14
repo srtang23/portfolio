@@ -28,7 +28,7 @@ const { sections, back = "/work" } = Astro.props
         position: fixed;
         z-index: 40;
         top: 6.875rem;
-        left: 8.75rem;
+        left: var(--gutter);
         width: 10.625rem;
         display: flex;
         flex-direction: column;
@@ -65,7 +65,7 @@ const { sections, back = "/work" } = Astro.props
 
     @media (max-width: 1199.98px) {
         .case-nav {
-            left: 1.5rem;
+            left: var(--gutter);
         }
     }
     @media (max-width: 809.98px) {

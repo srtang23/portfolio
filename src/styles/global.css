@@ -17,6 +17,19 @@
     --serif: "Newsreader", Georgia, serif;
     --sans: "Geist", "Inter", system-ui, sans-serif;
     --spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Page edges shared by the nav, the Home cards and the case studies */
+    --gutter: 8.75rem;
+}
+@media (max-width: 1199.98px) {
+    :root {
+        --gutter: 2rem;
+    }
+}
+@media (max-width: 809.98px) {
+    :root {
+        --gutter: 1.5rem;
+    }
 }
 
 html {

@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro"
+import "../../styles/case-mobile.css"
 import CaseNav from "../../components/CaseNav.astro"
 import RevealBand from "../../components/smn/RevealBand.astro"
 import ProcessDiamonds from "../../components/pg/ProcessDiamonds.astro"
@@ -278,7 +279,7 @@ const reflections = [
         display: flex;
         flex-direction: column;
         gap: 4.5rem;
-        padding: 7.5rem 8.875rem 7.5rem 24.5rem;
+        padding: 7.5rem var(--gutter) 7.5rem 24.5rem;
     }
     .content.first {
         padding-top: 6rem;
@@ -579,7 +580,7 @@ const reflections = [
             line-height: 1.05;
         }
         .content {
-            padding: 6rem 3rem 6rem 11.5rem;
+            padding: 6rem var(--gutter) 6rem 11.5rem;
         }
         .content.first {
             padding-top: 4rem;

@@ -1,8 +1,9 @@
 ---
 // Paper-cut sky for the top of Home, drawn by a WebGL shader: a blue halftone sky with
-// solid paper-coloured clouds (soft shading, thin white rim) drifting over it. Clouds
-// thicken towards the bottom so the sky melts into the page's paper, and gather behind
-// elements marked [data-sky-clear] so text always sits on paper.
+// cumulus clouds built from overlapping round puffs. Each puff is lit from above and
+// shaded underneath, and overlapping puffs leave soft billow lines, like a paper cut-out.
+// A big cloud sits behind the [data-sky-clear] text, smaller clouds drift past, and a
+// bank of cloud along the bottom melts into the page's paper.
 // Still frame for reduced motion; plain paper if WebGL isn't available.
 ---
 
@@ -22,8 +23,8 @@
         pointer-events: none;
         overflow: hidden;
         /* fade the bottom into the page's paper */
-        -webkit-mask-image: linear-gradient(#000 72%, transparent 100%);
-        mask-image: linear-gradient(#000 72%, transparent 100%);
+        -webkit-mask-image: linear-gradient(#000 78%, transparent 100%);
+        mask-image: linear-gradient(#000 78%, transparent 100%);
     }
     canvas {
         display: block;
@@ -41,53 +42,29 @@
 </style>
 
 <script>
-    const MAX_RECTS = 24
+    type Puff = { x: number; y: number; r: number; ph: number }
+    type Cloud = { puffs: Puff[]; x: number; y: number; speed: number; span: number }
 
-    const VERT = `
-attribute vec2 a;
-void main() { gl_Position = vec4(a, 0.0, 1.0); }`
+    const VERT = `attribute vec2 a; void main() { gl_Position = vec4(a, 0.0, 1.0); }`
 
-    const FRAG = `
-#extension GL_OES_standard_derivatives : enable
+    const frag = (N: number) => `
 precision highp float;
 uniform vec2 uRes;      // CSS px
 uniform float uDpr;
 uniform float uTime;    // ms
 uniform float uCell;    // halftone cell, CSS px
-uniform vec4 uRects[${MAX_RECTS}];
-uniform int uCount;
-
-const float T = 0.5;    // cloud edge
+uniform vec3 uC[${N}];  // puff centre (CSS px) and radius, in paint order
+uniform int uN;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
     vec2 i = floor(p), f = fract(p);
     vec2 u = f * f * (3.0 - 2.0 * f);
-    float a = hash(i), b = hash(i + vec2(1.0, 0.0)), c = hash(i + vec2(0.0, 1.0)), d = hash(i + vec2(1.0, 1.0));
-    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+    return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
-float fbm(vec2 p) {
-    float s = 0.0, amp = 0.5, n = 0.0;
-    for (int o = 0; o < 5; o++) { s += amp * noise(p); n += amp; p *= 2.07; amp *= 0.5; }
-    return s / n;
-}
-float gather(vec2 p) {
-    float m = 0.0;
-    for (int k = 0; k < ${MAX_RECTS}; k++) {
-        if (k >= uCount) break;
-        vec4 r = uRects[k];
-        vec2 d = max(max(r.xy - p, p - r.zw), 0.0);
-        m = max(m, 1.0 - length(d) / 70.0);
-    }
-    m = clamp(m, 0.0, 1.0);
-    return m * m * (3.0 - 2.0 * m);
-}
-float field(vec2 p) {
-    vec2 q = p / 260.0;
-    float n = fbm(vec2(q.x + uTime * 0.000016, q.y * 1.15 - uTime * 0.000004));
-    float base = (n - 0.5) * 1.9 + 0.24;
-    float bottom = smoothstep(0.55, 0.95, p.y / uRes.y) * 0.85;
-    return base + bottom + gather(p) * 0.6;
+float smin(float a, float b, float k) {
+    float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
+    return mix(b, a, h) - k * h * (1.0 - h);
 }
 float dotAt(vec2 p, float row) {
     float y = row * uCell;
@@ -102,33 +79,85 @@ float dotAt(vec2 p, float row) {
 }
 void main() {
     vec2 p = vec2(gl_FragCoord.x, uRes.y * uDpr - gl_FragCoord.y) / uDpr;
+    float aa = 1.0 / uDpr;
 
-    // sky: light at the top, deeper blue lower down
+    // sky: light at the top, deeper blue lower down, with halftone dots
     float k = clamp(p.y / uRes.y * 0.9 + p.x / uRes.x * 0.12, 0.0, 1.0);
     vec3 sky = k < 0.45 ? mix(vec3(0.62, 0.72, 0.86), vec3(0.36, 0.50, 0.73), k / 0.45)
                         : mix(vec3(0.36, 0.50, 0.73), vec3(0.24, 0.37, 0.60), (k - 0.45) / 0.55);
     float row = floor(p.y / uCell);
-    float dots = max(dotAt(p, row), dotAt(p, row + 1.0));
-    sky = mix(sky, vec3(0.86, 0.91, 0.98), dots * 0.9);
+    sky = mix(sky, vec3(0.86, 0.91, 0.98), max(dotAt(p, row), dotAt(p, row + 1.0)) * 0.9);
 
-    // clouds
-    float v = field(p);
-    float w = max(fwidth(v), 1e-4);
-    float cloud = smoothstep(T - w, T + w, v);
-    // soft billows: light from the upper left, with smaller puffs of shade inside
-    float lit = smoothstep(T + 0.03, T + 0.16, v + dFdx(v) * 6.0 + dFdy(v) * 8.0);
-    float puff = fbm(p / 70.0 + vec2(uTime * 0.00002, 0.0));
-    float shade = clamp(lit * 0.75 + (puff - 0.35) * 0.9, 0.0, 1.0);
-    vec3 col = mix(vec3(0.80, 0.83, 0.87), vec3(0.984, 0.980, 0.969), shade);
-    float rim = 1.0 - smoothstep(T + w * 1.6, T + w * 3.2, v);
-    col = mix(col, vec3(1.0), rim * 0.95);
+    // clouds: union of puffs (softly merged), and the front-most puff under this pixel
+    float U = 1e5;
+    float frontT = 0.0, frontD = -1e5, has = 0.0;
+    float nearD = 1e5, nearT = 0.0;
+    for (int i = 0; i < ${N}; i++) {
+        if (i >= uN) break;
+        vec3 c = uC[i];
+        float d = length(p - c.xy) - c.z;
+        U = smin(U, d, c.z * 0.25);
+        float t = (p.y - c.y) / c.z; // -1 top of puff, +1 bottom
+        if (d < 0.0) { frontT = t; frontD = d; has = 1.0; }
+        if (d < nearD) { nearD = d; nearT = t; }
+    }
+    float tt = has > 0.5 ? frontT : nearT;
+    float edgeInside = has > 0.5 ? -frontD : 1e5;
 
+    // lit from the top, shaded underneath each puff
+    float light = 1.0 - smoothstep(-0.55, 0.85, tt);
+    vec3 shadow = vec3(0.79, 0.82, 0.87);
+    vec3 paper = vec3(0.984, 0.980, 0.969);
+    vec3 col = mix(shadow, paper, 0.45 + 0.55 * light);
+    // a soft line where one puff sits over another, like a paper layer
+    float billow = 1.0 - smoothstep(0.0, 1.8, edgeInside);
+    col = mix(col, vec3(0.76, 0.79, 0.85), billow * 0.32 * smoothstep(-4.0, -9.0, U));
+    // thin white rim on the outside edge
+    float rim = 1.0 - smoothstep(-3.5, -1.0, U);
+    col = mix(vec3(1.0), col, rim);
+
+    float cloud = 1.0 - smoothstep(-aa, aa, U);
     gl_FragColor = vec4(mix(sky, col, cloud), 1.0);
 }`
 
+    // --- seeded random ---
+    let seed = 7
+    const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646
+    const rr = (a: number, b: number) => a + (b - a) * rnd()
+
+    // A cumulus, centred on (0,0): a flat base, a full body, and a crown of puffs whose
+    // tops trace a dome. Listed back to front: base, body, then crown, so the crown puffs
+    // paint over the body and leave billow lines across the upper cloud.
+    const cumulus = (w: number, h: number, crownStep = 0.32): Puff[] => {
+        const puffs: Puff[] = []
+        const baseY = h * 0.3
+        const nb = Math.max(3, Math.ceil(w / (h * 0.4)))
+        for (let i = 0; i < nb; i++) {
+            const f = (i + 0.5) / nb
+            const r = h * rr(0.12, 0.16)
+            puffs.push({ x: (f - 0.5) * (w - 2 * r), y: baseY - r * 0.55, r, ph: rnd() * 6.28 })
+        }
+        const nf = Math.max(1, Math.ceil(w / (h * 0.8)))
+        for (let i = 0; i < nf; i++) {
+            const f = nf === 1 ? 0.5 : i / (nf - 1)
+            puffs.push({ x: (f - 0.5) * Math.max(0, w - h * 0.8), y: h * 0.02, r: h * 0.34, ph: rnd() * 6.28 })
+        }
+        const nc = Math.max(3, Math.ceil(w / (h * crownStep)))
+        for (let i = 0; i < nc; i++) {
+            const f = (i + 0.5) / nc
+            const prof = Math.pow(Math.sin(Math.PI * (0.06 + 0.88 * f)), 0.8)
+            const r = h * (0.1 + 0.2 * prof) * rr(0.8, 1.2)
+            const top = baseY - h * (0.22 + 0.62 * prof) * rr(0.92, 1.06)
+            puffs.push({ x: (f - 0.5) * w * 0.94, y: Math.min(top + r, baseY - r * 0.4), r, ph: rnd() * 6.28 })
+        }
+        return puffs
+    }
+
     const canvas = document.querySelector<HTMLCanvasElement>("[data-sky]")
     const gl = canvas?.getContext("webgl", { antialias: false, premultipliedAlpha: false })
-    if (canvas && gl && gl.getExtension("OES_standard_derivatives")) {
+    if (canvas && gl) {
+        const maxVec = gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) as number
+        const N = Math.max(24, Math.min(200, maxVec - 12))
         const sh = (type: number, src: string) => {
             const s = gl.createShader(type)!
             gl.shaderSource(s, src)
@@ -137,12 +166,11 @@ void main() {
         }
         const prog = gl.createProgram()!
         gl.attachShader(prog, sh(gl.VERTEX_SHADER, VERT))
-        gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG))
+        gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, frag(N)))
         gl.linkProgram(prog)
         if (gl.getProgramParameter(prog, gl.LINK_STATUS)) {
             gl.useProgram(prog)
-            const buf = gl.createBuffer()
-            gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW)
             const loc = gl.getAttribLocation(prog, "a")
             gl.enableVertexAttribArray(loc)
@@ -152,13 +180,58 @@ void main() {
                 uDpr = U("uDpr"),
                 uTime = U("uTime"),
                 uCell = U("uCell"),
-                uRects = U("uRects"),
-                uCount = U("uCount")
-            const rects = new Float32Array(MAX_RECTS * 4)
+                uC = U("uC"),
+                uN = U("uN")
+            const buf = new Float32Array(N * 3)
 
             let W = 0,
                 H = 0,
                 dpr = 1
+            let drifting: Cloud[] = []
+            let bank: Cloud | null = null
+            let hero: Cloud | null = null
+
+            // the box around the hero text, relative to the canvas
+            const textBox = () => {
+                const top = canvas.getBoundingClientRect().top
+                let l = Infinity,
+                    t = Infinity,
+                    r = -Infinity,
+                    b = -Infinity
+                for (const el of document.querySelectorAll<HTMLElement>("[data-sky-clear]")) {
+                    const q = el.getBoundingClientRect()
+                    l = Math.min(l, q.left)
+                    t = Math.min(t, q.top - top)
+                    r = Math.max(r, q.right)
+                    b = Math.max(b, q.bottom - top)
+                }
+                return isFinite(l) ? { l, t, r, b } : null
+            }
+
+            const build = () => {
+                seed = 7
+                const small = W < 810
+                // drifting clouds, spread across the sky
+                drifting = []
+                const n = small ? 3 : 4
+                for (let i = 0; i < n; i++) {
+                    const h = rr(0.09, 0.15) * H * (small ? 0.8 : 1)
+                    const w = h * rr(2.2, 3.4)
+                    const span = W + w * 1.4
+                    drifting.push({ puffs: cumulus(w, h), x: ((i + rnd() * 0.6) / n) * span, y: H * rr(0.1, 0.62), speed: rr(5, 11) * (rnd() < 0.5 ? 1 : 0.7), span })
+                }
+                // the bank along the bottom
+                const bh = H * 0.32
+                bank = { puffs: cumulus(W * 1.5, bh), x: W / 2, y: H * 0.95, speed: 2.5, span: W * 0.25 }
+                // the big cloud behind the text
+                const box = textBox()
+                if (box) {
+                    const w = box.r - box.l + (small ? 70 : 240)
+                    const h = (box.b - box.t) * (small ? 1.5 : 1.35) + (small ? 110 : 140)
+                    hero = { puffs: cumulus(w, h, 0.26), x: (box.l + box.r) / 2, y: (box.t + box.b) / 2 + h * (small ? 0.16 : 0.12), speed: 0, span: 0 }
+                } else hero = null
+            }
+
             const resize = () => {
                 dpr = Math.min(window.devicePixelRatio || 1, 1.5)
                 W = canvas.clientWidth
@@ -166,38 +239,44 @@ void main() {
                 canvas.width = Math.round(W * dpr)
                 canvas.height = Math.round(H * dpr)
                 gl.viewport(0, 0, canvas.width, canvas.height)
+                build()
             }
-            // Text the clouds gather behind: one box per rendered line, relative to the canvas.
-            const range = document.createRange()
-            const measure = () => {
-                const top = canvas.getBoundingClientRect().top
+
+            const draw = (t: number) => {
                 let n = 0
-                for (const el of document.querySelectorAll<HTMLElement>("[data-sky-clear]")) {
-                    range.selectNodeContents(el)
-                    for (const r of range.getClientRects()) {
-                        if (r.width <= 0 || n >= MAX_RECTS) continue
-                        rects.set([r.left, r.top - top, r.right, r.bottom - top], n * 4)
+                const put = (c: Cloud, dx: number, bob: number) => {
+                    for (const q of c.puffs) {
+                        if (n >= N) return
+                        const breathe = 1 + 0.035 * Math.sin(t * 0.0005 + q.ph)
+                        buf[n * 3] = c.x + dx + q.x + Math.sin(t * 0.00031 + q.ph) * 2
+                        buf[n * 3 + 1] = c.y + q.y + bob
+                        buf[n * 3 + 2] = q.r * breathe
                         n++
                     }
                 }
-                return n
-            }
-            const draw = (t: number) => {
-                const n = measure()
+                const sec = t / 1000
+                for (const c of drifting) {
+                    const w = c.span - W
+                    const x = ((c.x + sec * c.speed) % c.span) - w / 2 - c.x
+                    put(c, x, Math.sin(sec * 0.2 + c.y) * 3)
+                }
+                if (bank) put(bank, Math.sin(sec * 0.05) * bank.span * 0.2, 0)
+                if (hero) put(hero, 0, Math.sin(sec * 0.35) * 3)
+
                 const rem = parseFloat(getComputedStyle(document.documentElement).fontSize)
                 gl.uniform2f(uRes, W, H)
                 gl.uniform1f(uDpr, dpr)
                 gl.uniform1f(uTime, t)
                 gl.uniform1f(uCell, Math.max(6, rem * 0.5))
-                gl.uniform4fv(uRects, rects)
-                gl.uniform1i(uCount, n)
+                gl.uniform3fv(uC, buf)
+                gl.uniform1i(uN, n)
                 gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
             }
 
             resize()
             const still = matchMedia("(prefers-reduced-motion: reduce)").matches
-            const start = performance.now() - 60000
-            const now = () => (still ? 60000 : performance.now() - start)
+            const start = performance.now() - 40000
+            const now = () => (still ? 40000 : performance.now() - start)
             let visible = true
             new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas)
             if (still) draw(now())
@@ -216,7 +295,10 @@ void main() {
                 resize()
                 draw(now())
             })
-            document.fonts?.ready.then(() => draw(now()))
+            document.fonts?.ready.then(() => {
+                build()
+                draw(now())
+            })
         }
     }
 </script>

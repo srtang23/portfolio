@@ -1,0 +1,169 @@
+---
+// Stipple sky, drawn by a WebGL shader: coloured grain is the sky and the paper showing
+// through is the clouds. The cloud shapes drift sideways and slowly change shape, with
+// soft speckled edges, and the whole thing fades into the page at the bottom.
+// Settings live on the canvas's data attributes, so they can be changed live.
+// Still frame for reduced motion; plain paper if WebGL isn't available.
+interface Props {
+    cover?: number // how much of it is sky (0.3 to 0.7)
+    speed?: number // drift speed
+    grain?: number // speckle size, CSS px
+    colour?: "blue" | "deep" | "grey"
+}
+const { cover = 0.53, speed = 2, grain = 1, colour = "blue" } = Astro.props
+---
+
+<div class="sky" aria-hidden="true">
+    <canvas data-stipple data-cover={cover} data-speed={speed} data-grain={grain} data-colour={colour}></canvas>
+</div>
+
+<style>
+    .sky {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--sky-h, 115vh);
+        pointer-events: none;
+        overflow: hidden;
+        /* fade the bottom into the page's paper */
+        -webkit-mask-image: linear-gradient(#000 70%, transparent 100%);
+        mask-image: linear-gradient(#000 70%, transparent 100%);
+    }
+    canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<script>
+    const PALETTES: Record<string, [number[], number[]]> = {
+        blue: [
+            [0.36, 0.56, 0.86],
+            [0.55, 0.72, 0.94],
+        ],
+        deep: [
+            [0.16, 0.38, 0.78],
+            [0.33, 0.55, 0.9],
+        ],
+        grey: [
+            [0.62, 0.62, 0.62],
+            [0.76, 0.76, 0.76],
+        ],
+    }
+
+    const VERT = "attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }"
+    const FRAG = `
+precision highp float;
+uniform vec2 uRes;     // device px
+uniform float uTime;   // seconds, already scaled by speed
+uniform float uCover;
+uniform float uGrain;  // device px
+uniform vec3 uDotA;
+uniform vec3 uDotB;
+
+float hash(vec2 p){ p = fract(p*vec2(443.897, 441.423)); p += dot(p, p.yx + 19.19); return fract((p.x + p.y)*p.x); }
+float noise(vec2 p){
+    vec2 i = floor(p), f = fract(p);
+    vec2 u = f*f*(3.0 - 2.0*f);
+    return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y);
+}
+float fbm(vec2 p){
+    float s = 0.0, a = 0.5;
+    mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+    for (int i = 0; i < 5; i++){ s += a*noise(p); p = m*p; a *= 0.5; }
+    return s;
+}
+void main(){
+    vec2 px = gl_FragCoord.xy;
+    float scale = min(uRes.x, uRes.y);
+    vec2 p = px / scale * vec2(3.6, 4.8);
+    float t = uTime;
+
+    // drift sideways, with a gentle warp so the edges billow and slowly change shape
+    vec2 drift = vec2(t*0.05, t*0.008);
+    vec2 w = vec2(fbm(p*0.8 + drift + vec2(0.0, t*0.03)), fbm(p*0.8 + drift + vec2(5.2, 1.3) - t*0.025));
+    float f = fbm(p + drift + 0.9*(w - 0.5));
+    f += 0.12*(noise(p*4.0 + drift*2.0) - 0.5);
+
+    // sky amount: 1 in the sky, 0 inside a cloud, with a short speckled edge
+    float sky = smoothstep(uCover - 0.05, uCover + 0.07, f);
+    sky *= 0.5 + 0.18*smoothstep(uCover + 0.05, uCover + 0.25, f);
+
+    // stipple: each grain cell is a dot with its own fixed threshold and tone
+    vec2 cell = floor(px / uGrain);
+    float on = step(hash(cell), sky);
+    vec3 tone = mix(uDotA, uDotB, hash(cell + 17.0));
+    vec3 paper = vec3(0.984, 0.980, 0.969);
+    gl_FragColor = vec4(mix(paper, tone, on), 1.0);
+}`
+
+    const canvas = document.querySelector<HTMLCanvasElement>("[data-stipple]")
+    const gl = canvas?.getContext("webgl", { antialias: false })
+    if (canvas && gl) {
+        const sh = (type: number, src: string) => {
+            const s = gl.createShader(type)!
+            gl.shaderSource(s, src)
+            gl.compileShader(s)
+            return s
+        }
+        const prog = gl.createProgram()!
+        gl.attachShader(prog, sh(gl.VERTEX_SHADER, VERT))
+        gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG))
+        gl.linkProgram(prog)
+        if (gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+            gl.useProgram(prog)
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW)
+            const loc = gl.getAttribLocation(prog, "a")
+            gl.enableVertexAttribArray(loc)
+            gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
+            const U = (n: string) => gl.getUniformLocation(prog, n)
+            const uRes = U("uRes"),
+                uTime = U("uTime"),
+                uCover = U("uCover"),
+                uGrain = U("uGrain"),
+                uDotA = U("uDotA"),
+                uDotB = U("uDotB")
+
+            let dpr = 1
+            const resize = () => {
+                dpr = Math.min(window.devicePixelRatio || 1, 2)
+                canvas.width = Math.round(canvas.clientWidth * dpr)
+                canvas.height = Math.round(canvas.clientHeight * dpr)
+                gl.viewport(0, 0, canvas.width, canvas.height)
+            }
+            const draw = (t: number) => {
+                const d = canvas.dataset
+                const pal = PALETTES[d.colour ?? "blue"] ?? PALETTES.blue
+                gl.uniform2f(uRes, canvas.width, canvas.height)
+                gl.uniform1f(uTime, t)
+                gl.uniform1f(uCover, parseFloat(d.cover ?? "0.53"))
+                gl.uniform1f(uGrain, parseFloat(d.grain ?? "1") * dpr)
+                gl.uniform3fv(uDotA, pal[0])
+                gl.uniform3fv(uDotB, pal[1])
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+            }
+
+            resize()
+            const still = matchMedia("(prefers-reduced-motion: reduce)").matches
+            let t = 20
+            let last = performance.now()
+            let visible = true
+            new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas)
+            const loop = (now: number) => {
+                const dt = Math.min(0.1, (now - last) / 1000)
+                last = now
+                if (visible) {
+                    if (!still) t += dt * parseFloat(canvas.dataset.speed ?? "2")
+                    draw(t)
+                }
+                requestAnimationFrame(loop)
+            }
+            requestAnimationFrame(loop)
+            addEventListener("resize", resize)
+        }
+    }
+</script>

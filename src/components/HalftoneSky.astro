@@ -21,6 +21,9 @@
         height: var(--sky-h, 115vh);
         pointer-events: none;
         overflow: hidden;
+        /* fade the bottom into the page's paper */
+        -webkit-mask-image: linear-gradient(#000 72%, transparent 100%);
+        mask-image: linear-gradient(#000 72%, transparent 100%);
     }
     canvas {
         display: block;

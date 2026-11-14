@@ -2,8 +2,9 @@
 import { links } from "../data/projects"
 
 // "case" is the lighter nav used on case studies: just a soft blur, no paper-coloured fade.
+// "sky" is the same, with white links and logo, for the Home page's blue sky.
 interface Props {
-    variant?: "default" | "case"
+    variant?: "default" | "case" | "sky"
 }
 const { variant = "default" } = Astro.props
 ---
@@ -49,7 +50,8 @@ const { variant = "default" } = Astro.props
         -webkit-mask-image: linear-gradient(#000 40%, transparent 100%);
         pointer-events: none;
     }
-    .case .fade {
+    .case .fade,
+    .sky .fade {
         inset: 0;
         background: none;
         backdrop-filter: blur(5px);
@@ -117,5 +119,15 @@ const { variant = "default" } = Astro.props
         .icon {
             display: block;
         }
+    }
+    .sky .link {
+        color: rgba(255, 255, 255, 0.78);
+    }
+    .sky .link:hover {
+        color: #fff;
+    }
+    .sky .logo img,
+    .sky .icon img {
+        filter: brightness(0) invert(1);
     }
 </style>

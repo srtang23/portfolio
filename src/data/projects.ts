@@ -10,6 +10,7 @@ export type Project = {
     tags: string[] // Home card chips
     outcome: string // Home card headline
     subtitle: string // Home card line under the headline
+    meta: string // Home caption after the slash, e.g. "Client 2026"
 }
 
 export const projects: Project[] = [
@@ -24,6 +25,7 @@ export const projects: Project[] = [
         tags: ["Client project", "UX research", "Mobile"],
         outcome: "40% fewer scheduling steps for nannies",
         subtitle: "Spilt Milk Nannies, a childcare booking platform",
+        meta: "Client 2026",
     },
     {
         slug: "pg",
@@ -35,6 +37,7 @@ export const projects: Project[] = [
         tags: ["Design research", "Strategy"],
         outcome: "New opportunities for air care innovation",
         subtitle: "Procter & Gamble, product innovation",
+        meta: "Research",
     },
     {
         slug: "sprout",
@@ -46,6 +49,7 @@ export const projects: Project[] = [
         tags: ["UX design", "Mobile", "Hardware"],
         outcome: "Self-care that grows with a living plant",
         subtitle: "Sprout, a tangible self-care app",
+        meta: "Academic 2025",
     },
     {
         slug: "turtlup",
@@ -57,6 +61,7 @@ export const projects: Project[] = [
         tags: ["UX engineering", "Web app", "Wearable"],
         outcome: "Real-time posture feedback you can tune",
         subtitle: "TurtlUp, a posture-sensing wearable",
+        meta: "Hardware 2025",
     },
 ]
 

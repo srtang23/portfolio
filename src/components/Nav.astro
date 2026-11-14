@@ -32,7 +32,8 @@ interface Props {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.25rem 2.5rem;
+        /* lines up with the Home work column (48rem wide, centred) */
+        padding: 1.25rem max(1.25rem, calc((100% - 48rem) / 2));
         pointer-events: none;
     }
     .pill {
@@ -100,14 +101,9 @@ interface Props {
         white-space: nowrap;
     }
 
-    @media (max-width: 1199.98px) {
-        .top-nav {
-            padding: 1.25rem 1.5rem;
-        }
-    }
     @media (max-width: 809.98px) {
         .top-nav {
-            padding: 1rem;
+            padding: 1rem 1.25rem;
         }
         .pill {
             height: 2.5rem;

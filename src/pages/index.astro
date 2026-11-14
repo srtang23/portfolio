@@ -3,8 +3,8 @@ import Base from "../layouts/Base.astro"
 import { projects } from "../data/projects"
 import StippleSky from "../components/StippleSky.astro"
 
-// Big card, small card, small card, big card: a 2/3 + 1/3 grid that alternates by row.
-const wide = [true, false, false, true]
+// Two columns that stack on their own; thumbnail shapes alternate so the columns fall out of step.
+const ratios = [1.78, 1.42, 1.42, 1.78]
 
 const headline = ["A", "product", "designer", "who", "creates", "with", "vision"]
 ---
@@ -32,24 +32,23 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         <section class="work" id="selected-work" aria-label="Selected work">
             <div class="grid">
                 {
-                    projects.map((p, i) => (
-                        <a class:list={["card", "rise", { wide: wide[i % wide.length] }]} href={p.href} style={`--d:${(i % 2) * 0.08}s`}>
-                            <div class="thumb">
-                                <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
-                                <span class="go" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M7 17 17 7M8 7h9v9" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <ul class="tags" aria-label="Tags">
-                                {p.tags.map((t) => (
-                                    <li>{t}</li>
-                                ))}
-                            </ul>
-                            <h3 class="outcome">{p.outcome}</h3>
-                            <p class="subtitle">{p.subtitle}</p>
-                        </a>
+                    [0, 1].map((col) => (
+                        <div class="col">
+                            {projects.map((p, i) =>
+                                i % 2 === col ? (
+                                    <a class="card rise" href={p.href} style={`--d:${col * 0.08}s; --ratio:${ratios[i % ratios.length]}; --order:${i}`}>
+                                        <div class="thumb">
+                                            <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
+                                        </div>
+                                        <p class="caption">
+                                            <span class="name">{p.title}</span>
+                                            <span class="slash" aria-hidden="true">/</span>
+                                            <span class="meta">{p.meta}</span>
+                                        </p>
+                                    </a>
+                                ) : null,
+                            )}
+                        </div>
                     ))
                 }
             </div>
@@ -114,34 +113,32 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     }
 
     /* ---------- Work ---------- */
+    /* A centred column, shared with the nav (see Nav.astro) */
     .work {
-        max-width: 85rem;
-        margin: 0 auto;
-        padding: 2rem 3rem 9rem;
-        display: flex;
-        flex-direction: column;
-        gap: 2.5rem;
+        --col: 48rem;
+        padding: 1rem max(1.25rem, calc((100% - var(--col)) / 2)) 9rem;
     }
     .grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 4rem 1.25rem;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: start;
+    }
+    .col {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
     .card {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-    }
-    .card.wide {
-        grid-column: span 2;
+        gap: 0.5rem;
     }
     .thumb {
-        position: relative;
-        height: 28rem;
-        border-radius: 1.25rem;
+        aspect-ratio: var(--ratio, 1.6);
+        border-radius: 0.375rem;
         overflow: hidden;
         background: #eceae4;
-        margin-bottom: 0.5rem;
     }
     .thumb img {
         width: 100%;
@@ -151,55 +148,25 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         transition: transform 0.9s var(--spring);
     }
     .card:hover .thumb img {
-        transform: scale(1.04);
+        transform: scale(1.03);
     }
-    .go {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        width: 2.75rem;
-        height: 2.75rem;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-        background: var(--ink);
-        color: #fff;
-        transition:
-            transform 0.5s var(--spring),
-            background-color 0.3s ease;
-    }
-    .go svg {
-        width: 1.125rem;
-        height: 1.125rem;
-    }
-    .card:hover .go {
-        transform: rotate(45deg) scale(1.08);
-        background: var(--accent);
-    }
-    .tags {
-        list-style: none;
-        margin: 0;
-        padding: 0;
+    .caption {
         display: flex;
-        flex-wrap: wrap;
-        gap: 0.375rem;
+        gap: 0.5rem;
+        font: 400 0.9375rem/1.5 var(--sans);
+        letter-spacing: 0.005em;
     }
-    .tags li {
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.375rem;
-        background: rgba(17, 17, 17, 0.06);
-        font: 500 0.75rem/1.3 var(--sans);
-        color: var(--ink-2);
-    }
-    .outcome {
-        max-width: 34rem;
-        font: 500 1.75rem/1.2 var(--sans);
-        letter-spacing: -0.02em;
+    .name {
         color: var(--ink);
     }
-    .subtitle {
-        font: 400 0.9375rem/1.4 var(--sans);
+    .slash,
+    .meta {
         color: var(--label);
+    }
+    .card:hover .name {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+        text-decoration-color: var(--border);
     }
 
     /* cards lift and settle in as they scroll into view */
@@ -238,22 +205,6 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         .lede {
             font-size: 1.125rem;
         }
-        .work {
-            padding: 1rem 2rem 7rem;
-        }
-        .grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem 1rem;
-        }
-        .card.wide {
-            grid-column: span 2;
-        }
-        .thumb {
-            height: 24rem;
-        }
-        .outcome {
-            font-size: 1.5rem;
-        }
     }
 
     /* ---------- Phone ---------- */
@@ -270,28 +221,21 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         }
         .work {
             padding: 0 1.25rem 6rem;
-            gap: 1.75rem;
         }
+        /* one column, back in the original order */
         .grid {
-            grid-template-columns: 1fr;
-            gap: 2.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
-        .card.wide {
-            grid-column: auto;
+        .col {
+            display: contents;
+        }
+        .card {
+            order: var(--order);
         }
         .thumb {
-            height: auto;
-            aspect-ratio: 1.25;
-            border-radius: 1rem;
-        }
-        .go {
-            width: 2.25rem;
-            height: 2.25rem;
-            top: 0.75rem;
-            right: 0.75rem;
-        }
-        .outcome {
-            font-size: 1.375rem;
+            aspect-ratio: 1.5;
         }
     }
 </style>

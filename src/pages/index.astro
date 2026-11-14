@@ -7,7 +7,7 @@ import HalftoneSky from "../components/HalftoneSky.astro"
 const ratios = [1.78, 1.27, 1.45, 1.78]
 ---
 
-<Base title="Sophia Tang · Product Designer" nav="sky">
+<Base title="Sophia Tang · Product Designer">
     <HalftoneSky />
     <main class="home">
         <header class="intro">
@@ -28,10 +28,10 @@ const ratios = [1.78, 1.27, 1.45, 1.78]
                                         <div class="thumb">
                                             <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
                                         </div>
-                                        <h2 class="title" data-sky-clear>
+                                        <h2 class="title">
                                             {p.homeTitle ?? p.title}
                                         </h2>
-                                        <p class="blurb" data-sky-clear>
+                                        <p class="blurb">
                                             {p.blurb}
                                         </p>
                                     </a>
@@ -47,6 +47,8 @@ const ratios = [1.78, 1.27, 1.45, 1.78]
 
 <style>
     .home {
+        position: relative;
+        isolation: isolate;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -72,13 +74,13 @@ const ratios = [1.78, 1.27, 1.45, 1.78]
         font-size: 4rem;
         line-height: 1.05;
         font-weight: 500;
-        color: #fff;
+        color: var(--ink);
     }
     .lede {
         font-size: 2.75rem;
         line-height: 1.15;
         font-weight: 400;
-        color: rgba(255, 255, 255, 0.78);
+        color: var(--label);
     }
     .work {
         display: flex;
@@ -126,22 +128,12 @@ const ratios = [1.78, 1.27, 1.45, 1.78]
     }
     .title {
         font: 400 1.5rem/1.2 var(--serif);
-        color: #fff;
+        color: var(--ink);
     }
     .blurb {
         font: 400 0.875rem/1.4 var(--sans);
         letter-spacing: 0.01em;
-        color: rgba(255, 255, 255, 0.82);
-    }
-    /* White text on the sky: a soft blue halo keeps it readable over the white clouds */
-    .home {
-        text-shadow: 0 0 1.5rem rgba(12, 70, 160, 0.55), 0 1px 2px rgba(12, 60, 140, 0.35);
-    }
-    .home .tag {
-        color: rgba(255, 255, 255, 0.75);
-    }
-    .thumb {
-        box-shadow: 0 1.25rem 2.5rem -1.5rem rgba(8, 40, 100, 0.55);
+        color: var(--label);
     }
 
     @media (max-width: 1199.98px) {

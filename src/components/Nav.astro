@@ -35,6 +35,17 @@ interface Props {
         /* lines up with the page edges (Home cards, case study side nav and text) */
         padding: 1.25rem var(--gutter);
         pointer-events: none;
+        transition:
+            transform 0.45s var(--spring),
+            opacity 0.3s ease;
+    }
+    /* slides away while scrolling down, comes back on scroll up */
+    .top-nav.hide {
+        transform: translateY(-110%);
+        opacity: 0;
+    }
+    .top-nav.hide .pill {
+        pointer-events: none;
     }
     .pill {
         pointer-events: auto;
@@ -120,4 +131,33 @@ interface Props {
             padding: 0 1rem;
         }
     }
+    @media (prefers-reduced-motion: reduce) {
+        .top-nav {
+            transition: opacity 0.2s ease;
+        }
+        .top-nav.hide {
+            transform: none;
+        }
+    }
 </style>
+
+<script>
+    // Hide on scroll down, show on scroll up (always shown near the top of the page,
+    // and whenever something in the nav has keyboard focus).
+    const nav = document.querySelector<HTMLElement>(".top-nav")
+    if (nav) {
+        let lastY = scrollY
+        let frame = 0
+        const update = () => {
+            frame = 0
+            const y = Math.max(0, scrollY)
+            const dy = y - lastY
+            if (Math.abs(dy) < 6) return
+            const hide = dy > 0 && y > 120 && !nav.contains(document.activeElement)
+            nav.classList.toggle("hide", hide)
+            lastY = y
+        }
+        addEventListener("scroll", () => frame || (frame = requestAnimationFrame(update)), { passive: true })
+        nav.addEventListener("focusin", () => nav.classList.remove("hide"))
+    }
+</script>

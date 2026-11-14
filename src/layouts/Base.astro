@@ -6,7 +6,7 @@ import "../styles/global.css"
 interface Props {
     title: string
     description?: string
-    nav?: "default" | "case" | "sky"
+    nav?: "default" | "case" | "sky" | "none"
     noindex?: boolean // keep preview pages out of search
 }
 const { title, nav = "default", noindex = false, description = "Sophia Tang is a product designer creating experiences through research and systems thinking." } = Astro.props
@@ -28,7 +28,7 @@ const { title, nav = "default", noindex = false, description = "Sophia Tang is a
     </head>
     <body>
         <div class="paper" aria-hidden="true"></div>
-        <Nav variant={nav} />
+        {nav !== "none" && <Nav variant={nav} />}
         <slot />
 
         <script>

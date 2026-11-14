@@ -80,8 +80,15 @@
 
 <div class="controls">
     <label>Sky <input id="cover" type="range" min="0.3" max="0.7" step="0.01" value="0.5" /></label>
-    <label>Speed <input id="speed" type="range" min="0" max="3" step="0.1" value="1" /></label>
+    <label>Speed <input id="speed" type="range" min="0" max="3" step="0.1" value="2" /></label>
     <label>Grain <input id="grain" type="range" min="1" max="3" step="1" value="1" /></label>
+    <label>Colour
+        <select id="colour">
+            <option value="blue" selected>Blue sky</option>
+            <option value="deep">Deep blue</option>
+            <option value="grey">Grey</option>
+        </select>
+    </label>
 </div>
 
 <script>
@@ -92,6 +99,8 @@ uniform vec2 uRes;     // device px
 uniform float uTime;   // seconds (already scaled by speed)
 uniform float uCover;  // how much is sky
 uniform float uGrain;  // stipple size in device px
+uniform vec3 uDotA;    // darker dot colour
+uniform vec3 uDotB;    // lighter dot colour
 
 // --- hash + value noise ---
 float hash(vec2 p){ p = fract(p*vec2(443.897,441.423)); p += dot(p, p.yx+19.19); return fract((p.x+p.y)*p.x); }
@@ -129,10 +138,10 @@ void main(){
     vec2 cell = floor(px / uGrain);
     float th = hash(cell);
     float dotOn = step(th, sky);
-    // dots are a slightly varied mid grey
-    float tone = 0.62 + 0.14*hash(cell + 17.0);
+    // dots vary a little between two tones
+    vec3 tone = mix(uDotA, uDotB, hash(cell + 17.0));
     vec3 paper = vec3(0.984, 0.980, 0.969);
-    vec3 col = mix(paper, vec3(tone), dotOn);
+    vec3 col = mix(paper, tone, dotOn);
     gl_FragColor = vec4(col, 1.0);
 }`
 
@@ -150,9 +159,14 @@ const loc = gl.getAttribLocation(prog, "a")
 gl.enableVertexAttribArray(loc)
 gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
 const u = (n) => gl.getUniformLocation(prog, n)
-const uRes = u("uRes"), uTime = u("uTime"), uCover = u("uCover"), uGrain = u("uGrain")
+const uRes = u("uRes"), uTime = u("uTime"), uCover = u("uCover"), uGrain = u("uGrain"), uDotA = u("uDotA"), uDotB = u("uDotB")
+const PALETTES = {
+    blue: [[0.36, 0.56, 0.86], [0.55, 0.72, 0.94]],
+    deep: [[0.16, 0.38, 0.78], [0.33, 0.55, 0.90]],
+    grey: [[0.62, 0.62, 0.62], [0.76, 0.76, 0.76]],
+}
 
-const cover = document.getElementById("cover"), speed = document.getElementById("speed"), grain = document.getElementById("grain")
+const cover = document.getElementById("cover"), speed = document.getElementById("speed"), grain = document.getElementById("grain"), colour = document.getElementById("colour")
 
 let dpr = 1
 function resize() {
@@ -174,6 +188,9 @@ function frame(now) {
     gl.uniform1f(uTime, t)
     gl.uniform1f(uCover, parseFloat(cover.value))
     gl.uniform1f(uGrain, parseFloat(grain.value) * dpr)
+    const pal = PALETTES[colour.value]
+    gl.uniform3fv(uDotA, pal[0])
+    gl.uniform3fv(uDotB, pal[1])
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
     requestAnimationFrame(frame)
 }

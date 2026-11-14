@@ -2,6 +2,9 @@
 import Base from "../layouts/Base.astro"
 import { projects } from "../data/projects"
 import HalftoneSky from "../components/HalftoneSky.astro"
+
+// Thumbnail shapes, in order: wide, tall, mid, wide... so the two columns fall out of step.
+const ratios = [1.78, 1.27, 1.45, 1.78]
 ---
 
 <Base title="Sophia Tang · Product Designer" nav="sky">
@@ -14,16 +17,27 @@ import HalftoneSky from "../components/HalftoneSky.astro"
 
         <section class="work" id="selected-work" aria-labelledby="selected-work-tag">
             <p class="tag reveal" id="selected-work-tag" data-sky-clear>#selected-work</p>
+            <!-- Two columns that stack independently, with cards of different heights -->
             <div class="grid">
                 {
-                    projects.map((p, i) => (
-                        <a class="card reveal" href={p.href} style={`--delay: ${0.12 + (i % 2) * 0.06}s`}>
-                            <div class="thumb">
-                                <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
-                            </div>
-                            <h2 class="title" data-sky-clear>{p.homeTitle ?? p.title}</h2>
-                            <p class="blurb" data-sky-clear>{p.blurb}</p>
-                        </a>
+                    [0, 1].map((col) => (
+                        <div class="col">
+                            {projects.map((p, i) =>
+                                i % 2 === col ? (
+                                    <a class="card reveal" href={p.href} style={`--delay: ${0.12 + col * 0.06}s; --ratio: ${ratios[i % ratios.length]}; --order: ${i}`}>
+                                        <div class="thumb">
+                                            <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
+                                        </div>
+                                        <h2 class="title" data-sky-clear>
+                                            {p.homeTitle ?? p.title}
+                                        </h2>
+                                        <p class="blurb" data-sky-clear>
+                                            {p.blurb}
+                                        </p>
+                                    </a>
+                                ) : null,
+                            )}
+                        </div>
                     ))
                 }
             </div>
@@ -75,7 +89,13 @@ import HalftoneSky from "../components/HalftoneSky.astro"
     .grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 3.5rem 1.75rem;
+        gap: 1.75rem;
+        align-items: start;
+    }
+    .col {
+        display: flex;
+        flex-direction: column;
+        gap: 3.5rem;
     }
     .card {
         display: flex;
@@ -91,7 +111,7 @@ import HalftoneSky from "../components/HalftoneSky.astro"
         transform: translateY(-0.25rem);
     }
     .thumb {
-        aspect-ratio: 1.6;
+        aspect-ratio: var(--ratio, 1.6);
         border-radius: 0.25rem;
         overflow: hidden;
     }
@@ -140,6 +160,9 @@ import HalftoneSky from "../components/HalftoneSky.astro"
         .grid {
             gap: 1.75rem;
         }
+        .col {
+            gap: 2.5rem;
+        }
     }
     @media (max-width: 809.98px) {
         .intro {
@@ -154,9 +177,20 @@ import HalftoneSky from "../components/HalftoneSky.astro"
         .work {
             padding: 0 1.25rem 6rem;
         }
+        /* one column on phones, back in the original order */
         .grid {
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 2.25rem;
+        }
+        .col {
+            display: contents;
+        }
+        .card {
+            order: var(--order);
+        }
+        .thumb {
+            aspect-ratio: 1.6;
         }
     }
 </style>

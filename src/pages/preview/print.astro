@@ -16,6 +16,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         const q = new URLSearchParams(location.search)
         document.documentElement.dataset.g = q.get("g") || "dots"
         document.documentElement.dataset.n = q.get("n") || "mast"
+        document.documentElement.dataset.hd = q.get("hd") || "serif"
     </script>
     <div class="nv nv-pill"><Nav /></div>
     <header class="nv nv-mast">
@@ -70,6 +71,8 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     <div class="switch">
         <span>Paper</span>
         <a data-k="g" data-v="paper">Now</a><a data-k="g" data-v="dots">Dot grain</a><a data-k="g" data-v="edges">Dots + edges</a>
+        <span>Title</span>
+        <a data-k="hd" data-v="italic">Italic</a><a data-k="hd" data-v="serif">Serif</a><a data-k="hd" data-v="sans">Sans</a>
         <span>Nav</span>
         <a data-k="n" data-v="pill">Pills</a><a data-k="n" data-v="mast">Masthead</a><a data-k="n" data-v="rule">+ Rule</a><a data-k="n" data-v="caps">Small caps</a><a data-k="n" data-v="tag">Paper tags</a>
     </div>
@@ -87,6 +90,11 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     .edges{position:fixed;inset:0;z-index:-1;pointer-events:none;display:none;background:url("/images/preview/stipple.png");background-size:256px 256px;
         -webkit-mask-image:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 62%,#000 100%);mask-image:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 62%,#000 100%);opacity:.5}
     html[data-g="edges"] .edges{display:block}
+
+    /* ---------- headline ---------- */
+    html[data-hd="serif"] .headline{font-style:normal;font-weight:400;letter-spacing:-.03em;font-size:4.6rem;max-width:58rem}
+    html[data-hd="sans"] .headline{font-family:var(--sans);font-style:normal;font-weight:500;letter-spacing:-.045em;line-height:1.02;font-size:4.1rem;max-width:58rem}
+    @media (max-width:809.98px){html[data-hd="serif"] .headline{font-size:2.375rem}html[data-hd="sans"] .headline{font-size:2.125rem}}
 
     /* ---------- navs ---------- */
     .nv{display:none}

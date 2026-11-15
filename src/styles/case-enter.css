@@ -1,0 +1,66 @@
+/*
+ * Case study entrance, in step with Home's: the coloured hero settles in, the title
+ * rises, the product image slides up from the bottom, and the navs arrive last.
+ */
+main.case .hero {
+    animation: case-hero 1.1s ease both;
+}
+main.case .hero .title-area h1 {
+    animation: case-up 1.1s var(--spring) both 0.45s;
+}
+main.case .hero .hero-window {
+    animation: case-rise 1.3s var(--spring) both 0.7s;
+}
+.top-nav .pill {
+    animation: case-fade 0.9s ease both 1s;
+}
+.case-nav {
+    animation: case-fade 0.9s ease both 1.15s;
+}
+@keyframes case-hero {
+    from {
+        opacity: 0;
+        transform: scale(1.03);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes case-up {
+    from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes case-rise {
+    from {
+        opacity: 0;
+        transform: translateY(4rem);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes case-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    main.case .hero,
+    main.case .hero .title-area h1,
+    main.case .hero .hero-window,
+    .top-nav .pill,
+    .case-nav {
+        animation: none;
+    }
+}

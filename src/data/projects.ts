@@ -21,7 +21,7 @@ export const projects: Project[] = [
         title: "Spilt Milk Nannies",
         homeTitle: "Streamlining the Digital Caregiver Workflow",
         blurb: "Redesigning the nanny side of a childcare booking platform to give caregivers more agency.",
-        image: "/images/card-smn.jpg",
+        image: "/images/card-smn-grain.jpg",
         alt: "Five phone screens from the Spilt Milk Nannies redesign",
         tags: ["Client project", "UX research", "Mobile"],
         outcome: "40% fewer scheduling steps for nannies",

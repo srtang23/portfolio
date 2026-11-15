@@ -8,7 +8,7 @@ interface Props {
     cover?: number // how much of it is sky (0.3 to 0.7)
     speed?: number // drift speed
     grain?: number // speckle size, CSS px
-    colour?: "blue" | "deep" | "grey"
+    colour?: "blue" | "deep" | "grey" | "teal" | "green" | "periwinkle"
 }
 const { cover = 0.53, speed = 2, grain = 1, colour = "blue" } = Astro.props
 ---
@@ -47,6 +47,18 @@ const { cover = 0.53, speed = 2, grain = 1, colour = "blue" } = Astro.props
         deep: [
             [0.16, 0.38, 0.78],
             [0.33, 0.55, 0.9],
+        ],
+        teal: [
+            [0.2, 0.62, 0.64],
+            [0.42, 0.78, 0.78],
+        ],
+        green: [
+            [0.48, 0.6, 0.3],
+            [0.66, 0.75, 0.45],
+        ],
+        periwinkle: [
+            [0.36, 0.42, 0.86],
+            [0.55, 0.6, 0.94],
         ],
         grey: [
             [0.62, 0.62, 0.62],

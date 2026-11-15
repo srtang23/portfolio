@@ -8,7 +8,7 @@ interface Props {
     cover?: number // how much of it is sky (0.3 to 0.7)
     speed?: number // drift speed
     grain?: number // speckle size, CSS px
-    colour?: "blue" | "deep" | "grey" | "teal" | "green" | "periwinkle"
+    colour?: "blue" | "deep" | "grey" | "dusty" | "teal" | "green" | "periwinkle"
 }
 const { cover = 0.53, speed = 2, grain = 1, colour = "blue" } = Astro.props
 ---
@@ -60,6 +60,10 @@ const { cover = 0.53, speed = 2, grain = 1, colour = "blue" } = Astro.props
             [0.36, 0.42, 0.86],
             [0.55, 0.6, 0.94],
         ],
+        dusty: [
+            [0.47, 0.58, 0.74],
+            [0.63, 0.71, 0.82],
+        ],
         grey: [
             [0.62, 0.62, 0.62],
             [0.76, 0.76, 0.76],
@@ -75,6 +79,7 @@ uniform float uCover;
 uniform float uGrain;  // device px
 uniform vec3 uDotA;
 uniform vec3 uDotB;
+uniform vec3 uPaper;   // the page background, so the clouds always match it
 
 float hash(vec2 p){ p = fract(p*vec2(443.897, 441.423)); p += dot(p, p.yx + 19.19); return fract((p.x + p.y)*p.x); }
 float noise(vec2 p){
@@ -108,7 +113,7 @@ void main(){
     vec2 cell = floor(px / uGrain);
     float on = step(hash(cell), sky);
     vec3 tone = mix(uDotA, uDotB, hash(cell + 17.0));
-    vec3 paper = vec3(0.984, 0.980, 0.969);
+    vec3 paper = uPaper;
     gl_FragColor = vec4(mix(paper, tone, on), 1.0);
 }`
 
@@ -138,8 +143,17 @@ void main(){
                 uCover = U("uCover"),
                 uGrain = U("uGrain"),
                 uDotA = U("uDotA"),
-                uDotB = U("uDotB")
+                uDotB = U("uDotB"),
+                uPaper = U("uPaper")
 
+            // read --paper from the page, so the clouds are always the page colour
+            const probe = document.createElement("i")
+            probe.style.cssText = "position:absolute;width:0;height:0;color:var(--paper)"
+            document.body.append(probe)
+            const paperRGB = () => {
+                const m = getComputedStyle(probe).color.match(/[\d.]+/g) ?? ["251", "250", "247"]
+                return [+m[0] / 255, +m[1] / 255, +m[2] / 255]
+            }
             let dpr = 1
             const resize = () => {
                 dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -156,6 +170,7 @@ void main(){
                 gl.uniform1f(uGrain, parseFloat(d.grain ?? "1") * dpr)
                 gl.uniform3fv(uDotA, pal[0])
                 gl.uniform3fv(uDotB, pal[1])
+                gl.uniform3fv(uPaper, paperRGB())
                 gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
             }
 

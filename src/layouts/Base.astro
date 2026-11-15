@@ -25,14 +25,6 @@ const { title, nav = "default", noindex = false, description = "Sophia Tang is a
         <link rel="icon" type="image/png" href="/images/favicon.png" />
         <link rel="preload" href="/fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="preload" href="/fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
-        <!-- Preview: ?paper=cool tries the cool white paper across the site while you browse; ?paper=off turns it back -->
-        <script is:inline>
-            try {
-                const q = new URLSearchParams(location.search).get("paper")
-                if (q) sessionStorage.setItem("paper", q)
-                if (sessionStorage.getItem("paper") === "cool") document.documentElement.style.setProperty("--paper", "#f7f9fc")
-            } catch {}
-        </script>
     </head>
     <body>
         <div class="paper" aria-hidden="true"></div>

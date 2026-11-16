@@ -53,6 +53,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         <a href="?v=1">1 · No sky</a>
         <a href="?v=2">2 · Smaller hero</a>
         <a href="?v=3">3 · No headline</a>
+        <a href="?v=2u">2 · Upright</a>
     </nav>
 </Base>
 
@@ -65,10 +66,13 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     html[data-v="1"] .sky{display:none}
 
     /* 2: smaller, left-aligned hero; cards start higher */
-    html[data-v="2"] .hero{min-height:0;align-items:flex-start;text-align:left;padding:10rem var(--gutter) 4rem;gap:1.25rem}
-    html[data-v="2"] .headline{font-size:3rem;max-width:36rem}
-    html[data-v="2"] .lede{max-width:34rem;text-wrap:pretty}
-    html[data-v="2"] .sky{--sky-h:70vh}
+    html[data-v="2u"] .switch a[href="?v=2u"]{background:#fff;color:#111}
+    html[data-v="2"] .hero,html[data-v="2u"] .hero{min-height:0;align-items:flex-start;text-align:left;padding:10rem var(--gutter) 4rem;gap:1.25rem}
+    html[data-v="2"] .headline,html[data-v="2u"] .headline{font-size:3rem;max-width:36rem}
+    html[data-v="2"] .lede,html[data-v="2u"] .lede{max-width:34rem;text-wrap:pretty}
+    html[data-v="2"] .sky,html[data-v="2u"] .sky{--sky-h:70vh}
+    /* 2u: same as 2, upright serif headline */
+    html[data-v="2u"] .headline{font-style:normal;font-weight:400;letter-spacing:-.025em;font-size:2.875rem;line-height:1.08}
 
     /* 3: no headline, just the intro line above the cards */
     html[data-v="3"] .headline{display:none}
@@ -77,8 +81,8 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     html[data-v="3"] .sky{--sky-h:70vh}
 
     @media (max-width:809.98px){
-        html[data-v="2"] .headline{font-size:2.25rem}
-        html[data-v="2"] .hero,html[data-v="3"] .hero{padding-top:7rem}
+        html[data-v="2"] .headline,html[data-v="2u"] .headline{font-size:2.125rem}
+        html[data-v="2"] .hero,html[data-v="2u"] .hero,html[data-v="3"] .hero{padding-top:7rem}
         html[data-v="3"] .lede{font-size:1.1875rem}
         .switch{left:.5rem;right:.5rem;transform:none;overflow-x:auto}
     }

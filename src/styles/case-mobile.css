@@ -4,13 +4,6 @@
  * Loaded by every case study page; desktop and tablet are unchanged.
  * Selectors start with main.case so they outrank each page's own styles.
  */
-/* All sizes: case study titles use the italic serif, like the Home headline */
-main.case .hero .title-area h1 {
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.03em;
-}
-
 @media (max-width: 809.98px) {
     /* ---------- Hero ---------- */
     main.case .hero {

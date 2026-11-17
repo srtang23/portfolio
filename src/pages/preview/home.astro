@@ -17,8 +17,8 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     <main class="home">
         <!-- Hero -->
         <header class="hero">
-            <p class="hello">Hello <img src="/images/about/park.jpg" alt="" width="24" height="24" /> I’m <b>Sophia Tang</b></p>
-            <p class="statement">I create experiences grounded in research and systems thinking, <span>bringing curiosity to everyday interactions and a strategic lens to complex challenges.</span></p>
+            <p class="hello">Hello <img src="/images/avatar.jpg" alt="" width="24" height="24" /> I’m <b>Sophia Tang</b></p>
+            <p class="statement">I create <b>experiences</b> grounded in <b>research</b> and <b>systems thinking</b>, bringing <b>curiosity</b> to everyday interactions and a <b>strategic lens</b> to complex challenges.</p>
             <h1 class="headline" data-sky-clear>{headline.join(" ")}</h1>
             <p class="lede" data-sky-clear>
                 I’m Sophia. I create experiences grounded in research and systems thinking, bringing curiosity to everyday interactions and a strategic lens to complex challenges.
@@ -73,8 +73,8 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     html[data-v="4"] .hello{display:flex;align-items:center;gap:.5rem;font:400 .875rem/1 var(--sans);color:var(--body);animation:enter-up 1s var(--spring) both .1s}
     html[data-v="4"] .hello img{width:1.5rem;height:1.5rem;border-radius:50%;object-fit:cover}
     html[data-v="4"] .hello b{font-weight:400;color:var(--ink)}
-    html[data-v="4"] .statement span{color:#a3a3a3}
-    html[data-v="4"] .statement{display:block;max-width:60rem;font:400 2.375rem/1.2 var(--sans);letter-spacing:-.035em;color:#4a4a4a;text-wrap:balance;animation:enter-up 1.1s var(--spring) both .3s}
+    html[data-v="4"] .statement b{font-weight:inherit;color:#3a3a3a}
+    html[data-v="4"] .statement{display:block;max-width:60rem;font:400 2.375rem/1.2 var(--sans);letter-spacing:-.035em;color:#a8a8a8;text-wrap:balance;animation:enter-up 1.1s var(--spring) both .3s}
 
     /* 1: no sky, plain paper */
     html[data-v="1"] .sky{display:none}

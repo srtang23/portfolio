@@ -1,23 +1,21 @@
 ---
 import Base from "../layouts/Base.astro"
 import { projects } from "../data/projects"
-import StippleSky from "../components/StippleSky.astro"
 
 // Two columns that stack on their own; thumbnail shapes alternate so the columns fall out of step.
 const ratios = [1.78, 1.42, 1.42, 1.78]
 
-const headline = ["A", "product", "designer", "who", "creates", "with", "vision"]
 ---
 
 <Base title="Sophia Tang · Product Designer">
-    <StippleSky />
     <main class="home">
         <!-- Hero -->
         <header class="hero">
-            <h1 class="headline" data-sky-clear>{headline.join(" ")}</h1>
-            <p class="lede" data-sky-clear>
-                I’m Sophia. I create experiences grounded in research and systems thinking, bringing curiosity to everyday interactions and a strategic lens to complex challenges.
-            </p>
+            <p class="hello">Hello <img src="/images/avatar.jpg" alt="" width="32" height="32" /> <span>I’m <b>Sophia Tang</b></span></p>
+            <h1 class="statement">
+                I create experiences grounded in <b>research and systems thinking</b>, bringing curiosity to everyday interactions and a <b>strategic lens</b> to complex
+                challenges.
+            </h1>
         </header>
 
         <!-- Work -->
@@ -56,57 +54,72 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     /* ---------- Hero ---------- */
     /* shorter than the screen, so the first project cards peek in below */
     .hero {
-        min-height: 80vh;
-        min-height: 80svh;
+        min-height: 79vh;
+        min-height: 79svh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 2rem;
-        padding: 7rem 3rem 3rem;
+        gap: 1.5rem;
+        padding: 8rem var(--gutter) 2rem;
         text-align: center;
     }
-    .headline {
-        max-width: 52rem;
-        font: italic 400 5.5rem/0.98 var(--serif);
-        letter-spacing: -0.035em;
-        color: var(--ink);
-    }
-    .lede {
-        max-width: 47rem;
-        text-wrap: balance;
-        font: 400 1.0625rem/1.55 var(--sans);
+    .hello {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        font: 400 1.0625rem/1 var(--sans);
         color: var(--body);
     }
+    .hello img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .hello b {
+        font-weight: 400;
+    }
+    /* light grey sentence, with the key phrases in a darker grey */
+    .statement {
+        max-width: 60rem;
+        font: 400 2.375rem/1.2 var(--sans);
+        letter-spacing: -0.035em;
+        color: #a8a8a8;
+        text-wrap: balance;
+    }
+    .statement b {
+        font-weight: inherit;
+        color: #3a3a3a;
+    }
 
-    /* Entrance: the clouds gather over plain paper, then the words settle on top,
-       and the nav arrives last */
-    .headline {
-        animation: enter-up 1.2s var(--spring) both 1s;
+    /* Entrance: the Hello line fades in whole, then the statement builds phrase by phrase
+       (each highlighted phrase as one piece), then the cards rise in. */
+    :global(.ww) {
+        opacity: 0;
+        filter: blur(6px);
+        animation: enter-word 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        animation-delay: calc(0.15s + var(--i) * 140ms);
     }
-    .lede {
-        animation: enter-up 1.2s var(--spring) both 1.25s;
+    .hello:global(.ww) {
+        display: flex;
     }
-    :global(.sky) {
-        animation: enter-sky 2s ease both;
+    .work .grid {
+        animation: enter-up 1.1s var(--spring) both 1.6s;
     }
     :global(.top-nav .pill) {
-        animation: enter-fade 0.8s ease both 0.5s;
+        animation: enter-fade 0.8s ease both 0.1s;
     }
-    @keyframes enter-sky {
-        from {
-            opacity: 0;
-            transform: scale(1.08);
-        }
+    @keyframes enter-word {
         to {
             opacity: 1;
-            transform: none;
+            filter: blur(0);
         }
     }
     @keyframes enter-up {
         from {
             opacity: 0;
-            transform: translateY(1.25rem);
+            transform: translateY(2.5rem);
         }
         to {
             opacity: 1;
@@ -192,11 +205,12 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .headline,
-        .lede,
-        :global(.sky),
+        :global(.ww),
+        .work .grid,
         :global(.top-nav .pill) {
             animation: none;
+            opacity: 1;
+            filter: none;
         }
         .rise {
             opacity: 1;
@@ -207,25 +221,20 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
 
     /* ---------- Tablet ---------- */
     @media (max-width: 1199.98px) {
-        .headline {
-            font-size: 4rem;
-        }
-        .lede {
-            font-size: 1rem;
+        .statement {
+            font-size: 2.125rem;
         }
     }
 
     /* ---------- Phone ---------- */
     @media (max-width: 809.98px) {
         .hero {
-            padding: 6rem 1.25rem 4rem;
-            gap: 1.5rem;
+            min-height: 73svh;
+            padding: 7rem var(--gutter) 2rem;
+            gap: 1.25rem;
         }
-        .headline {
-            font-size: 2.625rem;
-        }
-        .lede {
-            font-size: 0.9375rem;
+        .statement {
+            font-size: 1.5rem;
         }
         .work {
             padding: 0 var(--gutter) 6rem;
@@ -260,4 +269,40 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         { threshold: 0 },
     )
     document.querySelectorAll(".rise").forEach((el) => io.observe(el))
+</script>
+
+<script>
+    // Split the statement into short phrases for the entrance: grey text in groups of three
+    // words, each highlighted phrase as one piece. The Hello line is a single piece.
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        let i = 0
+        const piece = (el: HTMLElement) => {
+            el.classList.add("ww")
+            el.style.setProperty("--i", String(i++))
+        }
+        const hello = document.querySelector<HTMLElement>(".hello")
+        const st = document.querySelector<HTMLElement>(".statement")
+        if (hello) piece(hello)
+        if (st) {
+            for (const node of [...st.childNodes]) {
+                if (node instanceof HTMLElement) piece(node)
+                else if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent!.replace(/\s+/g, " ")
+                    const words = text.trim().split(" ").filter(Boolean)
+                    if (!words.length) continue
+                    const frag = document.createDocumentFragment()
+                    if (text.startsWith(" ")) frag.append(" ")
+                    for (let k = 0; k < words.length; k += 3) {
+                        if (k) frag.append(" ")
+                        const s = document.createElement("span")
+                        s.textContent = words.slice(k, k + 3).join(" ")
+                        piece(s)
+                        frag.append(s)
+                    }
+                    if (text.endsWith(" ")) frag.append(" ")
+                    node.replaceWith(frag)
+                }
+            }
+        }
+    }
 </script>

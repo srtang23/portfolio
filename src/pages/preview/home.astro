@@ -11,7 +11,10 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
 
 <Base title="Preview · Home hero" noindex>
     <script is:inline>
-        document.documentElement.dataset.v = new URLSearchParams(location.search).get("v") || "now"
+        const q = new URLSearchParams(location.search)
+        document.documentElement.dataset.v = q.get("v") || "now"
+        document.documentElement.dataset.e = q.get("e") || "now"
+        if (q.has("rec")) document.documentElement.dataset.rec = ""
     </script>
     <StippleSky />
     <main class="home">
@@ -50,6 +53,13 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
             </div>
         </section>
     </main>
+    <nav class="switch eswitch" aria-label="Entrance">
+        <a href="?v=4&e=now">Entrance: current</a>
+        <a href="?v=4&e=a">A · Soft rise</a>
+        <a href="?v=4&e=b">B · Focus</a>
+        <a href="?v=4&e=c">C · Curtain</a>
+        <a href="?v=4&e=d">D · Cards first</a>
+    </nav>
     <nav class="switch" aria-label="Hero option">
         <a href="?v=now">Current</a>
         <a href="?v=1">1 · No sky</a>
@@ -59,6 +69,41 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         <a href="?v=4">4 · Statement</a>
     </nav>
 </Base>
+
+<style is:global>
+    .eswitch{bottom:4.5rem!important}
+    html:not([data-v="4"]) .eswitch{display:none}
+    html[data-rec] .switch{display:none}
+    html[data-e="now"] .eswitch a[href$="e=now"],html[data-e="a"] .eswitch a[href$="e=a"],html[data-e="b"] .eswitch a[href$="e=b"],html[data-e="c"] .eswitch a[href$="e=c"],html[data-e="d"] .eswitch a[href$="e=d"]{background:#fff;color:#111}
+
+    @keyframes x-up{from{opacity:0;transform:translateY(2.5rem)}to{opacity:1;transform:none}}
+    @keyframes x-fade{from{opacity:0}to{opacity:1}}
+    @keyframes x-blur{from{opacity:0;filter:blur(16px);transform:scale(1.03)}to{opacity:1;filter:none;transform:none}}
+    @keyframes x-curtain{from{transform:translateY(0)}to{transform:translateY(-100%)}}
+    @keyframes x-cards{from{opacity:0;transform:translateY(40vh)}to{opacity:1;transform:none}}
+
+    html[data-v="4"]:not([data-e="now"]) .rise{opacity:1;transform:none}
+
+    html[data-v="4"][data-e="a"] .top-nav .pill{animation:x-fade .8s ease both .1s}
+    html[data-v="4"][data-e="a"] .hello{animation:x-up 1s var(--spring) both .15s}
+    html[data-v="4"][data-e="a"] .statement{animation:x-up 1s var(--spring) both .3s}
+    html[data-v="4"][data-e="a"] .work .grid{animation:x-up 1.1s var(--spring) both .5s}
+
+    html[data-v="4"][data-e="b"] .top-nav .pill{animation:x-fade .8s ease both .6s}
+    html[data-v="4"][data-e="b"] .hello{animation:x-blur 1.1s cubic-bezier(.2,.7,.2,1) both .05s}
+    html[data-v="4"][data-e="b"] .statement{animation:x-blur 1.3s cubic-bezier(.2,.7,.2,1) both .2s}
+    html[data-v="4"][data-e="b"] .work .grid{animation:x-up 1.1s var(--spring) both .75s}
+
+    html[data-v="4"][data-e="c"] body::after{content:"";position:fixed;inset:0;z-index:100;background:var(--paper);animation:x-curtain 1s cubic-bezier(.76,0,.24,1) both .15s;pointer-events:none}
+    html[data-v="4"][data-e="c"] .hello{animation:x-up 1.1s var(--spring) both .55s}
+    html[data-v="4"][data-e="c"] .statement{animation:x-up 1.1s var(--spring) both .7s}
+    html[data-v="4"][data-e="c"] .work .grid{animation:x-up 1.1s var(--spring) both .85s}
+
+    html[data-v="4"][data-e="d"] .work .grid{animation:x-cards 1.2s var(--spring) both .1s}
+    html[data-v="4"][data-e="d"] .hello{animation:x-up 1s var(--spring) both .75s}
+    html[data-v="4"][data-e="d"] .statement{animation:x-up 1s var(--spring) both .9s}
+    html[data-v="4"][data-e="d"] .top-nav .pill{animation:x-fade .8s ease both 1.1s}
+</style>
 
 <style is:global>
     .switch{position:fixed;z-index:60;left:50%;bottom:1.25rem;transform:translateX(-50%);display:flex;gap:.25rem;padding:.25rem;border-radius:999px;background:rgba(17,17,17,.88)}

@@ -91,7 +91,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         animation: enter-sky 2s ease both;
     }
     :global(.top-nav .pill) {
-        animation: enter-fade 1s ease both 1.6s;
+        animation: enter-fade 0.8s ease both 0.5s;
     }
     @keyframes enter-sky {
         from {
@@ -257,7 +257,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
                     io.unobserve(e.target)
                 }
             }),
-        { threshold: 0.12, rootMargin: "0px 0px -5% 0px" },
+        { threshold: 0 },
     )
     document.querySelectorAll(".rise").forEach((el) => io.observe(el))
 </script>

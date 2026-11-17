@@ -59,7 +59,10 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         <a href="?v=4&e=b">B · Focus</a>
         <a href="?v=4&e=c">C · Curtain</a>
         <a href="?v=4&e=d">D · Cards first</a>
-        <a href="?v=4&e=w">E · Word by word</a>
+        <a href="?v=4&e=w">E · Phrases</a>
+        <a href="?v=4&e=l">F · Line by line</a>
+        <a href="?v=4&e=k">G · Keywords last</a>
+        <a href="?v=4&e=s">H · Sweep</a>
     </nav>
     <nav class="switch" aria-label="Hero option">
         <a href="?v=now">Current</a>
@@ -75,7 +78,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     .eswitch{bottom:4.5rem!important}
     html:not([data-v="4"]) .eswitch{display:none}
     html[data-rec] .switch{display:none}
-    html[data-e="now"] .eswitch a[href$="e=now"],html[data-e="a"] .eswitch a[href$="e=a"],html[data-e="b"] .eswitch a[href$="e=b"],html[data-e="c"] .eswitch a[href$="e=c"],html[data-e="d"] .eswitch a[href$="e=d"],html[data-e="w"] .eswitch a[href$="e=w"]{background:#fff;color:#111}
+    html[data-e="now"] .eswitch a[href$="e=now"],html[data-e="a"] .eswitch a[href$="e=a"],html[data-e="b"] .eswitch a[href$="e=b"],html[data-e="c"] .eswitch a[href$="e=c"],html[data-e="d"] .eswitch a[href$="e=d"],html[data-e="w"] .eswitch a[href$="e=w"],html[data-e="l"] .eswitch a[href$="e=l"],html[data-e="k"] .eswitch a[href$="e=k"],html[data-e="s"] .eswitch a[href$="e=s"]{background:#fff;color:#111}
 
     @keyframes x-up{from{opacity:0;transform:translateY(2.5rem)}to{opacity:1;transform:none}}
     @keyframes x-fade{from{opacity:0}to{opacity:1}}
@@ -106,6 +109,30 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     html[data-v="4"][data-e="w"] .hello img{opacity:0;animation:x-fade .6s ease forwards .2s}
     html[data-v="4"][data-e="w"] .top-nav .pill{animation:x-fade .8s ease both .1s}
     html[data-v="4"][data-e="w"] .work .grid{animation:x-up 1.1s var(--spring) both 1.9s}
+    /* F: line by line. Each line of the statement rises in after the one before */
+    html[data-v="4"][data-e="l"] .statement{animation:none}
+    html[data-v="4"][data-e="l"] .hello{animation:x-up .9s var(--spring) both .1s}
+    html[data-v="4"][data-e="l"] .statement .lw{display:inline-block;opacity:0;transform:translateY(.6em);animation:x-line .9s var(--spring) forwards;animation-delay:calc(.35s + var(--l) * 180ms)}
+    html[data-v="4"][data-e="l"] .top-nav .pill{animation:x-fade .8s ease both .1s}
+    html[data-v="4"][data-e="l"] .work .grid{animation:x-up 1.1s var(--spring) both 1.1s}
+    @keyframes x-line{to{opacity:1;transform:none}}
+
+    /* G: keywords last. The sentence fades in all in light grey, then the key phrases darken */
+    html[data-v="4"][data-e="k"] .hello{animation:x-fade 1s ease both .1s}
+    html[data-v="4"][data-e="k"] .statement{animation:x-fade 1.2s ease both .3s}
+    html[data-v="4"][data-e="k"] .statement b{color:#a8a8a8;animation:x-dark .9s ease forwards;animation-delay:1.4s}
+    html[data-v="4"][data-e="k"] .statement b + b,html[data-v="4"][data-e="k"] .statement b:last-of-type{animation-delay:1.75s}
+    html[data-v="4"][data-e="k"] .top-nav .pill{animation:x-fade .8s ease both .1s}
+    html[data-v="4"][data-e="k"] .work .grid{animation:x-up 1.1s var(--spring) both 2s}
+    @keyframes x-dark{to{color:#3a3a3a}}
+
+    /* H: sweep. The text is uncovered by a soft edge travelling left to right, line after line */
+    html[data-v="4"][data-e="s"] .hello{animation:x-fade .9s ease both .1s}
+    html[data-v="4"][data-e="s"] .statement{-webkit-mask-image:linear-gradient(90deg,#000 45%,transparent 55%);mask-image:linear-gradient(90deg,#000 45%,transparent 55%);-webkit-mask-size:220% 100%;mask-size:220% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:x-sweep 1.8s cubic-bezier(.45,0,.2,1) both .3s}
+    html[data-v="4"][data-e="s"] .top-nav .pill{animation:x-fade .8s ease both .1s}
+    html[data-v="4"][data-e="s"] .work .grid{animation:x-up 1.1s var(--spring) both 1.7s}
+    @keyframes x-sweep{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+
     @keyframes x-word{to{opacity:1;filter:blur(0)}}
     html[data-v="4"][data-e="d"] .work .grid{animation:x-cards 1.2s var(--spring) both .1s}
     html[data-v="4"][data-e="d"] .hello{animation:x-up 1s var(--spring) both .75s}
@@ -411,5 +438,35 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         const st = document.querySelector(".statement")
         if (hello) wrap(hello, 4)
         if (st) wrap(st, 3)
+    }
+
+    // F: wrap every word, then number them by the line they sit on.
+    if (document.documentElement.dataset.e === "l") {
+        const st = document.querySelector<HTMLElement>(".statement")
+        if (st) {
+            const words: HTMLElement[] = []
+            const walk = (root: Node) => {
+                for (const node of [...root.childNodes]) {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        const frag = document.createDocumentFragment()
+                        for (const part of node.textContent!.split(/(\s+)/)) {
+                            if (!part) continue
+                            if (/^\s+$/.test(part)) frag.append(part)
+                            else {
+                                const w = document.createElement("span")
+                                w.className = "lw"
+                                w.textContent = part
+                                words.push(w)
+                                frag.append(w)
+                            }
+                        }
+                        node.replaceWith(frag)
+                    } else walk(node)
+                }
+            }
+            walk(st)
+            const tops = [...new Set(words.map((w) => Math.round(w.offsetTop)))].sort((a, b) => a - b)
+            words.forEach((w) => w.style.setProperty("--l", String(tops.indexOf(Math.round(w.offsetTop)))))
+        }
     }
 </script>

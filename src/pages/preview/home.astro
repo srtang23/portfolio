@@ -59,6 +59,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         <a href="?v=4&e=b">B · Focus</a>
         <a href="?v=4&e=c">C · Curtain</a>
         <a href="?v=4&e=d">D · Cards first</a>
+        <a href="?v=4&e=w">E · Word by word</a>
     </nav>
     <nav class="switch" aria-label="Hero option">
         <a href="?v=now">Current</a>
@@ -74,7 +75,7 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     .eswitch{bottom:4.5rem!important}
     html:not([data-v="4"]) .eswitch{display:none}
     html[data-rec] .switch{display:none}
-    html[data-e="now"] .eswitch a[href$="e=now"],html[data-e="a"] .eswitch a[href$="e=a"],html[data-e="b"] .eswitch a[href$="e=b"],html[data-e="c"] .eswitch a[href$="e=c"],html[data-e="d"] .eswitch a[href$="e=d"]{background:#fff;color:#111}
+    html[data-e="now"] .eswitch a[href$="e=now"],html[data-e="a"] .eswitch a[href$="e=a"],html[data-e="b"] .eswitch a[href$="e=b"],html[data-e="c"] .eswitch a[href$="e=c"],html[data-e="d"] .eswitch a[href$="e=d"],html[data-e="w"] .eswitch a[href$="e=w"]{background:#fff;color:#111}
 
     @keyframes x-up{from{opacity:0;transform:translateY(2.5rem)}to{opacity:1;transform:none}}
     @keyframes x-fade{from{opacity:0}to{opacity:1}}
@@ -99,6 +100,13 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
     html[data-v="4"][data-e="c"] .statement{animation:x-up 1.1s var(--spring) both .7s}
     html[data-v="4"][data-e="c"] .work .grid{animation:x-up 1.1s var(--spring) both .85s}
 
+    /* E: word by word, like meiyao.work. Each word fades in from soft and light, left to right */
+    html[data-v="4"][data-e="w"] .hello .ww,html[data-v="4"][data-e="w"] .statement .ww{display:inline-block;opacity:0;filter:blur(6px);transform:translateY(.15em);animation:x-word .7s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(.15s + var(--i) * 75ms)}
+    html[data-v="4"][data-e="w"] .hello,html[data-v="4"][data-e="w"] .statement{animation:none}
+    html[data-v="4"][data-e="w"] .hello img{opacity:0;animation:x-fade .6s ease forwards .2s}
+    html[data-v="4"][data-e="w"] .top-nav .pill{animation:x-fade .8s ease both .1s}
+    html[data-v="4"][data-e="w"] .work .grid{animation:x-up 1.1s var(--spring) both 1.9s}
+    @keyframes x-word{to{opacity:1;filter:none;transform:none}}
     html[data-v="4"][data-e="d"] .work .grid{animation:x-cards 1.2s var(--spring) both .1s}
     html[data-v="4"][data-e="d"] .hello{animation:x-up 1s var(--spring) both .75s}
     html[data-v="4"][data-e="d"] .statement{animation:x-up 1s var(--spring) both .9s}
@@ -362,4 +370,37 @@ const headline = ["A", "product", "designer", "who", "creates", "with", "vision"
         { threshold: 0 },
     )
     document.querySelectorAll(".rise").forEach((el) => io.observe(el))
+</script>
+
+<script>
+    // E: wrap each word of the hello line and statement so they can appear one by one.
+    if (document.documentElement.dataset.e === "w") {
+        let i = 0
+        const wrap = (root: Element) => {
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+            const nodes: Text[] = []
+            while (walker.nextNode()) nodes.push(walker.currentNode as Text)
+            for (const t of nodes) {
+                const parts = t.textContent!.split(/(\s+)/)
+                const frag = document.createDocumentFragment()
+                for (const part of parts) {
+                    if (!part) continue
+                    if (/^\s+$/.test(part)) frag.append(part)
+                    else {
+                        const s = document.createElement("span")
+                        s.className = "ww"
+                        s.style.setProperty("--i", String(i++))
+                        s.textContent = part
+                        frag.append(s)
+                    }
+                }
+                t.replaceWith(frag)
+            }
+        }
+        const hello = document.querySelector(".hello")
+        const st = document.querySelector(".statement")
+        if (hello) wrap(hello)
+        i += 1
+        if (st) wrap(st)
+    }
 </script>

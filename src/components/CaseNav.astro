@@ -94,4 +94,24 @@ const { sections, back = "/work" } = Astro.props
     update()
     addEventListener("scroll", on, { passive: true })
     addEventListener("resize", on)
+
+    // Line "Back" up with the first line of the case study title. The title's position depends
+    // on the screen size, so measure its layout position (ignoring entrance animations).
+    const nav = document.querySelector<HTMLElement>(".case-nav")
+    const back = nav?.querySelector<HTMLElement>(".back")
+    const title = document.querySelector<HTMLElement>(".hero .title-area h1")
+    const align = () => {
+        if (!nav || !back || !title || innerWidth < 810) {
+            nav?.style.removeProperty("top")
+            return
+        }
+        let y = 0
+        for (let el: HTMLElement | null = title; el; el = el.offsetParent as HTMLElement | null) y += el.offsetTop
+        const lh = parseFloat(getComputedStyle(title).lineHeight) || title.offsetHeight
+        const centre = y + lh / 2
+        nav.style.top = `${Math.round(centre - back.offsetHeight / 2 - back.offsetTop)}px`
+    }
+    align()
+    document.fonts?.ready.then(align)
+    addEventListener("resize", align)
 </script>

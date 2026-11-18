@@ -39,15 +39,6 @@ interface Props {
             transform 0.45s var(--spring),
             opacity 0.3s ease;
     }
-    /* plain paper strip behind the links (no blur), fading out at the bottom */
-    .top-nav::before {
-        content: "";
-        position: absolute;
-        inset: 0 0 -1.25rem 0;
-        z-index: -1;
-        background: linear-gradient(var(--paper) 60%, transparent);
-        pointer-events: none;
-    }
     /* slides away while scrolling down, comes back on scroll up */
     .top-nav.hide {
         transform: translateY(-110%);

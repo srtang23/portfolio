@@ -3,29 +3,13 @@
 // Analysis): impact on nannies' core workflows (up) against how feasible a fix was within our
 // nanny-side scope (right). Impact follows the sheet's priority rating and how many participants
 // were affected; feasibility follows the priority rationale (low-cost fix vs. risky, or a change
-// on the family side). Each quadrant is a card that groups its pain points; the top-right card is
-// what we designed for.
+// on the family side). Each card names the broad areas its pain points fall into; the top-right
+// card is what we designed for.
 const quads = [
-    {
-        k: "tl",
-        h: "Important, but out of scope",
-        items: ["Approving or declining bookings", "Flagging a concerning family"],
-    },
-    {
-        k: "tr",
-        h: "Design for now",
-        items: ["Managing availability (5)", "Open appointments and booking details (2)", "Finding info and syncing calendars (3)", "Notes for the next nanny"],
-    },
-    {
-        k: "bl",
-        h: "Later",
-        items: ["Favouriting families", "Kids' interests on profiles", "Self-scheduling for trusted pairs"],
-    },
-    {
-        k: "br",
-        h: "Quick wins, lower impact",
-        items: ["Booking texts missing details", "Cancelled slots not restored", "Email noise", "“New to you” label"],
-    },
+    { k: "tl", h: "Important, but out of scope", items: ["Control over which bookings to take", "Reporting safety concerns"] },
+    { k: "tr", h: "Design for now", items: ["Managing availability", "Discovering open shifts", "Preparing for each booking", "Finding information quickly"] },
+    { k: "bl", h: "Later", items: ["Relationships with favourite families", "Richer family profiles", "Self-managed scheduling"] },
+    { k: "br", h: "Quick wins, lower impact", items: ["Reliable notifications", "Recovering cancelled time"] },
 ]
 const label = quads.map((q) => `${q.h}: ${q.items.join(", ")}.`).join(" ")
 ---

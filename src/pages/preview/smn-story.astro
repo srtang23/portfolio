@@ -210,11 +210,8 @@ const img = (f: string) => `/images/smn/${f}`
                 <div class="o o1">
                     <p class="tag">#opportunity</p>
                     <h2 class="h opp-h">What if nannies could manage the whole job in one place, not just the booking?</h2>
-                    <div class="opp-panel">
-                        <div class="opp-text">
-                            <p class="opp-label">How might we</p>
-                            <p class="opp-q">create a more connected, intuitive experience for nannies throughout their caregiving journey?</p>
-                        </div>
+                    <div class="panel opp-panel">
+                        <p class="opp-q">How might we create a more connected, intuitive experience for nannies throughout their caregiving journey?</p>
                         <div class="opp-journey"><Journey fill /></div>
                     </div>
                 </div>
@@ -1404,28 +1401,21 @@ const img = (f: string) => `/images/smn/${f}`
         flex-direction: column;
         align-items: center;
         gap: 1.75rem;
-        padding: 2.25rem 1.5rem 1.5rem;
-        background: #eef6f6;
-        border: 1px solid #d8eaea;
-    }
-    .opp-text {
-        max-width: 28rem;
-        text-align: center;
-    }
-    .opp-label {
-        font: 500 11px/1.2 var(--sans);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #5e8f91;
+        padding: 2.25rem 1.75rem 1.75rem;
     }
     .opp-q {
-        margin-top: 0.625rem;
-        font: 400 1.1875rem/1.35 var(--sans);
+        position: relative;
+        z-index: 1;
+        max-width: 30rem;
+        text-align: center;
+        font: 500 1.1875rem/1.35 var(--serif);
         letter-spacing: -0.01em;
         color: var(--ink);
         text-wrap: balance;
     }
     .opp-journey {
+        position: relative;
+        z-index: 1;
         align-self: stretch;
     }
     @media (max-width: 809.98px) {
@@ -1433,7 +1423,7 @@ const img = (f: string) => `/images/smn/${f}`
             padding: 1.75rem 1.25rem 1.25rem;
         }
         .opp-q {
-            font-size: 1.0625rem;
+            font-size: 1.125rem;
         }
     }
 </style>

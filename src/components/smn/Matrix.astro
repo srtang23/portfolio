@@ -1,157 +1,192 @@
 ---
-// 2×2 used to prioritise nanny pain points: how central each one is to the core workflow
-// (up) against how feasible it was within our scope (right). The top-right quadrant is what
-// we designed for; dots there are filled.
-// x and y run 0–100. Positions are approximate and meant to show the reasoning, not a score.
-const points = [
-    { t: "Setting recurring availability", x: 56, y: 86, pick: true },
-    { t: "Prep info before a session", x: 62, y: 74, pick: true },
-    { t: "Seeing the week at a glance", x: 70, y: 63, pick: true },
-    { t: "Post-session notes", x: 58, y: 54, pick: true },
-    { t: "Rescheduling directly with families", x: 8, y: 78, pick: false },
-    { t: "Messaging families in the app", x: 16, y: 63, pick: false },
-    { t: "A nanny community space", x: 12, y: 24, pick: false },
-    { t: "Shift filters by kids and pets", x: 60, y: 30, pick: false },
+// 2×2 used to prioritise the 20 nanny pain points from our research synthesis (Pain Point
+// Analysis): impact on nannies' core workflows (up) against how feasible a fix was within our
+// nanny-side scope (right). Impact follows the sheet's priority rating and how many participants
+// were affected; feasibility follows the priority rationale (low-cost fix vs. risky, or a change
+// on the family side). Each quadrant is a card that groups its pain points; the top-right card is
+// what we designed for.
+const quads = [
+    {
+        k: "tl",
+        h: "Important, but out of scope",
+        items: ["Approving or declining bookings", "Flagging a concerning family"],
+    },
+    {
+        k: "tr",
+        h: "Design for now",
+        items: ["Managing availability (5)", "Open appointments and booking details (2)", "Finding info and syncing calendars (3)", "Notes for the next nanny"],
+    },
+    {
+        k: "bl",
+        h: "Later",
+        items: ["Favouriting families", "Kids' interests on profiles", "Self-scheduling for trusted pairs"],
+    },
+    {
+        k: "br",
+        h: "Quick wins, lower impact",
+        items: ["Booking texts missing details", "Cancelled slots not restored", "Email noise", "“New to you” label"],
+    },
 ]
+const label = quads.map((q) => `${q.h}: ${q.items.join(", ")}.`).join(" ")
 ---
 
-<div class="matrix" role="img" aria-label="Prioritisation matrix. Central to the core workflow and feasible within scope, so designed for: setting recurring availability, prep info before a session, seeing the week at a glance and post-session notes. Central but outside our scope because it changes the family side: rescheduling directly with families and messaging families in the app. Feasible but less central: shift filters by kids and pets. Neither: a nanny community space.">
-    <div class="plot" aria-hidden="true">
-        <span class="q q-tr">Design for now</span>
-        <span class="q q-tl">Core, but out of scope</span>
-        <span class="q q-br">Nice to have</span>
-        <span class="q q-bl">Later</span>
+<div class="matrix" role="img" aria-label={`Prioritisation of 20 nanny pain points by impact on core workflows and feasibility within our scope. ${label}`}>
+    <div class="field" aria-hidden="true">
+        <span class="axis ax-h"></span>
+        <span class="axis ax-v"></span>
+        <p class="al al-y">Impact on<br />core workflows</p>
+        <p class="al al-x">Feasible within<br />our scope</p>
         {
-            points.map((p) => (
-                <span class:list={["pt", { pick: p.pick, lh: p.x < 50 }]} style={`left:${p.x}%;bottom:${p.y}%`}>
-                    <i />
-                    <b>{p.t}</b>
-                </span>
+            quads.map((q) => (
+                <div class:list={["card", q.k]}>
+                    <p class="ch">{q.h}</p>
+                    <ul>
+                        {q.items.map((t) => (
+                            <li>{t}</li>
+                        ))}
+                    </ul>
+                </div>
             ))
         }
     </div>
-    <p class="ax ax-y" aria-hidden="true">Central to the core workflow →</p>
-    <p class="ax ax-x" aria-hidden="true">Feasible within our scope →</p>
 </div>
 
 <style>
     .matrix {
         position: relative;
         z-index: 1;
-        padding: 0.5rem 0 1.75rem 1.75rem;
     }
-    .plot {
+    .field {
         position: relative;
-        aspect-ratio: 2 / 1;
-        border-left: 1px solid #3a3a3a;
-        border-bottom: 1px solid #3a3a3a;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 4.5rem;
+        row-gap: 3rem;
+        padding: 2.75rem 6rem 1.5rem 1.5rem;
     }
-    /* quadrant lines */
-    .plot::before,
-    .plot::after {
+    /* the two axes cross in the middle, each with an arrowhead */
+    .axis {
+        position: absolute;
+        background: #a3a7ad;
+    }
+    .ax-h {
+        left: 0.5rem;
+        right: 1.25rem;
+        top: 50%;
+        height: 1px;
+    }
+    .ax-v {
+        left: calc(1.5rem + (100% - 7.5rem - 4.5rem) / 2 + 2.25rem);
+        top: 0.5rem;
+        bottom: 0.25rem;
+        width: 1px;
+    }
+    .ax-h::after,
+    .ax-v::after {
         content: "";
         position: absolute;
-        border: 0 dashed #c9c9c9;
+        width: 0.5rem;
+        height: 0.5rem;
+        border: solid #a3a7ad;
+        border-width: 1px 1px 0 0;
     }
-    .plot::before {
-        left: 50%;
-        top: 0;
-        bottom: 0;
-        border-left-width: 1px;
-    }
-    .plot::after {
-        top: 50%;
-        left: 0;
+    .ax-h::after {
         right: 0;
-        border-top-width: 1px;
+        top: -0.25rem;
+        transform: rotate(45deg);
     }
-    .q {
+    .ax-v::after {
+        top: 0;
+        left: -0.25rem;
+        transform: rotate(-45deg);
+    }
+    .al {
         position: absolute;
-        font: 500 11px/1 var(--sans);
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #a3a7ad;
-    }
-    .q-tr {
-        right: 0.75rem;
-        top: 0.75rem;
-        color: #3a3a3a;
-    }
-    .q-tl {
-        left: 0.75rem;
-        top: 0.75rem;
-    }
-    .q-br {
-        right: 0.75rem;
-        bottom: 0.75rem;
-    }
-    .q-bl {
-        left: 0.75rem;
-        bottom: 0.75rem;
-    }
-    .pt {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        gap: 0.4375rem;
-        transform: translate(-0.3125rem, 50%);
-        white-space: nowrap;
-    }
-    .pt i {
-        flex: none;
-        width: 0.625rem;
-        height: 0.625rem;
-        border-radius: 50%;
-        background: #fff;
-        box-shadow: inset 0 0 0 1.2px #a3a7ad;
-    }
-    .pt b {
-        font: 400 13px/1.2 var(--para);
+        font: 400 13px/1.3 var(--sans);
         color: var(--label);
     }
-    .pt.pick i {
-        background: #3a3a3a;
-        box-shadow: none;
+    .al-y {
+        top: 0.25rem;
+        left: calc(1.5rem + (100% - 7.5rem - 4.5rem) / 2 + 3rem);
     }
-    .pt.pick b {
+    .al-x {
+        right: 0.25rem;
+        top: calc(50% + 0.75rem);
+    }
+    .card {
+        position: relative;
+        z-index: 1;
+        align-self: center;
+        padding: 1rem 1.125rem 1.125rem;
+        border: 1px solid #e2e2e2;
+        background: rgba(255, 255, 255, 0.6);
+    }
+    .tl {
+        grid-area: 1 / 1;
+        justify-self: end;
+        max-width: 15rem;
+    }
+    .tr {
+        grid-area: 1 / 2;
+        justify-self: start;
+        max-width: 16rem;
+        background: #fff;
+        border-color: #3a3a3a;
+    }
+    .bl {
+        grid-area: 2 / 1;
+        justify-self: end;
+        max-width: 15rem;
+    }
+    .br {
+        grid-area: 2 / 2;
+        justify-self: start;
+        max-width: 15rem;
+    }
+    .ch {
+        font: 500 1rem/1.3 var(--serif);
+        letter-spacing: -0.01em;
+        color: var(--label);
+    }
+    .tr .ch {
         color: var(--ink);
     }
-    .ax {
-        position: absolute;
-        font: 400 12px/1 var(--sans);
+    ul {
+        list-style: none;
+        margin: 0.5rem 0 0;
+        padding: 0;
+        display: grid;
+        gap: 0.25rem;
+    }
+    li {
+        font: 400 13px/1.4 var(--para);
         color: var(--label);
     }
-    .ax-x {
-        right: 0;
-        bottom: 0.25rem;
-    }
-    .ax-y {
-        left: 0;
-        top: 0.5rem;
-        transform: rotate(-90deg) translateX(-100%);
-        transform-origin: left top;
+    .tr li {
+        color: var(--ink);
     }
     @media (max-width: 809.98px) {
-        .plot {
-            aspect-ratio: 1 / 1.45;
+        .field {
+            grid-template-columns: 1fr;
+            grid-template-rows: none;
+            row-gap: 0.75rem;
+            padding: 0;
         }
-        .pt b {
-            font-size: 11px;
-            white-space: normal;
-            max-width: 7.5rem;
+        .axis,
+        .al {
+            display: none;
         }
-        /* line the chosen ones up in one column so their labels don't collide */
-        .pt.pick {
-            left: 53% !important;
+        .tl,
+        .tr,
+        .bl,
+        .br {
+            grid-area: auto;
+            justify-self: stretch;
+            max-width: none;
         }
-        .pt.lh {
-            left: 5% !important;
-        }
-        .pt.lh b {
-            max-width: 6.75rem;
-        }
-        .q {
-            font-size: 9px;
+        .tr {
+            order: -1;
         }
     }
 </style>

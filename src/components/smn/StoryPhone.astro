@@ -31,9 +31,6 @@ const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1
     .screen {
         position: absolute;
         inset: 0 0 1.125rem 0;
-        overflow: hidden;
-        border-radius: 1.75rem;
-        background: #66bcc2;
     }
     video {
         position: absolute;
@@ -42,6 +39,8 @@ const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1
         height: 100%;
         object-fit: cover;
         display: block;
+        /* the recordings have a teal backdrop around the phone; clip to the phone's own outline */
+        clip-path: inset(1% 2.1% 0.9% 3.6% round 19% / 9.6%);
         opacity: 0;
         transition: opacity 0.25s ease;
     }
@@ -92,9 +91,6 @@ const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1
             width: 13.125rem;
             height: 27rem;
         }
-        .screen {
-            border-radius: 1.5rem;
-        }
     }
     @media (max-width: 809.98px) {
         .story-phone {
@@ -103,7 +99,6 @@ const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1
         }
         .screen {
             inset: 0 0 0.75rem 0;
-            border-radius: 1rem;
         }
         .bar {
             height: 3px;

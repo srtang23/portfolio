@@ -198,38 +198,50 @@ const img = (f: string) => `/images/smn/${f}`
 
         <!-- Opportunity: options for comparing (?o=a|b|c|d) -->
         <script is:inline>
-            document.documentElement.dataset.o = new URLSearchParams(location.search).get("o") || "a"
+            document.documentElement.dataset.o = new URLSearchParams(location.search).get("o") || "1"
         </script>
         <div class="content opp-wrap">
             <section id="opportunity" class="opp-all">
-                <!-- A: grid-paper panel, like the other visuals -->
-                <div class="o oa panel">
+                <!-- 1: journey coverage. What the platform covers today vs the whole journey -->
+                <div class="o o1">
                     <p class="tag">#opportunity</p>
                     <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
+                    <div class="panel cov">
+                        <ol class="track">
+                            <li class="on">Set availability</li>
+                            <li class="on">Find shifts</li>
+                            <li class="on">Get booked</li>
+                            <li>Prepare</li>
+                            <li>Manage changes</li>
+                            <li>Follow up</li>
+                        </ol>
+                        <div class="cov-legend">
+                            <span class="k on"></span>On the platform today
+                            <span class="k"></span>Texts, emails and calls
+                        </div>
+                    </div>
                 </div>
-                <!-- B: section heading with a hairline accent on the left -->
-                <div class="o ob">
-                    <p class="tag">#opportunity</p>
-                    <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
+                <!-- 2: the question beside a peek of the phones -->
+                <div class="o o2">
+                    <div class="o2-text">
+                        <p class="tag">#opportunity</p>
+                        <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
+                    </div>
+                    <div class="o2-img"><img src="/images/card-smn-grain.jpg" alt="" loading="lazy" /></div>
                 </div>
-                <!-- C: statement like the Home page, with the journey as a small visual -->
-                <div class="o oc">
+                <!-- 3: a nanny's voice, then the question -->
+                <div class="o o3">
                     <p class="tag">#opportunity</p>
-                    <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
-                    <ol class="steps-line" aria-label="The caregiving journey">
-                        <li>Set availability</li><li>Find shifts</li><li>Get booked</li><li>Prepare</li><li>Manage changes</li><li>Follow up</li>
-                    </ol>
-                </div>
-                <!-- D: white card with the teal grain as a thin top edge -->
-                <div class="o od card">
-                    <div class="od-edge" aria-hidden="true"></div>
-                    <p class="tag">#opportunity</p>
+                    <figure class="voice">
+                        <blockquote><p>“A last-minute cancel means texting the family, then emailing the coordinator.”</p></blockquote>
+                        <figcaption>Nanny, research interview</figcaption>
+                    </figure>
                     <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
                 </div>
             </section>
         </div>
     <nav class="oswitch" aria-label="Opportunity style">
-        <a href="?o=a#opportunity">A · Grid panel</a><a href="?o=b#opportunity">B · Hairline</a><a href="?o=c#opportunity">C · Journey</a><a href="?o=d#opportunity">D · Card</a>
+        <a href="?o=1#opportunity">1 · Coverage</a><a href="?o=2#opportunity">2 · Phones</a><a href="?o=3#opportunity">3 · Voice</a>
     </nav>
 
         <div class="content">
@@ -865,11 +877,135 @@ const img = (f: string) => `/images/smn/${f}`
         flex-direction: column;
         gap: 1rem;
     }
-    :global(html[data-o="a"]) .oa,
-    :global(html[data-o="b"]) .ob,
-    :global(html[data-o="c"]) .oc,
-    :global(html[data-o="d"]) .od {
+    :global(html[data-o="1"]) .o1,
+    :global(html[data-o="2"]) .o2,
+    :global(html[data-o="3"]) .o3 {
         display: flex;
+    }
+    /* 1: coverage */
+    .cov {
+        margin-top: 0.75rem;
+        padding: 2.25rem 2rem 1.75rem;
+    }
+    .track {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+    }
+    .track li {
+        position: relative;
+        padding-top: 1.5rem;
+        font: 400 0.75rem/1.3 var(--sans);
+        color: var(--label);
+        text-align: center;
+    }
+    /* the line between steps */
+    .track li::before {
+        content: "";
+        position: absolute;
+        top: 0.3125rem;
+        left: 0;
+        right: 0;
+        border-top: 2px dashed #c9cdd2;
+    }
+    .track li.on::before {
+        border-top: 3px solid #3bb3b8;
+        top: 0.25rem;
+    }
+    .track li:first-child::before {
+        left: 50%;
+    }
+    .track li:last-child::before {
+        right: 50%;
+    }
+    /* the dot on each step */
+    .track li::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 0.75rem;
+        height: 0.75rem;
+        margin-left: -0.375rem;
+        border-radius: 50%;
+        background: var(--paper);
+        box-shadow: inset 0 0 0 2px #c9cdd2;
+    }
+    .track li.on::after {
+        background: #3bb3b8;
+        box-shadow: none;
+    }
+    .track li.on {
+        color: var(--ink);
+    }
+    .cov-legend {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.75rem;
+        font: 400 0.75rem/1 var(--sans);
+        color: var(--body);
+    }
+    .cov-legend .k {
+        width: 1.25rem;
+        border-top: 2px dashed #c9cdd2;
+        margin-left: 0.75rem;
+    }
+    .cov-legend .k:first-child {
+        margin-left: 0;
+    }
+    .cov-legend .k.on {
+        border-top: 3px solid #3bb3b8;
+    }
+    /* 2: phones */
+    .o2 {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+    }
+    .o2-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .o2-img {
+        flex: 1;
+        border-radius: 1rem;
+        overflow: hidden;
+        aspect-ratio: 1.15;
+    }
+    .o2-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 40%;
+        transform: scale(1.5);
+    }
+    /* 3: voice */
+    .voice {
+        margin: 0.25rem 0 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .voice blockquote {
+        margin: 0;
+        padding: 1rem 1.25rem;
+        max-width: 26rem;
+        background: var(--white);
+        border-radius: 4px 1rem 1rem 1rem;
+        box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .voice blockquote p {
+        font: italic 400 1rem/1.5 var(--serif);
+        color: var(--ink);
+    }
+    .voice figcaption {
+        font: 400 0.75rem/1.4 var(--sans);
+        color: var(--label);
     }
     .oq {
         font: 500 1.75rem/1.25 var(--serif);
@@ -957,9 +1093,19 @@ const img = (f: string) => `/images/smn/${f}`
         .oq {
             font-size: 1.375rem;
         }
-        .oa,
-        .od {
-            padding: 2rem 1.5rem;
+        .track {
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 1.5rem;
+        }
+        .cov {
+            padding: 1.75rem 1rem 1.25rem;
+        }
+        .cov-legend {
+            flex-wrap: wrap;
+        }
+        .o2 {
+            flex-direction: column;
+            align-items: stretch;
         }
         .oswitch {
             left: 0.5rem;

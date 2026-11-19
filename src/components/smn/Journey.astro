@@ -197,18 +197,18 @@ const off = [
         }
         .row {
             grid-template-columns: 1fr;
-            row-gap: 0.25rem;
+            row-gap: 0; /* spacing comes from step padding, so the line runs unbroken */
         }
         .step {
             flex-direction: row;
             gap: 0.875rem;
             text-align: left;
-            padding: 0.25rem 0;
+            padding: 0.375rem 0;
         }
         .step::before {
             top: 0;
             bottom: 0;
-            left: 1.25rem;
+            left: 0.9375rem;
             right: auto;
             border-top: 0 !important;
         }
@@ -220,6 +220,7 @@ const off = [
         }
         .step.on:first-child::before {
             top: 50%;
+            left: 0.9375rem;
         }
         .step.off:last-child::before {
             right: auto;
@@ -238,7 +239,25 @@ const off = [
         }
         .split::after {
             top: 50%;
-            left: 1.25rem;
+            left: 0.9375rem;
+        }
+        /* the line also runs through the gap between the two halves */
+        .split {
+            border-left: 1.5px dashed var(--teal-ring);
+            margin-left: 0.9375rem;
+            width: 0;
+        }
+        .split::before {
+            left: -0.9375rem;
+            width: 18rem;
+        }
+        .split::after {
+            left: 0;
+        }
+        .fill.filled .split {
+            border-left-style: solid;
+            border-left-color: var(--teal);
+            transition: border-color 0.3s ease 0.3s;
         }
         .t {
             padding: 0;
@@ -260,7 +279,7 @@ const off = [
     .fill .step.off::after {
         content: "";
         position: absolute;
-        top: 1.125rem;
+        top: 0.9375rem;
         left: 0;
         right: 0;
         z-index: 0;
@@ -317,7 +336,7 @@ const off = [
         .fill .step.off::after {
             top: 0;
             bottom: 0;
-            left: 1.125rem;
+            left: 0.9375rem;
             right: auto;
             border-top: 0;
             border-left: 1.5px solid var(--teal);

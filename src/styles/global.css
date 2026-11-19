@@ -4,7 +4,7 @@
  * proportion (a 1440px window shows it at 1.2x, a 1920px one at 1.6x).
  */
 :root {
-    --ink: #111111;
+    --ink: #3a3a3a;
     --ink-2: #333333;
     --body: #666666;
     --label: #8a8a8a;

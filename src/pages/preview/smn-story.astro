@@ -162,6 +162,20 @@ const img = (f: string) => `/images/smn/${f}`
                     The client asked us to improve nanny retention and engagement. Research showed the real issue wasn’t motivation, but the friction around every booking.
                 </p>
                 <p class="body"><span class="role-label">My role</span> I led research and design strategy, guiding the team from scattered feature requests to the Jobs to Be Done that shaped our direction.</p>
+                <!-- Showcase day -->
+                <div class="showcase">
+                    <p class="sc-h">HCDE Capstone Showcase Day!</p>
+                    <div class="sc-row">
+                        <figure class="sc sc-wide">
+                            <img src={img("showcase-booth-2.jpg")} loading="lazy" alt="Sophia and three teammates at their Spilt Milk Nannies booth, with the project poster and live demos on screens." />
+                            <figcaption>Pitching to current students, professors and industry professionals!</figcaption>
+                        </figure>
+                        <figure class="sc">
+                            <img src={img("showcase-team.jpg")} loading="lazy" alt="The four designers standing with their sponsor from Spilt Milk Nannies." />
+                            <figcaption>The team + our sponsor</figcaption>
+                        </figure>
+                    </div>
+                </div>
             </section>
 
             <!-- Outcomes -->
@@ -395,20 +409,6 @@ const img = (f: string) => `/images/smn/${f}`
                 </ol>
             </section>
 
-            <!-- Showcase day -->
-            <section class="sec showcase" aria-label="HCDE Capstone Showcase Day">
-                <h2 class="h">HCDE Capstone Showcase Day!</h2>
-                <div class="sc-row">
-                    <figure class="sc sc-wide">
-                        <img src={img("showcase-booth-2.jpg")} loading="lazy" alt="Sophia and three teammates at their Spilt Milk Nannies booth, with the project poster and live demos on screens." />
-                        <figcaption>Pitching to current students, professors and industry professionals!</figcaption>
-                    </figure>
-                    <figure class="sc">
-                        <img src={img("showcase-team.jpg")} loading="lazy" alt="The four designers standing with their sponsor from Spilt Milk Nannies." />
-                        <figcaption>The team + our sponsor</figcaption>
-                    </figure>
-                </div>
-            </section>
         </div>
     </main>
 </Base>
@@ -1341,7 +1341,19 @@ const img = (f: string) => `/images/smn/${f}`
         }
     }
 
-    /* showcase day photos */
+    /* showcase day photos, in a soft panel */
+    .showcase {
+        margin-top: 0.5rem;
+        padding: 1.75rem;
+        border-radius: 1rem;
+        background: #eef0f4;
+    }
+    .sc-h {
+        margin-bottom: 1.25rem;
+        font: 500 1.0625rem/1.3 var(--serif);
+        letter-spacing: -0.01em;
+        color: var(--ink);
+    }
     .sc-row {
         display: grid;
         grid-template-columns: 1.45fr 1fr;
@@ -1355,7 +1367,7 @@ const img = (f: string) => `/images/smn/${f}`
     }
     .sc img {
         width: 100%;
-        height: 20rem;
+        height: 17rem;
         object-fit: cover;
         border-radius: 0.5rem;
     }
@@ -1367,6 +1379,9 @@ const img = (f: string) => `/images/smn/${f}`
         color: var(--body);
     }
     @media (max-width: 809.98px) {
+        .showcase {
+            padding: 1.25rem;
+        }
         .sc-row {
             grid-template-columns: 1fr;
             gap: 1.75rem;

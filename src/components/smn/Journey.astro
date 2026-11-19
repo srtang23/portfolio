@@ -59,13 +59,15 @@ const off = [
         --teal-ring: #b9e2e3;
         --teal-pale: #8fcbcd;
         position: relative;
+        max-width: 36rem;
+        margin: 0 auto;
         padding: 0.5rem 0 0;
     }
     .labels {
         display: grid;
         grid-template-columns: 4fr 0 4fr;
         margin-bottom: 0.875rem;
-        font: 400 13px/1.2 var(--sans);
+        font: 400 12px/1.2 var(--sans);
         letter-spacing: 0.01em;
     }
     .l-on {
@@ -98,7 +100,7 @@ const off = [
     .step::before {
         content: "";
         position: absolute;
-        top: 1.125rem;
+        top: 0.9375rem;
         left: 0;
         right: 0;
         z-index: 0;
@@ -129,7 +131,7 @@ const off = [
     .split::after {
         content: "";
         position: absolute;
-        top: 1.125rem;
+        top: 0.9375rem;
         left: 0;
         width: 0.5rem;
         height: 0.5rem;
@@ -142,13 +144,13 @@ const off = [
         z-index: 1;
         display: grid;
         place-items: center;
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 1.875rem;
+        height: 1.875rem;
         border-radius: 50%;
     }
     .node svg {
-        width: 1rem;
-        height: 1rem;
+        width: 0.875rem;
+        height: 0.875rem;
         fill: none;
         stroke: currentColor;
         stroke-width: 1.5;
@@ -167,7 +169,7 @@ const off = [
     }
     .t {
         padding: 0 0.25rem;
-        font: 400 13px/1.35 var(--sans);
+        font: 400 12px/1.35 var(--sans);
         text-wrap: balance;
     }
     .on .t {

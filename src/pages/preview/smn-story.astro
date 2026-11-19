@@ -9,6 +9,7 @@ import Journey from "../../components/smn/Journey.astro"
 
 const sections = [
     { id: "overview", label: "Overview" },
+    { id: "outcomes", label: "Outcomes" },
     { id: "problem", label: "Problem" },
     { id: "opportunity", label: "Opportunity" },
     { id: "solution", label: "Solution" },
@@ -161,8 +162,12 @@ const img = (f: string) => `/images/smn/${f}`
                     The client asked us to improve nanny retention and engagement. Research showed the real issue wasn’t motivation, but the friction around every booking.
                 </p>
                 <p class="body"><span class="role-label">My role</span> I led research and design strategy, guiding the team from scattered feature requests to the Jobs to Be Done that shaped our direction.</p>
+            </section>
+
+            <!-- Outcomes -->
+            <section id="outcomes" class="sec">
+                <p class="tag">#outcomes</p>
                 <div class="outcomes reveal">
-                    <p class="outs-h">Outcomes</p>
                     <div class="outs-row">
                         {
                             outcomes.map((o) => (
@@ -524,10 +529,6 @@ const img = (f: string) => `/images/smn/${f}`
         border-radius: 1rem;
     }
     /* outcomes: plain numbers, no cards */
-    .outcomes {
-        padding-top: 0.75rem;
-    }
-    .outs-h,
     .ot {
         font: 400 0.875rem/1.5 var(--sans);
         color: var(--label);
@@ -536,7 +537,6 @@ const img = (f: string) => `/images/smn/${f}`
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-        margin-top: 0.75rem;
     }
     .ov {
         font: 500 1.0625rem/1.3 var(--sans);

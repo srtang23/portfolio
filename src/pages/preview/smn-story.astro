@@ -376,20 +376,16 @@ const img = (f: string) => `/images/smn/${f}`
             <!-- Reflection -->
             <section id="reflection" class="sec reflection">
                 <p class="tag">#reflection</p>
-                <h2 class="h">What I learned</h2>
-                <ol class="reflections">
+                <div class="outs-row reflections-row">
                     {
-                        reflections.map((r, i) => (
-                            <li>
-                                <span class="num">{String(i + 1).padStart(2, "0")}</span>
-                                <div>
-                                    <h3>{r.h}</h3>
-                                    <p class="body">{r.p}</p>
-                                </div>
-                            </li>
+                        reflections.map((r) => (
+                            <div class="out">
+                                <p class="ov">{r.h}</p>
+                                <p class="ot">{r.p}</p>
+                            </div>
                         ))
                     }
-                </ol>
+                </div>
             </section>
 
         </div>
@@ -1413,6 +1409,14 @@ const img = (f: string) => `/images/smn/${f}`
 
     .matrix-wrap {
         padding: 1.75rem 2rem 1.25rem;
+    }
+
+    /* reflections laid out like the outcomes; longer text gets wider columns */
+    .reflections-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .reflections-row .ot {
+        max-width: 24rem;
     }
 </style>
 

@@ -7,6 +7,7 @@ import StoryPhone from "../../components/smn/StoryPhone.astro"
 import NeedsShift from "../../components/smn/NeedsShift.astro"
 import Journey from "../../components/smn/Journey.astro"
 import FlowMap from "../../components/smn/FlowMap.astro"
+import Matrix from "../../components/smn/Matrix.astro"
 
 const sections = [
     { id: "overview", label: "Overview" },
@@ -334,9 +335,7 @@ const img = (f: string) => `/images/smn/${f}`
                     I guided the team in prioritizing pain points based on their relevance to core workflows and project feasibility, then translated them into Jobs to Be Done that
                     aligned the team around essential user needs and informed our design direction.
                 </p>
-                <div class="panel placeholder">
-                    <p>[Placeholder: visual]</p>
-                </div>
+                <div class="panel matrix-wrap"><Matrix /></div>
                 <NeedsShift rows={needs} labels={["What nannies asked for", "The underlying need", "User goal"]} />
             </section>
         </div>
@@ -1420,6 +1419,10 @@ const img = (f: string) => `/images/smn/${f}`
         .opp-q {
             font-size: 16px;
         }
+    }
+
+    .matrix-wrap {
+        padding: 1.75rem 2rem 1.25rem;
     }
 </style>
 

@@ -1,0 +1,157 @@
+---
+// 2×2 used to prioritise nanny pain points: how central each one is to the core workflow
+// (up) against how feasible it was within our scope (right). The top-right quadrant is what
+// we designed for; dots there are filled.
+// x and y run 0–100. Positions are approximate and meant to show the reasoning, not a score.
+const points = [
+    { t: "Setting recurring availability", x: 56, y: 86, pick: true },
+    { t: "Prep info before a session", x: 62, y: 74, pick: true },
+    { t: "Seeing the week at a glance", x: 70, y: 63, pick: true },
+    { t: "Post-session notes", x: 58, y: 54, pick: true },
+    { t: "Rescheduling directly with families", x: 8, y: 78, pick: false },
+    { t: "Messaging families in the app", x: 16, y: 63, pick: false },
+    { t: "A nanny community space", x: 12, y: 24, pick: false },
+    { t: "Shift filters by kids and pets", x: 60, y: 30, pick: false },
+]
+---
+
+<div class="matrix" role="img" aria-label="Prioritisation matrix. Central to the core workflow and feasible within scope, so designed for: setting recurring availability, prep info before a session, seeing the week at a glance and post-session notes. Central but outside our scope because it changes the family side: rescheduling directly with families and messaging families in the app. Feasible but less central: shift filters by kids and pets. Neither: a nanny community space.">
+    <div class="plot" aria-hidden="true">
+        <span class="q q-tr">Design for now</span>
+        <span class="q q-tl">Core, but out of scope</span>
+        <span class="q q-br">Nice to have</span>
+        <span class="q q-bl">Later</span>
+        {
+            points.map((p) => (
+                <span class:list={["pt", { pick: p.pick, lh: p.x < 50 }]} style={`left:${p.x}%;bottom:${p.y}%`}>
+                    <i />
+                    <b>{p.t}</b>
+                </span>
+            ))
+        }
+    </div>
+    <p class="ax ax-y" aria-hidden="true">Central to the core workflow →</p>
+    <p class="ax ax-x" aria-hidden="true">Feasible within our scope →</p>
+</div>
+
+<style>
+    .matrix {
+        position: relative;
+        z-index: 1;
+        padding: 0.5rem 0 1.75rem 1.75rem;
+    }
+    .plot {
+        position: relative;
+        aspect-ratio: 2 / 1;
+        border-left: 1px solid #3a3a3a;
+        border-bottom: 1px solid #3a3a3a;
+    }
+    /* quadrant lines */
+    .plot::before,
+    .plot::after {
+        content: "";
+        position: absolute;
+        border: 0 dashed #c9c9c9;
+    }
+    .plot::before {
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        border-left-width: 1px;
+    }
+    .plot::after {
+        top: 50%;
+        left: 0;
+        right: 0;
+        border-top-width: 1px;
+    }
+    .q {
+        position: absolute;
+        font: 500 11px/1 var(--sans);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #a3a7ad;
+    }
+    .q-tr {
+        right: 0.75rem;
+        top: 0.75rem;
+        color: #3a3a3a;
+    }
+    .q-tl {
+        left: 0.75rem;
+        top: 0.75rem;
+    }
+    .q-br {
+        right: 0.75rem;
+        bottom: 0.75rem;
+    }
+    .q-bl {
+        left: 0.75rem;
+        bottom: 0.75rem;
+    }
+    .pt {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 0.4375rem;
+        transform: translate(-0.3125rem, 50%);
+        white-space: nowrap;
+    }
+    .pt i {
+        flex: none;
+        width: 0.625rem;
+        height: 0.625rem;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: inset 0 0 0 1.2px #a3a7ad;
+    }
+    .pt b {
+        font: 400 13px/1.2 var(--para);
+        color: var(--label);
+    }
+    .pt.pick i {
+        background: #3a3a3a;
+        box-shadow: none;
+    }
+    .pt.pick b {
+        color: var(--ink);
+    }
+    .ax {
+        position: absolute;
+        font: 400 12px/1 var(--sans);
+        color: var(--label);
+    }
+    .ax-x {
+        right: 0;
+        bottom: 0.25rem;
+    }
+    .ax-y {
+        left: 0;
+        top: 0.5rem;
+        transform: rotate(-90deg) translateX(-100%);
+        transform-origin: left top;
+    }
+    @media (max-width: 809.98px) {
+        .plot {
+            aspect-ratio: 1 / 1.45;
+        }
+        .pt b {
+            font-size: 11px;
+            white-space: normal;
+            max-width: 7.5rem;
+        }
+        /* line the chosen ones up in one column so their labels don't collide */
+        .pt.pick {
+            left: 53% !important;
+        }
+        .pt.lh {
+            left: 5% !important;
+        }
+        .pt.lh b {
+            max-width: 6.75rem;
+        }
+        .q {
+            font-size: 9px;
+        }
+    }
+</style>

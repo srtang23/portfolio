@@ -6,6 +6,7 @@ import CaseNav from "../../components/CaseNav.astro"
 import StoryPhone from "../../components/smn/StoryPhone.astro"
 import NeedsShift from "../../components/smn/NeedsShift.astro"
 import Journey from "../../components/smn/Journey.astro"
+import FlowMap from "../../components/smn/FlowMap.astro"
 
 const sections = [
     { id: "overview", label: "Overview" },
@@ -206,20 +207,7 @@ const img = (f: string) => `/images/smn/${f}`
                     Our redesign was limited to the nanny-facing experience. The family booking flow remained unchanged, so any improvements had to work within the existing booking
                     system.
                 </p>
-                <div class="panel flow">
-                    <video
-                        data-loop
-                        poster={img("flow-poster.jpg")}
-                        muted
-                        loop
-                        playsinline
-                        preload="metadata"
-                        aria-label="Animated booking flow: the nanny side and family side build up, the booking path is highlighted, then the nanny side grows to take over."
-                    >
-                        <source src="/video/smn/flow.mp4" type="video/mp4" />
-                        <source src="/video/smn/flow.webm" type="video/webm" />
-                    </video>
-                </div>
+                <div class="panel flow"><FlowMap /></div>
             </section>
         </div>
 
@@ -617,11 +605,13 @@ const img = (f: string) => `/images/smn/${f}`
     }
 
     /* Problem */
-    .flow video {
-        display: block;
-        width: 100%;
-        aspect-ratio: 1.6;
-        object-fit: cover;
+    .flow {
+        padding: 1.5rem 2.5rem;
+    }
+    .flow :global(.flowmap) {
+        position: relative;
+        z-index: 1;
+        margin: 0 auto;
     }
 
     /* Research */

@@ -74,6 +74,6 @@ export const projects: Project[] = [
 export const workOrder = ["pg", "smn", "sprout", "turtlup"]
 
 export const links = {
-    resume: "https://drive.google.com/file/d/1Mk_Z4-TMrCxXZYJlwGhiEVzxTm4-wct0/view?usp=sharing",
+    resume: "https://drive.google.com/file/d/1QOjQgCnON-LXrwcXECyTWqXfQvppSQKT/view?usp=sharing",
     linkedin: "https://www.linkedin.com/in/sophiatang23",
 }

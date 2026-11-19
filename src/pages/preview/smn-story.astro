@@ -347,7 +347,7 @@ const img = (f: string) => `/images/smn/${f}`
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Inter+Tight:wght@400;500&family=Instrument+Sans:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=Public+Sans:wght@400;500&family=Schibsted+Grotesk:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500&family=Libre+Franklin:wght@400;500&family=Archivo:wght@400;500&family=Albert+Sans:wght@400;500&family=Red+Hat+Text:wght@400;500&family=Mona+Sans:wght@400;500&family=Host+Grotesk:wght@400;500&family=Funnel+Sans:wght@400;500&family=Rethink+Sans:wght@400;500&display=swap"
     />
     <script is:inline>
         document.documentElement.dataset.f = new URLSearchParams(location.search).get("f") || "geist"
@@ -356,14 +356,15 @@ const img = (f: string) => `/images/smn/${f}`
         {
             [
                 ["geist", "Geist (now)"],
-                ["plex", "IBM Plex Sans"],
-                ["instrument", "Instrument Sans"],
-                ["intertight", "Inter Tight"],
                 ["public", "Public Sans"],
-                ["schibsted", "Schibsted Grotesk"],
-                ["hanken", "Hanken Grotesk"],
-                ["newsreader", "Newsreader"],
-                ["source", "Source Serif"],
+                ["librefranklin", "Libre Franklin"],
+                ["archivo", "Archivo"],
+                ["albertsans", "Albert Sans"],
+                ["redhattext", "Red Hat Text"],
+                ["monasans", "Mona Sans"],
+                ["hostgrotesk", "Host Grotesk"],
+                ["funnelsans", "Funnel Sans"],
+                ["rethinksans", "Rethink Sans"],
             ].map(([k, l]) => (
                 <button type="button" data-f={k}>
                     {l}
@@ -386,14 +387,15 @@ const img = (f: string) => `/images/smn/${f}`
         })
     </script>
     <style is:global>
-        html[data-f="intertight"] { --pf: "Inter Tight", sans-serif; --pf-ls: 0; }
         html[data-f="public"] { --pf: "Public Sans", sans-serif; --pf-ls: 0; }
-        html[data-f="schibsted"] { --pf: "Schibsted Grotesk", sans-serif; --pf-ls: 0; }
-        html[data-f="instrument"] { --pf: "Instrument Sans", sans-serif; }
-        html[data-f="plex"] { --pf: "IBM Plex Sans", sans-serif; --pf-ls: 0; }
-        html[data-f="hanken"] { --pf: "Hanken Grotesk", sans-serif; }
-        html[data-f="newsreader"] { --pf: var(--serif); --pf-size: 1.03; --pf-ls: 0; }
-        html[data-f="source"] { --pf: "Source Serif 4", serif; --pf-size: 1.03; --pf-ls: 0; }
+        html[data-f="librefranklin"] { --pf: "Libre Franklin", sans-serif; --pf-ls: 0; }
+        html[data-f="archivo"] { --pf: "Archivo", sans-serif; --pf-ls: 0; }
+        html[data-f="albertsans"] { --pf: "Albert Sans", sans-serif; --pf-ls: 0; }
+        html[data-f="redhattext"] { --pf: "Red Hat Text", sans-serif; --pf-ls: 0; }
+        html[data-f="monasans"] { --pf: "Mona Sans", sans-serif; --pf-ls: 0; }
+        html[data-f="hostgrotesk"] { --pf: "Host Grotesk", sans-serif; --pf-ls: 0; }
+        html[data-f="funnelsans"] { --pf: "Funnel Sans", sans-serif; --pf-ls: 0; }
+        html[data-f="rethinksans"] { --pf: "Rethink Sans", sans-serif; --pf-ls: 0; }
         main.case .body,
         main.case .body p,
         main.case .info dd,

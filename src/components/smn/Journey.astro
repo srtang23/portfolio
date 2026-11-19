@@ -1,5 +1,9 @@
 ---
 // The nanny journey: steps handled on the platform, then steps handled off it.
+interface Props {
+    fill?: boolean // the opportunity version: the off-platform half fills in when scrolled into view
+}
+const { fill = false } = Astro.props
 const I = {
     cal: `<rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 9.5h16M8.5 3v4M15.5 3v4M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01"/>`,
     search: `<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/>`,
@@ -24,10 +28,18 @@ const off = [
 ]
 ---
 
-<div class="journey-g" role="img" aria-label="Nanny journey: posting availability, browsing shifts, accepting a booking and getting booked happen on the platform; preparing, managing changes, the session itself and following up are handled off the platform.">
+<div
+    class:list={["journey-g", { fill }]}
+    data-journey-fill={fill ? "" : undefined}
+    role="img"
+    aria-label={fill
+        ? "The opportunity: every step of the nanny journey, from posting availability to following up after a session, connected on one platform."
+        : "Nanny journey: posting availability, browsing shifts, accepting a booking and getting booked happen on the platform; preparing, managing changes, the session itself and following up are handled off the platform."}
+>
     <div class="labels" aria-hidden="true">
         <span class="l-on">On the platform</span>
         <span class="l-off">Handled off the platform</span>
+        {fill && <span class="l-all">All in one place</span>}
     </div>
     <ol class="row" aria-hidden="true">
         {
@@ -40,8 +52,8 @@ const off = [
         }
         <li class="split" />
         {
-            off.map((s) => (
-                <li class="step off">
+            off.map((s, i) => (
+                <li class="step off" style={`--i:${i}`}>
                     <span class="node"><svg viewBox="0 0 24 24" set:html={s.i} /></span>
                     <span class="t">{s.t}</span>
                 </li>
@@ -233,4 +245,107 @@ const off = [
             font-size: 0.875rem;
         }
     }
+    /* ---- fill: the off-platform half joins the line, step by step ---- */
+    .labels {
+        position: relative;
+    }
+    .l-all {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: var(--teal-ink);
+        opacity: 0;
+    }
+    .fill .step.off::after {
+        content: "";
+        position: absolute;
+        top: 1.125rem;
+        left: 0;
+        right: 0;
+        z-index: 0;
+        border-top: 1.5px solid var(--teal);
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+    .fill .step.off:last-child::after {
+        right: 50%;
+    }
+    .fill.filled .step.off::after {
+        transform: scaleX(1);
+        transition: transform 0.35s ease calc(0.4s + var(--i) * 0.35s);
+    }
+    .fill.filled .step.off::before {
+        opacity: 0;
+        transition: opacity 0.2s ease calc(0.55s + var(--i) * 0.35s);
+    }
+    .fill.filled .step.off .node {
+        background: var(--teal-fill);
+        color: var(--teal-ink);
+        transition:
+            background 0.3s ease calc(0.55s + var(--i) * 0.35s),
+            color 0.3s ease calc(0.55s + var(--i) * 0.35s);
+    }
+    .fill.filled .step.off .t {
+        color: var(--teal-ink);
+        transition: color 0.3s ease calc(0.55s + var(--i) * 0.35s);
+    }
+    .fill .split::before,
+    .fill .l-on,
+    .fill .l-off {
+        transition: opacity 0.4s ease;
+    }
+    .fill.filled .split::before,
+    .fill.filled .split::after,
+    .fill.filled .l-on,
+    .fill.filled .l-off {
+        opacity: 0;
+        transition: opacity 0.4s ease 0.1s;
+    }
+    .fill.filled .l-all {
+        opacity: 1;
+        transition: opacity 0.5s ease 1.9s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .fill.filled *,
+        .fill.filled *::before,
+        .fill.filled *::after {
+            transition: none !important;
+        }
+    }
+    @media (max-width: 809.98px) {
+        .fill .step.off::after {
+            top: 0;
+            bottom: 0;
+            left: 1.125rem;
+            right: auto;
+            border-top: 0;
+            border-left: 1.5px solid var(--teal);
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+        .fill .step.off:last-child::after {
+            bottom: 50%;
+        }
+        .fill.filled .step.off::after {
+            transform: scaleY(1);
+        }
+    }
 </style>
+
+<script>
+    // The opportunity journey fills in once, when it is mostly in view.
+    const io = new IntersectionObserver(
+        (entries) => {
+            for (const e of entries) {
+                if (e.isIntersecting) {
+                    e.target.classList.add("filled")
+                    io.unobserve(e.target)
+                }
+            }
+        },
+        { threshold: 0.6 },
+    )
+    document.querySelectorAll("[data-journey-fill]").forEach((el) => io.observe(el))
+</script>
+

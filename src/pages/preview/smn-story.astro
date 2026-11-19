@@ -209,7 +209,14 @@ const img = (f: string) => `/images/smn/${f}`
                 <!-- The opportunity question -->
                 <div class="o o1">
                     <p class="tag">#opportunity</p>
-                    <p class="oq">How might we create a more connected, intuitive experience for nannies throughout their caregiving journey?</p>
+                    <h2 class="h opp-h">What if nannies could manage the whole job in one place, not just the booking?</h2>
+                    <div class="opp-panel">
+                        <div class="opp-text">
+                            <p class="opp-label">How might we</p>
+                            <p class="opp-q">create a more connected, intuitive experience for nannies throughout their caregiving journey?</p>
+                        </div>
+                        <div class="opp-journey"><Journey fill /></div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -240,7 +247,6 @@ const img = (f: string) => `/images/smn/${f}`
                 </div>
             </section>
 
-            <p class="divider tag">The deep dive</p>
             <!-- Research -->
             <section id="research" class="sec gap-16">
                 <p class="tag">#research</p>
@@ -1142,19 +1148,6 @@ const img = (f: string) => `/images/smn/${f}`
     .features {
         margin-top: -2.5rem;
     }
-    .divider {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 1.5rem 0 -1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-    }
-    .divider::after {
-        content: "";
-        flex: 1;
-        border-top: 1px solid var(--border);
-    }
 
     /* pivot: narrowing from retention to the workflow */
     .narrow {
@@ -1399,6 +1392,49 @@ const img = (f: string) => `/images/smn/${f}`
     /* a heading that continues the previous one ("…but") */
     .h.cont {
         margin-top: 0.875rem;
+    }
+
+    /* opportunity: "what if" headline, then the HMW in a soft panel, with the journey filling in under it */
+    .opp-h {
+        max-width: 40rem;
+        text-wrap: balance;
+    }
+    .opp-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.75rem;
+        padding: 2.25rem 1.5rem 1.5rem;
+        background: #eef6f6;
+        border: 1px solid #d8eaea;
+    }
+    .opp-text {
+        max-width: 28rem;
+        text-align: center;
+    }
+    .opp-label {
+        font: 500 11px/1.2 var(--sans);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #5e8f91;
+    }
+    .opp-q {
+        margin-top: 0.625rem;
+        font: 400 1.1875rem/1.35 var(--sans);
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        text-wrap: balance;
+    }
+    .opp-journey {
+        align-self: stretch;
+    }
+    @media (max-width: 809.98px) {
+        .opp-panel {
+            padding: 1.75rem 1.25rem 1.25rem;
+        }
+        .opp-q {
+            font-size: 1.0625rem;
+        }
     }
 </style>
 

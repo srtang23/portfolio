@@ -175,11 +175,12 @@ const img = (f: string) => `/images/smn/${f}`
             <!-- Problem -->
             <section id="problem" class="sec">
                 <p class="tag">#problem</p>
-                <h2 class="h">A two-sided service, one side had been overlooked.</h2>
+                <h2 class="h">A two-sided service, pulled toward one side.</h2>
                 <p class="body">
-                    Nannies had varying schedules and preferences for finding work, but the existing platform offered limited flexibility in how they managed availability and
-                    discovered shifts.
+                    Every booking needs both a family and a nanny, but families are the ones who book and pay, so the platform kept being shaped around them. Nannies, with varying
+                    schedules and preferences, were left with little flexibility in how they managed availability and found shifts.
                 </p>
+                <p class="body"><span class="role-label">The constraint</span> Anything we changed for nannies still had to keep booking simple for families. Without enough nannies, families can’t book either.</p>
                 <div class="panel flow">
                     <video
                         data-loop
@@ -204,22 +205,7 @@ const img = (f: string) => `/images/smn/${f}`
                 <div class="o o1">
                     <p class="tag">#opportunity</p>
                     <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
-                    <!-- journey styles, for comparing (?j=image|outline|tint|dots|accent) -->
-                    <script is:inline>
-                        document.documentElement.dataset.j = new URLSearchParams(location.search).get("j") || "outline"
-                    </script>
-                    <div class="panel jwrap">
-                        <div class="jv jv-image">
-                            <picture>
-                                <source media="(max-width: 809.98px)" srcset={img("journey-phone.png")} />
-                                <img src={img("journey.png")} loading="lazy" alt="" />
-                            </picture>
-                        </div>
-                        <div class="jv jv-outline"><Journey look="outline" /></div>
-                        <div class="jv jv-tint"><Journey look="tint" /></div>
-                        <div class="jv jv-dots"><Journey look="dots" /></div>
-                        <div class="jv jv-accent"><Journey look="accent" /></div>
-                    </div>
+                    <div class="panel jwrap"><Journey /></div>
                 </div>
             </section>
         </div>
@@ -853,20 +839,6 @@ const img = (f: string) => `/images/smn/${f}`
     .jwrap {
         margin-top: 0.5rem;
         padding: 2.25rem 1.75rem 2rem;
-    }
-    .jv {
-        display: none;
-    }
-    .jv-image img {
-        width: 100%;
-        height: auto;
-    }
-    :global(html[data-j="image"]) .jv-image,
-    :global(html[data-j="outline"]) .jv-outline,
-    :global(html[data-j="tint"]) .jv-tint,
-    :global(html[data-j="dots"]) .jv-dots,
-    :global(html[data-j="accent"]) .jv-accent {
-        display: block;
     }
     /* 1: coverage */
     .cov {

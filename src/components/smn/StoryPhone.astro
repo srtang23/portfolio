@@ -3,9 +3,10 @@
 // Each recording plays once, with a progress bar under it and a Replay button at the end.
 interface Props {
     count: number
+    srcs?: string[] // optional: override the recording for a step (by index)
 }
-const { count } = Astro.props
-const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1}.mp4`)
+const { count, srcs = [] } = Astro.props
+const videos = Array.from({ length: count }, (_, i) => srcs[i] ?? `/video/smn/story-${i + 1}.mp4`)
 ---
 
 <div class="story-phone" data-story-phone>

@@ -68,14 +68,19 @@ body {
     pointer-events: none;
     background-color: var(--paper);
 }
-.paper::before {
+/* The paper grain sits over the whole page, so photos, videos and cards share the
+   same texture as the background. Multiply keeps it subtle and never blocks clicks. */
+body::after {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
+    z-index: 100;
+    pointer-events: none;
     background-image: url("/images/paper-tile.png");
     background-repeat: repeat;
     background-size: 32rem 32rem;
-    opacity: 0.3;
+    opacity: 0.28;
+    mix-blend-mode: multiply;
 }
 
 img {

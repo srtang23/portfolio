@@ -449,10 +449,10 @@ const img = (f: string) => `/images/smn/${f}`
         flex-direction: column;
         gap: 0.625rem;
     }
+    /* label and items share one size and font; the label is just lighter */
     .info dt {
-        font: 500 1.1875rem/1.2 var(--serif);
-        letter-spacing: -0.2px;
-        color: var(--body);
+        font: 400 0.875rem/1.4 var(--sans);
+        color: var(--label);
     }
     .info dd {
         margin: 0;
@@ -460,7 +460,7 @@ const img = (f: string) => `/images/smn/${f}`
         flex-direction: column;
         gap: 0.25rem;
         font: 400 0.875rem/1.4 var(--sans);
-        color: var(--ink-2);
+        color: var(--ink);
     }
 
     /* Cards and panels */

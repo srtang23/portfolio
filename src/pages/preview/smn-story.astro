@@ -150,17 +150,11 @@ const img = (f: string) => `/images/smn/${f}`
                 }
             </dl>
 
-            <!-- Overview: the headline, a line of context, my role, then the results -->
+            <!-- Overview: what the service is, what we did, my role -->
             <section id="overview" class="sec">
                 <p class="tag">#overview</p>
-                <h2 class="h">Reimagining the nanny side of Spilt Milk Nannies around caregivers’ core workflows, resulting in 40% fewer scheduling steps.</h2>
-                <p class="body">
-                    Spilt Milk Nannies connects families with nannies for flexible childcare, but the platform had long been built around parents. As a team of 4 designers over 11
-                    weeks, we redesigned the nanny side: managing availability, finding shifts and taking on work.
-                </p>
-                <p class="body">
-                    The client asked us to improve nanny retention and engagement. Research showed the real issue wasn’t motivation, but the friction around every booking.
-                </p>
+                <h2 class="h">Spilt Milk Nannies is a childcare service, where families find flexible care and nannies find work.</h2>
+                <p class="body">As a team of 4 designers over 11 weeks, we redesigned the nanny side of the platform: managing availability, finding shifts and taking on work.</p>
                 <p class="body"><span class="role-label">My role</span> I led research and design strategy, guiding the team from scattered feature requests to the Jobs to Be Done that shaped our direction.</p>
                 <!-- Showcase day -->
                 <div class="panel showcase">
@@ -198,12 +192,16 @@ const img = (f: string) => `/images/smn/${f}`
             <!-- Problem -->
             <section id="problem" class="sec">
                 <p class="tag">#problem</p>
-                <h2 class="h">A two-sided service, pulled toward one side.</h2>
+                <h2 class="h">Nannies were managing much of their work off the platform…</h2>
                 <p class="body">
-                    Every booking needs both a family and a nanny, but families are the ones who book and pay, so the platform kept being shaped around them. Nannies, with varying
-                    schedules and preferences, were left with little flexibility in how they managed availability and found shifts.
+                    The platform handled bookings, but preparing for sessions, handling changes and following up happened over texts and calls. That’s a problem for Spilt Milk
+                    Nannies, who wanted nannies more engaged and staying longer, but it’s also a problem for nannies, who carried the extra effort.
                 </p>
-                <p class="body"><span class="role-label">The constraint</span> Our redesign was limited to the nanny-facing experience. The family booking flow remained unchanged, so any improvements had to work within the existing booking system.</p>
+                <h2 class="h cont">…but we couldn’t change how families book.</h2>
+                <p class="body">
+                    Our redesign was limited to the nanny-facing experience. The family booking flow remained unchanged, so any improvements had to work within the existing booking
+                    system.
+                </p>
                 <div class="panel flow">
                     <video
                         data-loop
@@ -1390,6 +1388,11 @@ const img = (f: string) => `/images/smn/${f}`
         .sc figcaption {
             font-size: 1rem;
         }
+    }
+
+    /* a heading that continues the previous one ("…but") */
+    .h.cont {
+        margin-top: 1.75rem;
     }
 </style>
 

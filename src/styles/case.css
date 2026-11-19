@@ -113,7 +113,7 @@
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
-        font: 400 0.875rem/1.4 var(--sans);
+        font: 400 0.875rem/1.4 var(--para);
         color: var(--ink-2);
 }
 /* Cards and panels */
@@ -236,7 +236,7 @@
         color: var(--ink);
 }
 .case .insight p {
-        font: 400 0.8125rem/1.5 var(--sans);
+        font: 400 0.8125rem/1.5 var(--para);
         letter-spacing: 0.01em;
         color: var(--body);
 }

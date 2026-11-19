@@ -16,6 +16,7 @@
 
     --serif: "Newsreader", Georgia, serif;
     --sans: "Geist", "Inter", system-ui, sans-serif;
+    --para: "Public Sans", "Geist", system-ui, sans-serif; /* paragraph text */
     --spring: cubic-bezier(0.22, 1, 0.36, 1);
 
     /* Page edges shared by the nav, the Home cards and the case studies */
@@ -103,8 +104,7 @@ h3 {
     color: var(--label);
 }
 .body {
-    font: 400 0.875rem/1.6 var(--sans);
-    letter-spacing: 0.01em;
+    font: 400 0.875rem/1.6 var(--para);
     color: var(--body);
 }
 

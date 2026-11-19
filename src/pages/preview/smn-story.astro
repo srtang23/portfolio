@@ -460,13 +460,13 @@ const img = (f: string) => `/images/smn/${f}`
     }
 
     /* ---------- Content columns ---------- */
-    /* spacing follows rachelchen.tech: ~16px between blocks, ~20px label → headline → text,
-       ~40px before a follow-on headline, ~96px between sections */
+    /* spacing: ~16px between blocks, ~20px label → headline → text,
+       ~40px before a follow-on headline, ~64px between sections */
     .content {
         display: flex;
         flex-direction: column;
-        gap: 5rem;
-        padding: 2.5rem var(--gutter) 2.5rem 24.5rem;
+        gap: 3.3333rem; /* ~64px between sections at 1440 */
+        padding: 1.6667rem var(--gutter) 1.6667rem 24.5rem;
     }
     .content.first {
         padding-top: 6rem;
@@ -773,7 +773,7 @@ const img = (f: string) => `/images/smn/${f}`
             line-height: 1.05;
         }
         .content {
-            padding: 2.5rem var(--gutter) 2.5rem 11.5rem;
+            padding: 1.6667rem var(--gutter) 1.6667rem 11.5rem;
         }
         .content.first {
             padding-top: 4rem;
@@ -813,8 +813,8 @@ const img = (f: string) => `/images/smn/${f}`
             height: 18.1875rem;
         }
         .content {
-            gap: 4rem;
-            padding: 2rem 1.25rem;
+            gap: 3rem;
+            padding: 1.5rem 1.25rem;
         }
         .content.first {
             padding-top: 4rem;

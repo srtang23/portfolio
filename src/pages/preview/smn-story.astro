@@ -196,53 +196,26 @@ const img = (f: string) => `/images/smn/${f}`
             </section>
         </div>
 
-        <!-- Opportunity: options for comparing (?o=a|b|c|d) -->
-        <script is:inline>
-            document.documentElement.dataset.o = new URLSearchParams(location.search).get("o") || "1"
-        </script>
+        <!-- Opportunity -->
         <div class="content opp-wrap">
             <section id="opportunity" class="opp-all">
-                <!-- 1: journey coverage. What the platform covers today vs the whole journey -->
+                <!-- The opportunity question, with the nanny journey under it -->
                 <div class="o o1">
                     <p class="tag">#opportunity</p>
                     <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
-                    <div class="panel cov">
-                        <ol class="track">
-                            <li class="on">Set availability</li>
-                            <li class="on">Find shifts</li>
-                            <li class="on">Get booked</li>
-                            <li>Prepare</li>
-                            <li>Manage changes</li>
-                            <li>Follow up</li>
-                        </ol>
-                        <div class="cov-legend">
-                            <span class="k on"></span>On the platform today
-                            <span class="k"></span>Texts, emails and calls
-                        </div>
+                    <div class="panel journey">
+                        <picture>
+                            <source media="(max-width: 809.98px)" srcset={img("journey-phone.png")} />
+                            <img
+                                src={img("journey.png")}
+                                loading="lazy"
+                                alt="Nanny journey: post availability, browse shifts, accept a booking and get booked happen on the platform; preparing, managing changes, the session itself and follow up are handled off the platform."
+                            />
+                        </picture>
                     </div>
-                </div>
-                <!-- 2: the question beside a peek of the phones -->
-                <div class="o o2">
-                    <div class="o2-text">
-                        <p class="tag">#opportunity</p>
-                        <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
-                    </div>
-                    <div class="o2-img"><img src="/images/card-smn-grain.jpg" alt="" loading="lazy" /></div>
-                </div>
-                <!-- 3: a nanny's voice, then the question -->
-                <div class="o o3">
-                    <p class="tag">#opportunity</p>
-                    <figure class="voice">
-                        <blockquote><p>“A last-minute cancel means texting the family, then emailing the coordinator.”</p></blockquote>
-                        <figcaption>Nanny, research interview</figcaption>
-                    </figure>
-                    <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
                 </div>
             </section>
         </div>
-    <nav class="oswitch" aria-label="Opportunity style">
-        <a href="?o=1#opportunity">1 · Coverage</a><a href="?o=2#opportunity">2 · Phones</a><a href="?o=3#opportunity">3 · Voice</a>
-    </nav>
 
         <div class="content">
             <!-- Solution: one headline and one line, then the four features -->
@@ -306,16 +279,6 @@ const img = (f: string) => `/images/smn/${f}`
                     the caregiving journey, from preparing for sessions to coordinating changes and following up, happened across disconnected channels. These small moments of
                     friction accumulated over time, adding effort to everyday participation and making it harder for nannies to stay engaged.
                 </p>
-                <div class="panel journey">
-                    <picture>
-                        <source media="(max-width: 809.98px)" srcset={img("journey-phone.png")} />
-                        <img
-                            src={img("journey.png")}
-                            loading="lazy"
-                            alt="Nanny journey: post availability, browse shifts, accept a booking and get booked happen on the platform; preparing, managing changes, the session itself and follow up are handled off the platform."
-                        />
-                    </picture>
-                </div>
             </section>
 
             <!-- My role -->
@@ -877,10 +840,11 @@ const img = (f: string) => `/images/smn/${f}`
         flex-direction: column;
         gap: 1rem;
     }
-    :global(html[data-o="1"]) .o1,
-    :global(html[data-o="2"]) .o2,
-    :global(html[data-o="3"]) .o3 {
+    .o1 {
         display: flex;
+    }
+    .o1 .journey {
+        margin-top: 0.5rem;
     }
     /* 1: coverage */
     .cov {

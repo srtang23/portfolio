@@ -1,6 +1,8 @@
 ---
-// The booking flow between the nanny side and the family side, drawn live so it uses the
-// site font and the SMN teal. The teal path is the booking path; the family side is out of scope.
+// The booking flow between the nanny side and the family side, drawn live so it uses the site
+// font and the SMN teal. Like the original animation, it plays in two parts when scrolled into
+// view: the flow builds up in neutral greys, then the booking path lights up in teal.
+// --b is when a piece appears in the build; --h is when it lights up in the highlight.
 ---
 
 <svg class="flowmap" data-flowmap viewBox="0 0 820 425" role="img" aria-labelledby="flowmap-title">
@@ -10,9 +12,6 @@
         shift, which is shown to nannies, who can accept it.
     </title>
     <defs>
-        <marker id="fm-a-teal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M1 1 7 4 1 7" fill="none" stroke="#3bb3b8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
-        </marker>
         <marker id="fm-a-ink" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M1 1 7 4 1 7" fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
         </marker>
@@ -25,87 +24,102 @@
         </pattern>
     </defs>
 
-    <!-- Builds up step by step when scrolled into view: the areas, then the booking path from
-         setting availability through to the booking showing up, then the open-shift loop. -->
-    <g class="st" style="--d:0s">
+    <!-- areas -->
+    <g class="st" style="--b:0s">
         <rect class="area-nanny" x="10" y="10" width="800" height="168" rx="12"></rect>
         <text class="area-label" x="30" y="38">Nanny side</text>
         <rect x="10" y="208" width="800" height="207" rx="12" fill="url(#fm-hatch)"></rect>
         <text class="area-label muted" x="30" y="236">Family side</text>
-        <rect class="pill" x="30" y="246" width="62" height="17" rx="8.5"></rect>
-        <text class="tiny" x="61" y="258" text-anchor="middle">Out of scope</text>
+        <rect class="pill" x="30" y="245" width="74" height="19" rx="9.5"></rect>
+        <text class="tiny" x="67" y="258" text-anchor="middle">Out of scope</text>
     </g>
 
-    <!-- 1. set availability → availability posted -->
-    <g class="st" style="--d:0.3s">
-        <rect class="node teal" x="25" y="50" width="130" height="40" rx="7"></rect>
+    <!-- ===== Part 1: the flow builds up ===== -->
+    <g class="st" style="--b:0.3s">
+        <rect class="node ink hn" style="--h:0s" x="25" y="50" width="130" height="40" rx="7"></rect>
         <text class="t" x="90" y="74.5" text-anchor="middle">Set availability</text>
     </g>
-    <path class="ln teal draw" d="M155 70 H191" pathLength="1" style="--d:0.6s"></path>
-    <g class="st" style="--d:0.85s">
-        <path class="head teal" d="M185 64 191 70 185 76"></path>
-        <rect class="node teal" x="195" y="50" width="130" height="40" rx="7"></rect>
+    <g class="st" style="--b:0.5s"><path class="ln ink" d="M155 70 H191" marker-end="url(#fm-a-ink)"></path></g>
+    <g class="st" style="--b:0.65s">
+        <rect class="node ink hn" style="--h:0.3s" x="195" y="50" width="130" height="40" rx="7"></rect>
         <text class="t" x="260" y="74.5" text-anchor="middle">Availability posted</text>
     </g>
 
-    <!-- 2. shown to families → browse nannies -->
-    <path class="ln teal draw" d="M260 90 V270" pathLength="1" style="--d:1.15s"></path>
-    <g class="st" style="--d:1.3s"><text class="tiny" x="252" y="196" text-anchor="end">shown to families</text></g>
-    <g class="st" style="--d:1.55s">
-        <rect class="node teal" x="195" y="270" width="130" height="40" rx="7"></rect>
-        <text class="t" x="260" y="294.5" text-anchor="middle">Browse nannies</text>
+    <g class="st" style="--b:0.95s">
+        <path class="ln grey" d="M260 90 V270"></path>
+        <text class="tiny" x="252" y="196" text-anchor="end">shown to families</text>
+    </g>
+    <g class="st" style="--b:1.15s">
+        <rect class="node soft hn" style="--h:0.55s" x="195" y="270" width="130" height="40" rx="7"></rect>
+        <text class="t soft-t hn-t" style="--h:0.55s" x="260" y="294.5" text-anchor="middle">Browse nannies</text>
     </g>
 
-    <!-- 3. time covered? → book this nanny? → booking confirmed -->
-    <path class="ln teal draw" d="M325 290 H376" pathLength="1" style="--d:1.8s"></path>
-    <g class="st" style="--d:2s">
-        <path class="dia soft" d="M420 260 L462 290 L420 320 L378 290 Z"></path>
+    <g class="st" style="--b:1.35s"><path class="ln grey" d="M325 290 H378"></path></g>
+    <g class="st" style="--b:1.45s">
+        <path class="dia soft hn" style="--h:0.8s" d="M420 260 L462 290 L420 320 L378 290 Z"></path>
         <text class="t s" x="420" y="287" text-anchor="middle">Time</text>
         <text class="t s" x="420" y="300" text-anchor="middle">covered?</text>
     </g>
-    <path class="ln teal draw" d="M462 290 H516" pathLength="1" style="--d:2.25s"></path>
-    <g class="st" style="--d:2.4s">
-        <text class="tiny" x="489" y="283" text-anchor="middle">yes</text>
-        <path class="dia soft" d="M560 260 L602 290 L560 320 L518 290 Z"></path>
+    <g class="st" style="--b:1.65s">
+        <path class="ln grey" d="M462 290 H518"></path>
+        <text class="tiny" x="490" y="283" text-anchor="middle">yes</text>
+    </g>
+    <g class="st" style="--b:1.75s">
+        <path class="dia soft hn" style="--h:1.05s" d="M560 260 L602 290 L560 320 L518 290 Z"></path>
         <text class="t s" x="560" y="287" text-anchor="middle">Book this</text>
         <text class="t s" x="560" y="300" text-anchor="middle">nanny?</text>
     </g>
-    <path class="ln teal draw" d="M604 290 H650" pathLength="1" style="--d:2.65s"></path>
-    <g class="st" style="--d:2.8s">
-        <text class="tiny" x="627" y="283" text-anchor="middle">yes</text>
-        <rect class="node dash" x="650" y="270" width="130" height="40" rx="7"></rect>
-        <text class="t muted" x="715" y="294.5" text-anchor="middle">Booking confirmed</text>
+    <g class="st" style="--b:1.95s">
+        <path class="ln grey" d="M602 290 H650"></path>
+        <text class="tiny" x="626" y="283" text-anchor="middle">yes</text>
+    </g>
+    <g class="st" style="--b:2.05s">
+        <rect class="node soft hn" style="--h:1.3s" x="650" y="270" width="130" height="40" rx="7"></rect>
+        <text class="t soft-t hn-t" style="--h:1.3s" x="715" y="294.5" text-anchor="middle">Booking confirmed</text>
     </g>
 
-    <!-- 4. email notice → booking shows up for the nanny -->
-    <path class="ln teal draw" d="M715 270 V155" pathLength="1" style="--d:3.05s"></path>
-    <g class="st" style="--d:3.2s"><text class="tiny" x="723" y="196">email notice</text></g>
-    <g class="st" style="--d:3.4s">
-        <rect class="node ink" x="650" y="115" width="130" height="40" rx="7"></rect>
-        <text class="t" x="715" y="139.5" text-anchor="middle">Booking shows up</text>
-    </g>
-
-    <!-- 5. the other route: no time covered → request an open shift → nannies accept it -->
-    <g class="st" style="--d:3.9s">
+    <g class="st" style="--b:2.35s">
         <path class="ln grey" d="M420 320 V343" marker-end="url(#fm-a-grey)"></path>
         <text class="tiny" x="428" y="336">no</text>
-        <rect class="node dash" x="355" y="345" width="130" height="40" rx="7"></rect>
-        <text class="t muted" x="420" y="362" text-anchor="middle">Request an open</text>
-        <text class="t muted" x="420" y="376" text-anchor="middle">shift</text>
+        <rect class="node soft" x="355" y="345" width="130" height="40" rx="7"></rect>
+        <text class="t soft-t" x="420" y="362" text-anchor="middle">Request an open</text>
+        <text class="t soft-t" x="420" y="376" text-anchor="middle">shift</text>
+    </g>
+    <g class="st" style="--b:2.5s">
         <path class="ln grey" d="M560 320 V400 H260 V314" marker-end="url(#fm-a-grey)"></path>
         <text class="tiny" x="568" y="365">no</text>
     </g>
-    <g class="st" style="--d:4.2s">
+    <g class="st" style="--b:2.75s">
         <path class="ln grey" d="M355 365 H340 V135 H351" marker-end="url(#fm-a-grey)"></path>
         <text class="tiny" x="346" y="196">shown to nannies</text>
+    </g>
+    <g class="st" style="--b:2.95s">
         <rect class="node ink" x="355" y="115" width="130" height="40" rx="7"></rect>
         <text class="t" x="420" y="132" text-anchor="middle">See open shift</text>
         <text class="t" x="420" y="146" text-anchor="middle">request</text>
     </g>
-    <g class="st" style="--d:4.5s">
-        <path class="ln ink" d="M485 135 H512" marker-end="url(#fm-a-ink)"></path>
-        <path class="dia strong" d="M560 103 L606 135 L560 167 L514 135 Z"></path>
+    <g class="st" style="--b:3.15s"><path class="ln ink" d="M485 135 H512" marker-end="url(#fm-a-ink)"></path></g>
+    <g class="st" style="--b:3.3s">
+        <path class="dia accept hn-acc" style="--h:1.85s" d="M560 103 L606 135 L560 167 L514 135 Z"></path>
         <text class="t on-strong" x="560" y="139.5" text-anchor="middle">Accept shift?</text>
+    </g>
+    <g class="st" style="--b:3.5s">
+        <path class="ln grey" d="M715 270 V160" marker-end="url(#fm-a-grey)"></path>
+        <text class="tiny" x="723" y="196">email notice</text>
+    </g>
+
+    <!-- ===== Part 2: the booking path lights up in teal ===== -->
+    <path class="hl" style="--h:0.15s" d="M155 70 H195" pathLength="1"></path>
+    <path class="hl" style="--h:0.4s" d="M260 90 V270" pathLength="1"></path>
+    <path class="hl" style="--h:0.65s" d="M325 290 H378" pathLength="1"></path>
+    <path class="hl" style="--h:0.9s" d="M462 290 H518" pathLength="1"></path>
+    <path class="hl" style="--h:1.15s" d="M602 290 H650" pathLength="1"></path>
+    <path class="hl" style="--h:1.4s" d="M715 270 V155" pathLength="1"></path>
+    <g class="hl-in" style="--h:1.6s">
+        <rect class="node lit" x="650" y="115" width="130" height="40" rx="7"></rect>
+        <text class="t" x="715" y="139.5" text-anchor="middle">Booking shows up</text>
+    </g>
+    <g class="hl-in" style="--h:2s">
         <path class="ln ink" d="M606 135 H646" marker-end="url(#fm-a-ink)"></path>
         <text class="tiny" x="626" y="128" text-anchor="middle">yes</text>
     </g>
@@ -113,6 +127,9 @@
 
 <style>
     .flowmap {
+        --teal: #3bb3b8;
+        --teal-ink: #237f83;
+        --build: 3.9s; /* when the highlight starts */
         display: block;
         width: 100%;
         height: auto;
@@ -120,7 +137,7 @@
     }
     .area-nanny {
         fill: #fff;
-        stroke: #d5d9dd;
+        stroke: #3a3a3a;
     }
     .area-label {
         font-size: 14px;
@@ -146,7 +163,7 @@
         font-size: 11px;
         font-weight: 500;
     }
-    .t.muted {
+    .soft-t {
         fill: #8a8a8a;
     }
     .t.on-strong {
@@ -158,10 +175,6 @@
         fill: none;
         stroke-linejoin: round;
     }
-    .ln.teal {
-        stroke: #3bb3b8;
-        stroke-width: 1.75;
-    }
     .ln.ink {
         stroke: #3a3a3a;
         stroke-width: 1;
@@ -172,53 +185,99 @@
     }
     .node {
         fill: #fff;
-    }
-    .node.teal {
-        stroke: #3bb3b8;
-        stroke-width: 1.5;
-        fill: #f3fafa;
+        stroke-width: 1;
     }
     .node.ink {
         stroke: #3a3a3a;
-        stroke-width: 1;
     }
-    .node.dash {
-        fill: rgba(255, 255, 255, 0.55);
-        stroke: #c3c7cc;
-        stroke-dasharray: 3 3;
+    .node.soft {
+        fill: #f6f6f6;
+        stroke: #dedede;
     }
-    .dia.strong {
-        fill: #237f83;
+    .node.lit {
+        stroke: var(--teal);
+        stroke-width: 1.5;
     }
     .dia.soft {
         fill: #e1e1e1;
+        stroke: transparent;
+        stroke-width: 1.5;
     }
-    .head {
+    .dia.accept {
+        fill: #8a8a8a;
+    }
+    .hl {
         fill: none;
-        stroke-width: 1.4;
-        stroke-linecap: round;
+        stroke: var(--teal);
+        stroke-width: 2;
         stroke-linejoin: round;
     }
-    .head.teal {
-        stroke: #3bb3b8;
+
+    /* the finished, highlighted state: also what shows without scripts or with reduced motion */
+    .node.hn,
+    .dia.hn {
+        stroke: var(--teal);
+        stroke-width: 1.5;
+    }
+    .node.hn {
+        fill: #fff;
+    }
+    .hn-t {
+        fill: #3a3a3a;
+    }
+    .hn-acc {
+        fill: var(--teal-ink);
     }
 
-    /* build-up: hidden until the graphic scrolls into view (only when scripts run) */
-    :global(.js) .flowmap:not(.play) .st {
-        opacity: 0;
-    }
-    :global(.js) .flowmap:not(.play) .draw {
-        stroke-dasharray: 1;
-        stroke-dashoffset: 1;
-    }
-    .flowmap.play .st {
-        opacity: 0;
-        animation: fm-in 0.5s ease var(--d) forwards;
-    }
-    .flowmap.play .draw {
-        stroke-dasharray: 1;
-        stroke-dashoffset: 1;
-        animation: fm-draw 0.35s ease-out var(--d) forwards;
+    /* ---- animation, only when scripts run and motion is welcome ---- */
+    @media (prefers-reduced-motion: no-preference) {
+        :global(.js) .flowmap .st,
+        :global(.js) .flowmap .hl-in {
+            opacity: 0;
+        }
+        :global(.js) .flowmap .hl {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+        }
+        /* before the highlight, highlightable pieces wear their neutral look */
+        :global(.js) .flowmap .node.ink.hn {
+            stroke: #3a3a3a;
+            stroke-width: 1;
+        }
+        :global(.js) .flowmap .node.soft.hn {
+            fill: #f6f6f6;
+            stroke: #dedede;
+            stroke-width: 1;
+        }
+        :global(.js) .flowmap .dia.hn {
+            stroke: transparent;
+        }
+        :global(.js) .flowmap .hn-t,
+        :global(.js) .flowmap .hn-acc {
+            fill: #8a8a8a;
+        }
+
+        .flowmap.play .st {
+            animation: fm-in 0.45s ease var(--b) forwards;
+        }
+        .flowmap.play .hl {
+            animation: fm-draw 0.3s ease-out calc(var(--build) + var(--h)) forwards;
+        }
+        .flowmap.play .hl-in {
+            animation: fm-in 0.4s ease calc(var(--build) + var(--h)) forwards;
+        }
+        .flowmap.play .node.hn {
+            animation: fm-lit 0.35s ease calc(var(--build) + var(--h)) forwards;
+        }
+        .flowmap.play .dia.hn {
+            animation: fm-lit-dia 0.35s ease calc(var(--build) + var(--h)) forwards;
+        }
+        .flowmap.play .hn-t {
+            animation: fm-text 0.35s ease calc(var(--build) + var(--h)) forwards;
+        }
+        .flowmap.play .hn-acc {
+            animation: fm-acc 0.35s ease calc(var(--build) + var(--h)) forwards;
+        }
     }
     @keyframes fm-in {
         to {
@@ -230,18 +289,32 @@
             stroke-dashoffset: 0;
         }
     }
-    @media (prefers-reduced-motion: reduce) {
-        .flowmap.play .st,
-        .flowmap.play .draw {
-            animation: none;
-            opacity: 1;
-            stroke-dashoffset: 0;
+    @keyframes fm-lit {
+        to {
+            fill: #fff;
+            stroke: #3bb3b8;
+            stroke-width: 1.5;
+        }
+    }
+    @keyframes fm-lit-dia {
+        to {
+            stroke: #3bb3b8;
+        }
+    }
+    @keyframes fm-text {
+        to {
+            fill: #3a3a3a;
+        }
+    }
+    @keyframes fm-acc {
+        to {
+            fill: #237f83;
         }
     }
 </style>
 
 <script>
-    // Mark scripting as on, then play each flow map once it is mostly in view.
+    // Scripting is on: hold the flow until it scrolls into view, then play it once.
     document.documentElement.classList.add("js")
     const io = new IntersectionObserver(
         (entries) => {
@@ -256,4 +329,3 @@
     )
     document.querySelectorAll("[data-flowmap]").forEach((el) => io.observe(el))
 </script>
-

@@ -1,0 +1,65 @@
+---
+// Unlisted: the original booking-flow video next to the live rebuild, to compare them.
+import Base from "../../layouts/Base.astro"
+import FlowMap from "../../components/smn/FlowMap.astro"
+---
+
+<Base nav="none" noindex title="Preview · Booking flow">
+    <main class="wrap">
+        <p class="tag">Original (video)</p>
+        <div class="box">
+            <video src="/video/smn/flow.mp4" muted loop autoplay playsinline></video>
+        </div>
+        <p class="tag">Rebuilt (live, Public Sans, SMN teal) <button type="button" id="replay">Replay</button></p>
+        <div class="box live" id="live"><FlowMap /></div>
+    </main>
+</Base>
+
+<style>
+    .wrap {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .tag {
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .box {
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        background: url("/images/smn/grid.png") center / cover;
+    }
+    .box video {
+        display: block;
+        width: 100%;
+    }
+    .live {
+        padding: 1.5rem 2.5rem;
+    }
+    button {
+        font: 400 0.75rem/1 var(--sans);
+        padding: 0.375rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--ink);
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    document.getElementById("replay")?.addEventListener("click", () => {
+        const svg = document.querySelector<SVGElement>("#live [data-flowmap]")
+        if (!svg) return
+        svg.classList.remove("play")
+        void svg.getBoundingClientRect()
+        requestAnimationFrame(() => svg.classList.add("play"))
+    })
+</script>

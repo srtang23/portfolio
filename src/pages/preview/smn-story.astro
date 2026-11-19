@@ -394,6 +394,21 @@ const img = (f: string) => `/images/smn/${f}`
                     }
                 </ol>
             </section>
+
+            <!-- Showcase day -->
+            <section class="sec showcase" aria-label="HCDE Capstone Showcase Day">
+                <h2 class="h">HCDE Capstone Showcase Day!</h2>
+                <div class="sc-row">
+                    <figure class="sc sc-wide">
+                        <img src={img("showcase-booth.jpg")} loading="lazy" alt="Sophia and three teammates at their Spilt Milk Nannies booth, with the project poster and live demos on screens." />
+                        <figcaption>Pitching to current students, professors and industry professionals!</figcaption>
+                    </figure>
+                    <figure class="sc">
+                        <img src={img("showcase-team.jpg")} loading="lazy" alt="The four designers standing with their sponsor from Spilt Milk Nannies." />
+                        <figcaption>The team + our sponsor</figcaption>
+                    </figure>
+                </div>
+            </section>
         </div>
     </main>
 </Base>
@@ -1323,6 +1338,45 @@ const img = (f: string) => `/images/smn/${f}`
         }
         .but-role {
             font-size: 1.0625rem;
+        }
+    }
+
+    /* showcase day photos */
+    .sc-row {
+        display: grid;
+        grid-template-columns: 1.45fr 1fr;
+        gap: 1rem;
+    }
+    .sc {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+    }
+    .sc img {
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+    .sc-wide img {
+        object-position: 50% 45%;
+    }
+    .sc figcaption {
+        font: 400 0.875rem/1.5 var(--sans);
+        color: var(--body);
+    }
+    @media (max-width: 809.98px) {
+        .sc-row {
+            grid-template-columns: 1fr;
+            gap: 1.75rem;
+        }
+        .sc img {
+            height: auto;
+            aspect-ratio: 4 / 3;
+        }
+        .sc figcaption {
+            font-size: 1rem;
         }
     }
 </style>

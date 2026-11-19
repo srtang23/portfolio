@@ -39,8 +39,10 @@ const videos = Array.from({ length: count }, (_, i) => `/video/smn/story-${i + 1
         height: 100%;
         object-fit: cover;
         display: block;
-        /* the recordings have a teal backdrop around the phone; clip to the phone's own outline */
-        clip-path: inset(1% 2.1% 0.9% 3.6% round 19% / 9.6%);
+        /* the recordings have a teal backdrop around the phone; mask it away with the phone's exact
+           silhouette (traced from the recordings, side buttons included) */
+        -webkit-mask: url("/video/smn/phone-mask.png") center / 100% 100% no-repeat;
+        mask: url("/video/smn/phone-mask.png") center / 100% 100% no-repeat;
         opacity: 0;
         transition: opacity 0.25s ease;
     }

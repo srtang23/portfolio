@@ -5,6 +5,7 @@ import "../../styles/case-enter.css"
 import CaseNav from "../../components/CaseNav.astro"
 import StoryPhone from "../../components/smn/StoryPhone.astro"
 import NeedsShift from "../../components/smn/NeedsShift.astro"
+import Journey from "../../components/smn/Journey.astro"
 
 const sections = [
     { id: "overview", label: "Overview" },
@@ -203,15 +204,21 @@ const img = (f: string) => `/images/smn/${f}`
                 <div class="o o1">
                     <p class="tag">#opportunity</p>
                     <p class="oq">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
-                    <div class="panel journey">
-                        <picture>
-                            <source media="(max-width: 809.98px)" srcset={img("journey-phone.png")} />
-                            <img
-                                src={img("journey.png")}
-                                loading="lazy"
-                                alt="Nanny journey: post availability, browse shifts, accept a booking and get booked happen on the platform; preparing, managing changes, the session itself and follow up are handled off the platform."
-                            />
-                        </picture>
+                    <!-- journey styles, for comparing (?j=image|outline|tint|dots|accent) -->
+                    <script is:inline>
+                        document.documentElement.dataset.j = new URLSearchParams(location.search).get("j") || "outline"
+                    </script>
+                    <div class="panel jwrap">
+                        <div class="jv jv-image">
+                            <picture>
+                                <source media="(max-width: 809.98px)" srcset={img("journey-phone.png")} />
+                                <img src={img("journey.png")} loading="lazy" alt="" />
+                            </picture>
+                        </div>
+                        <div class="jv jv-outline"><Journey look="outline" /></div>
+                        <div class="jv jv-tint"><Journey look="tint" /></div>
+                        <div class="jv jv-dots"><Journey look="dots" /></div>
+                        <div class="jv jv-accent"><Journey look="accent" /></div>
                     </div>
                 </div>
             </section>
@@ -843,8 +850,23 @@ const img = (f: string) => `/images/smn/${f}`
     .o1 {
         display: flex;
     }
-    .o1 .journey {
+    .jwrap {
         margin-top: 0.5rem;
+        padding: 2.25rem 1.75rem 2rem;
+    }
+    .jv {
+        display: none;
+    }
+    .jv-image img {
+        width: 100%;
+        height: auto;
+    }
+    :global(html[data-j="image"]) .jv-image,
+    :global(html[data-j="outline"]) .jv-outline,
+    :global(html[data-j="tint"]) .jv-tint,
+    :global(html[data-j="dots"]) .jv-dots,
+    :global(html[data-j="accent"]) .jv-accent {
+        display: block;
     }
     /* 1: coverage */
     .cov {

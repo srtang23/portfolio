@@ -10,7 +10,7 @@ import FlowMap from "../../components/smn/FlowMap.astro"
         <div class="box">
             <video src="/video/smn/flow.mp4" muted loop autoplay playsinline></video>
         </div>
-        <p class="tag">Rebuilt (live, Public Sans, SMN teal) <button type="button" id="replay">Replay</button></p>
+        <p class="tag">Rebuilt (static, Public Sans, neutral colours)</p>
         <div class="box live" id="live"><FlowMap /></div>
     </main>
 </Base>
@@ -54,12 +54,3 @@ import FlowMap from "../../components/smn/FlowMap.astro"
     }
 </style>
 
-<script>
-    document.getElementById("replay")?.addEventListener("click", () => {
-        const svg = document.querySelector<SVGElement>("#live [data-flowmap]")
-        if (!svg) return
-        svg.classList.remove("play")
-        void svg.getBoundingClientRect()
-        requestAnimationFrame(() => svg.classList.add("play"))
-    })
-</script>

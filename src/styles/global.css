@@ -109,7 +109,7 @@ h3 {
     color: var(--label);
 }
 .body {
-    font: 400 14px/1.6 var(--para); /* fixed 14px on desktop; phones set their own size */
+    font: 400 15px/1.6 var(--para); /* fixed 15px on desktop; phones set their own size */
     color: var(--body);
 }
 

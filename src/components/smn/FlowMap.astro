@@ -6,7 +6,7 @@
 
 <svg
     class="flowmap"
-    viewBox="-55 120 1450 725"
+    viewBox="-55 120 1450 665"
     role="img"
     aria-label="Booking flow. Nanny side: set availability, then availability is posted and shown to families. Family side, out of scope: families browse nannies; if the time is covered and they book the nanny, the booking is confirmed and an email notice makes it show up for the nanny. If the time isn't covered, the family requests an open shift, which is shown to nannies, who can accept it."
 >
@@ -27,32 +27,25 @@
     <rect class="area-nanny" x="115" y="128" width="1267" height="256" rx="18"></rect>
     <text class="area-label" x="-45" y="153">Nanny side</text>
 
+
     <!-- family side, out of scope -->
-    <rect x="115" y="497" width="1267" height="338" rx="18" fill="url(#fm-hatch)"></rect>
-    <text class="area-label muted" x="-45" y="522">Family side</text>
-    <rect class="pill" x="-45" y="536" width="124" height="31" rx="15.5"></rect>
-    <text class="tiny" x="17" y="558" text-anchor="middle">Out of scope</text>
+    <g transform="translate(0 -60)">
+        <rect x="115" y="497" width="1267" height="338" rx="18" fill="url(#fm-hatch)"></rect>
+        <text class="area-label muted" x="-45" y="522">Family side</text>
+        <rect class="pill" x="-45" y="536" width="124" height="31" rx="15.5"></rect>
+        <text class="tiny" x="17" y="558" text-anchor="middle">Out of scope</text>
+    </g>
 
     <!-- connectors -->
     <path class="ln ink" d="M326 185 H398" marker-end="url(#fm-a-ink)"></path>
-    <path class="ln grey" d="M499 220 V538" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="489" y="447" text-anchor="end">shown to families</text>
+    <path class="ln grey" d="M499 220 V478" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="489" y="416" text-anchor="end">shown to families</text>
 
-    <path class="ln grey" d="M594 579 H667" marker-end="url(#fm-a-grey)"></path>
-    <path class="ln grey" d="M823 579 H936" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="880" y="567" text-anchor="middle">yes</text>
-    <path class="ln grey" d="M1092 579 H1166" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="1130" y="567" text-anchor="middle">yes</text>
+    <path class="ln grey" d="M654 673 H633 V329 H666" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="643" y="416">shown to nannies</text>
 
-    <path class="ln grey" d="M748 639 V692" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="760" y="670">no</text>
-    <path class="ln grey" d="M654 733 H633 V329 H666" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="643" y="447">shown to nannies</text>
-    <path class="ln grey" d="M1017 639 V813 H499 V622" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="1030" y="727">no</text>
-
-    <path class="ln grey" d="M1267 544 V372" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="1277" y="447">email notice</text>
+    <path class="ln grey" d="M1267 484 V372" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="1277" y="416">email notice</text>
 
     <path class="ln ink" d="M864 329 H934" marker-end="url(#fm-a-ink)"></path>
     <path class="ln ink" d="M1095 329 H1166" marker-end="url(#fm-a-ink)"></path>
@@ -71,20 +64,32 @@
     <rect class="node" x="1172" y="294" width="190" height="70" rx="12"></rect>
     <text class="t" x="1267" y="335" text-anchor="middle">Booking shows up</text>
 
-    <!-- family-side steps -->
-    <rect class="node dash" x="404" y="544" width="190" height="70" rx="12"></rect>
-    <text class="t muted" x="499" y="585" text-anchor="middle">Browse nannies</text>
-    <path class="dia soft" d="M748 519 L823 579 L748 639 L673 579 Z"></path>
-    <text class="t d" x="748" y="575" text-anchor="middle">Time</text>
-    <text class="t d" x="748" y="596" text-anchor="middle">covered?</text>
-    <path class="dia soft" d="M1017 519 L1092 579 L1017 639 L942 579 Z"></path>
-    <text class="t d" x="1017" y="575" text-anchor="middle">Book this</text>
-    <text class="t d" x="1017" y="596" text-anchor="middle">nanny?</text>
-    <rect class="node dash" x="1172" y="544" width="190" height="70" rx="12"></rect>
-    <text class="t muted" x="1267" y="585" text-anchor="middle">Booking confirmed</text>
-    <rect class="node dash" x="654" y="698" width="190" height="70" rx="12"></rect>
-    <text class="t muted" x="749" y="728" text-anchor="middle">Request an open</text>
-    <text class="t muted" x="749" y="751" text-anchor="middle">shift</text>
+    <!-- family-side steps and lines (60 units higher to close the gap) -->
+    <g transform="translate(0 -60)">
+        <path class="ln grey" d="M594 579 H667" marker-end="url(#fm-a-grey)"></path>
+        <path class="ln grey" d="M823 579 H936" marker-end="url(#fm-a-grey)"></path>
+        <text class="tiny" x="880" y="567" text-anchor="middle">yes</text>
+        <path class="ln grey" d="M1092 579 H1166" marker-end="url(#fm-a-grey)"></path>
+        <text class="tiny" x="1130" y="567" text-anchor="middle">yes</text>
+        <path class="ln grey" d="M748 639 V692" marker-end="url(#fm-a-grey)"></path>
+        <text class="tiny" x="760" y="670">no</text>
+        <path class="ln grey" d="M1017 639 V813 H499 V622" marker-end="url(#fm-a-grey)"></path>
+        <text class="tiny" x="1030" y="727">no</text>
+        <!-- family-side steps -->
+        <rect class="node dash" x="404" y="544" width="190" height="70" rx="12"></rect>
+        <text class="t muted" x="499" y="585" text-anchor="middle">Browse nannies</text>
+        <path class="dia soft" d="M748 519 L823 579 L748 639 L673 579 Z"></path>
+        <text class="t d" x="748" y="575" text-anchor="middle">Time</text>
+        <text class="t d" x="748" y="596" text-anchor="middle">covered?</text>
+        <path class="dia soft" d="M1017 519 L1092 579 L1017 639 L942 579 Z"></path>
+        <text class="t d" x="1017" y="575" text-anchor="middle">Book this</text>
+        <text class="t d" x="1017" y="596" text-anchor="middle">nanny?</text>
+        <rect class="node dash" x="1172" y="544" width="190" height="70" rx="12"></rect>
+        <text class="t muted" x="1267" y="585" text-anchor="middle">Booking confirmed</text>
+        <rect class="node dash" x="654" y="698" width="190" height="70" rx="12"></rect>
+        <text class="t muted" x="749" y="728" text-anchor="middle">Request an open</text>
+        <text class="t muted" x="749" y="751" text-anchor="middle">shift</text>
+    </g>
 </svg>
 
 <style>

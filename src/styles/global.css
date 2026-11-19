@@ -15,8 +15,8 @@
     --nav: rgba(17, 17, 17, 0.5);
 
     --serif: "Newsreader", Georgia, serif;
-    --sans: "Geist", "Inter", system-ui, sans-serif;
-    --para: "Public Sans", "Geist", system-ui, sans-serif; /* paragraph text */
+    --sans: "Public Sans", system-ui, sans-serif;
+    --para: var(--sans);
     --spring: cubic-bezier(0.22, 1, 0.36, 1);
 
     /* Page edges shared by the nav, the Home cards and the case studies */

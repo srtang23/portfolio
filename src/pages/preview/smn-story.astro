@@ -468,11 +468,13 @@ const img = (f: string) => `/images/smn/${f}`
     }
 
     /* ---------- Content columns ---------- */
+    /* spacing follows rachelchen.tech: ~16px between blocks, ~20px label → headline → text,
+       ~40px before a follow-on headline, ~96px between sections */
     .content {
         display: flex;
         flex-direction: column;
-        gap: 4.5rem;
-        padding: 7.5rem var(--gutter) 7.5rem 24.5rem;
+        gap: 5rem;
+        padding: 2.5rem var(--gutter) 2.5rem 24.5rem;
     }
     .content.first {
         padding-top: 6rem;
@@ -481,17 +483,15 @@ const img = (f: string) => `/images/smn/${f}`
         padding-bottom: 2.5rem;
     }
 
-    .sec {
+    .sec,
+    .sec.gap-16 {
         display: flex;
         flex-direction: column;
-        gap: 1.25rem;
+        gap: 0.8333rem;
     }
-    .sec.gap-16 {
-        gap: 1rem;
-    }
-    /* a paragraph sits close under its headline */
-    .h + .body {
-        margin-top: -0.625rem;
+    .sec > .tag + .h,
+    .sec > .h + .body {
+        margin-top: 0.2083rem;
     }
     .h {
         font: 500 1.1875rem/1.3 var(--serif);
@@ -546,6 +546,9 @@ const img = (f: string) => `/images/smn/${f}`
         border-radius: 1rem;
     }
     /* outcomes: plain numbers, no cards */
+    .outcomes {
+        padding: 0;
+    }
     .ot {
         font: 400 0.875rem/1.5 var(--sans);
         color: var(--label);
@@ -775,7 +778,7 @@ const img = (f: string) => `/images/smn/${f}`
             line-height: 1.05;
         }
         .content {
-            padding: 6rem var(--gutter) 6rem 11.5rem;
+            padding: 2.5rem var(--gutter) 2.5rem 11.5rem;
         }
         .content.first {
             padding-top: 4rem;
@@ -815,8 +818,8 @@ const img = (f: string) => `/images/smn/${f}`
             height: 18.1875rem;
         }
         .content {
-            gap: 5rem;
-            padding: 5rem 1.25rem;
+            gap: 4rem;
+            padding: 2rem 1.25rem;
         }
         .content.first {
             padding-top: 4rem;
@@ -888,8 +891,7 @@ const img = (f: string) => `/images/smn/${f}`
 
     /* Opportunity options */
     .opp-wrap {
-        padding-top: 0;
-        padding-bottom: 0;
+        gap: 0;
     }
     .o {
         display: none;
@@ -1396,7 +1398,7 @@ const img = (f: string) => `/images/smn/${f}`
 
     /* a heading that continues the previous one ("…but") */
     .h.cont {
-        margin-top: 1.75rem;
+        margin-top: 1.25rem;
     }
 </style>
 

@@ -4,7 +4,6 @@ import "../../styles/case-mobile.css"
 import "../../styles/case-enter.css"
 import CaseNav from "../../components/CaseNav.astro"
 import StoryPhone from "../../components/smn/StoryPhone.astro"
-import RevealBand from "../../components/smn/RevealBand.astro"
 import NeedsShift from "../../components/smn/NeedsShift.astro"
 
 const sections = [
@@ -197,10 +196,14 @@ const img = (f: string) => `/images/smn/${f}`
             </section>
         </div>
 
-        <RevealBand
-            id="opportunity"
-            text="How might we create a **more connected and intuitive experience** that **supports nannies throughout their caregiving journey?**"
-        />
+        <!-- Opportunity: a compact teal card in the text column, not a full-screen band -->
+        <div class="content opp-wrap">
+            <section id="opportunity" class="opp">
+                <div class="opp-bg" aria-hidden="true"></div>
+                <p class="opp-tag">#opportunity</p>
+                <p class="opp-text">How might we <b>support nannies</b> throughout their <b>caregiving journey?</b></p>
+            </section>
+        </div>
 
         <div class="content">
             <!-- Solution: one headline and one line, then the four features -->
@@ -825,6 +828,81 @@ const img = (f: string) => `/images/smn/${f}`
         }
     }
 
+    /* Opportunity card */
+    .opp-wrap {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .opp {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        min-height: 17rem;
+        padding: 3rem 2.5rem;
+        border-radius: 1.25rem;
+    }
+    .opp-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: url("/images/smn/hero-bg.jpg") center / cover;
+    }
+    .opp-bg::before {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background: url("/images/smn/hero-bg.jpg") center / cover;
+        animation: opp-drift 12s ease-in-out infinite alternate;
+    }
+    .opp-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("/images/smn/grain.png") center / cover;
+        opacity: 0.9;
+    }
+    @keyframes opp-drift {
+        from {
+            transform: scale(1.1) translate(-3%, -2%) rotate(-2deg);
+        }
+        to {
+            transform: scale(1.15) translate(3%, 2%) rotate(2deg);
+        }
+    }
+    .opp-tag {
+        font: 400 0.75rem/1.4 var(--sans);
+        letter-spacing: 0.01em;
+        color: rgba(255, 255, 255, 0.78);
+    }
+    .opp-text {
+        max-width: 32rem;
+        font: 500 2rem/1.2 var(--serif);
+        letter-spacing: -0.02em;
+        color: rgba(255, 255, 255, 0.62);
+    }
+    .opp-text b {
+        font-weight: inherit;
+        color: #fff;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .opp-bg::before {
+            animation: none;
+        }
+    }
+    @media (max-width: 809.98px) {
+        .opp {
+            min-height: 13rem;
+            padding: 2rem 1.5rem;
+            border-radius: 1rem;
+        }
+        .opp-text {
+            font-size: 1.5rem;
+        }
+    }
     .role-label {
         color: var(--ink);
         font-weight: 500;

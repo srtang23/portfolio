@@ -342,6 +342,106 @@ const img = (f: string) => `/images/smn/${f}`
             </section>
         </div>
     </main>
+    <!-- paragraph font experiment (?f=) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Inter+Tight:wght@400;500&family=Instrument+Sans:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=Public+Sans:wght@400;500&family=Schibsted+Grotesk:wght@400;500&display=swap"
+    />
+    <script is:inline>
+        document.documentElement.dataset.f = new URLSearchParams(location.search).get("f") || "geist"
+    </script>
+    <div class="fontbar" aria-label="Paragraph font">
+        {
+            [
+                ["geist", "Geist (now)"],
+                ["plex", "IBM Plex Sans"],
+                ["instrument", "Instrument Sans"],
+                ["intertight", "Inter Tight"],
+                ["public", "Public Sans"],
+                ["schibsted", "Schibsted Grotesk"],
+                ["hanken", "Hanken Grotesk"],
+                ["newsreader", "Newsreader"],
+                ["source", "Source Serif"],
+            ].map(([k, l]) => (
+                <button type="button" data-f={k}>
+                    {l}
+                </button>
+            ))
+        }
+    </div>
+    <script>
+        const bar = document.querySelector<HTMLElement>(".fontbar")
+        const mark = () => bar?.querySelectorAll<HTMLElement>("button").forEach((b) => b.classList.toggle("on", b.dataset.f === document.documentElement.dataset.f))
+        mark()
+        bar?.addEventListener("click", (e) => {
+            const b = (e.target as HTMLElement).closest<HTMLElement>("button")
+            if (!b) return
+            document.documentElement.dataset.f = b.dataset.f
+            const u = new URL(location.href)
+            u.searchParams.set("f", b.dataset.f!)
+            history.replaceState(null, "", u)
+            mark()
+        })
+    </script>
+    <style is:global>
+        html[data-f="intertight"] { --pf: "Inter Tight", sans-serif; --pf-ls: 0; }
+        html[data-f="public"] { --pf: "Public Sans", sans-serif; --pf-ls: 0; }
+        html[data-f="schibsted"] { --pf: "Schibsted Grotesk", sans-serif; --pf-ls: 0; }
+        html[data-f="instrument"] { --pf: "Instrument Sans", sans-serif; }
+        html[data-f="plex"] { --pf: "IBM Plex Sans", sans-serif; --pf-ls: 0; }
+        html[data-f="hanken"] { --pf: "Hanken Grotesk", sans-serif; }
+        html[data-f="newsreader"] { --pf: var(--serif); --pf-size: 1.03; --pf-ls: 0; }
+        html[data-f="source"] { --pf: "Source Serif 4", serif; --pf-size: 1.03; --pf-ls: 0; }
+        main.case .body,
+        main.case .body p,
+        main.case .info dd,
+        main.case .info dt {
+            font-family: var(--pf, var(--sans));
+            letter-spacing: calc(var(--pf-ls, 0.01) * 1em);
+        }
+        main.case .body,
+        main.case .body p {
+            font-size: calc(0.875rem * var(--pf-size, 1));
+        }
+        @media (max-width: 809.98px) {
+            main.case .body,
+            main.case .body p {
+                font-size: calc(1.0625rem * var(--pf-size, 1));
+            }
+        }
+        .fontbar {
+            position: fixed;
+            z-index: 60;
+            left: 50%;
+            bottom: 1rem;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.25rem;
+            max-width: calc(100vw - 2rem);
+            overflow-x: auto;
+            padding: 0.3125rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(0, 0, 0, 0.08);
+            font: 400 0.75rem/1 var(--sans);
+        }
+        .fontbar button {
+            flex: none;
+            padding: 0.5rem 0.75rem;
+            border: 0;
+            border-radius: 999px;
+            background: none;
+            color: var(--label);
+            font: inherit;
+            cursor: pointer;
+        }
+        .fontbar button.on {
+            background: var(--ink);
+            color: #fff;
+        }
+    </style>
 </Base>
 
 <style>

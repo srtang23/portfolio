@@ -1,90 +1,90 @@
 ---
-// The booking flow between the nanny side and the family side, drawn live in the site font and
-// the portfolio's neutral colours. The booking path is drawn darker; the family side is out of scope.
-// Sized so its text reads at about the paragraph size when the graphic fills the content column.
+// The booking flow between the nanny side and the family side, redrawn from the original
+// diagram in the site font and the portfolio's neutral greys (no pure black).
+// Coordinates follow the original artwork, so the layout matches it.
 ---
 
-<svg class="flowmap" viewBox="0 0 840 470" role="img" aria-labelledby="flowmap-title">
-    <title id="flowmap-title">
-        Booking flow. Nanny side: set availability, then availability is posted and shown to families. Family side, out of scope: families browse nannies; if the time is
-        covered and they book the nanny, the booking is confirmed and an email notice makes it show up for the nanny. If the time isn't covered, the family requests an open
-        shift, which is shown to nannies, who can accept it.
-    </title>
+<svg
+    class="flowmap"
+    viewBox="80 50 1340 810"
+    role="img"
+    aria-label="Booking flow. Nanny side: set availability, then availability is posted and shown to families. Family side, out of scope: families browse nannies; if the time is covered and they book the nanny, the booking is confirmed and an email notice makes it show up for the nanny. If the time isn't covered, the family requests an open shift, which is shown to nannies, who can accept it."
+>
     <defs>
-        <marker id="fm-a-ink" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M1 1 7 4 1 7" fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <marker id="fm-a-ink" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M1 1 7 4 1 7" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
         </marker>
-        <marker id="fm-a-grey" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M1 1 7 4 1 7" fill="none" stroke="#a3a7ad" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <marker id="fm-a-grey" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M1 1 7 4 1 7" fill="none" stroke="#a3a7ad" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
         </marker>
-        <pattern id="fm-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <rect width="9" height="9" fill="#f0f0f0"></rect>
-            <line x1="0" y1="0" x2="0" y2="9" stroke="#e5e5e5" stroke-width="3"></line>
+        <pattern id="fm-hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="14" height="14" fill="#efefef"></rect>
+            <line x1="0" y1="0" x2="0" y2="14" stroke="#e6e6e6" stroke-width="5"></line>
         </pattern>
     </defs>
 
-    <!-- areas -->
-    <rect class="area-nanny" x="6" y="6" width="828" height="196" rx="12"></rect>
-    <text class="area-label" x="26" y="36">Nanny side</text>
-    <rect x="6" y="236" width="828" height="228" rx="12" fill="url(#fm-hatch)"></rect>
-    <text class="area-label muted" x="26" y="266">Family side</text>
-    <rect class="pill" x="26" y="277" width="92" height="23" rx="11.5"></rect>
-    <text class="tiny" x="72" y="293" text-anchor="middle">Out of scope</text>
-
-    <!-- other routes, in light grey -->
-    <path class="ln grey" d="M435 360 V385" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="444" y="378">no</text>
-    <path class="ln grey" d="M590 360 V450 H265 V360" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="599" y="410">no</text>
-    <path class="ln grey" d="M360 412 H343 V152 H356" marker-end="url(#fm-a-grey)"></path>
-    <text class="tiny" x="351" y="224">shown to nannies</text>
-    <path class="ln ink" d="M510 152 H531" marker-end="url(#fm-a-ink)"></path>
-
-    <!-- the booking path, drawn darker -->
-    <path class="hl" d="M168 71 H186" marker-end="url(#fm-a-ink)"></path>
-    <path class="hl" d="M265 96 V306"></path>
-    <text class="tiny" x="256" y="224" text-anchor="end">shown to families</text>
-    <path class="hl" d="M340 331 H380"></path>
-    <path class="hl" d="M490 331 H535"></path>
-    <text class="tiny" x="512" y="322" text-anchor="middle">yes</text>
-    <path class="hl" d="M645 331 H670"></path>
-    <text class="tiny" x="657" y="322" text-anchor="middle">yes</text>
-    <path class="hl" d="M745 306 V181" marker-end="url(#fm-a-ink)"></path>
-    <text class="tiny" x="754" y="224">email notice</text>
-    <path class="hl" d="M645 152 H666" marker-end="url(#fm-a-ink)"></path>
-    <text class="tiny" x="656" y="142" text-anchor="middle">yes</text>
-
     <!-- nanny side -->
-    <rect class="node on" x="22" y="46" width="146" height="50" rx="8"></rect>
-    <text class="t" x="95" y="76.5" text-anchor="middle">Set availability</text>
-    <rect class="node on" x="190" y="46" width="150" height="50" rx="8"></rect>
-    <text class="t" x="265" y="67" text-anchor="middle">Availability</text>
-    <text class="t" x="265" y="86" text-anchor="middle">posted</text>
-    <rect class="node ink" x="360" y="127" width="150" height="50" rx="8"></rect>
-    <text class="t" x="435" y="148" text-anchor="middle">See open shift</text>
-    <text class="t" x="435" y="167" text-anchor="middle">request</text>
-    <path class="dia strong" d="M590 116 L645 152 L590 188 L535 152 Z"></path>
-    <text class="t on-strong" x="590" y="149" text-anchor="middle">Accept</text>
-    <text class="t on-strong" x="590" y="165" text-anchor="middle">shift?</text>
-    <rect class="node on" x="670" y="127" width="150" height="50" rx="8"></rect>
-    <text class="t" x="745" y="148" text-anchor="middle">Booking</text>
-    <text class="t" x="745" y="167" text-anchor="middle">shows up</text>
+    <rect class="area-nanny" x="97" y="65" width="1303" height="340" rx="18"></rect>
+    <text class="area-label" x="127" y="113">Nanny side</text>
 
-    <!-- family side -->
-    <rect class="node on" x="190" y="306" width="150" height="50" rx="8"></rect>
-    <text class="t" x="265" y="336.5" text-anchor="middle">Browse nannies</text>
-    <path class="dia soft on" d="M435 302 L490 331 L435 360 L380 331 Z"></path>
-    <text class="t s" x="435" y="328" text-anchor="middle">Time</text>
-    <text class="t s" x="435" y="344" text-anchor="middle">covered?</text>
-    <path class="dia soft on" d="M590 302 L645 331 L590 360 L535 331 Z"></path>
-    <text class="t s" x="590" y="328" text-anchor="middle">Book this</text>
-    <text class="t s" x="590" y="344" text-anchor="middle">nanny?</text>
-    <rect class="node on" x="670" y="306" width="150" height="50" rx="8"></rect>
-    <text class="t" x="745" y="327" text-anchor="middle">Booking</text>
-    <text class="t" x="745" y="346" text-anchor="middle">confirmed</text>
-    <rect class="node soft" x="360" y="387" width="150" height="50" rx="8"></rect>
-    <text class="t soft-t" x="435" y="408" text-anchor="middle">Request an</text>
-    <text class="t soft-t" x="435" y="427" text-anchor="middle">open shift</text>
+    <!-- family side, out of scope -->
+    <rect x="97" y="447" width="1303" height="398" rx="18" fill="url(#fm-hatch)"></rect>
+    <text class="area-label muted" x="127" y="493">Family side</text>
+    <rect class="pill" x="127" y="505" width="112" height="29" rx="14.5"></rect>
+    <text class="tiny" x="183" y="525" text-anchor="middle">Out of scope</text>
+
+    <!-- connectors -->
+    <path class="ln ink" d="M326 185 H398" marker-end="url(#fm-a-ink)"></path>
+    <path class="ln grey" d="M499 220 V538" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="436" y="433" text-anchor="middle">shown to families</text>
+
+    <path class="ln grey" d="M594 579 H667" marker-end="url(#fm-a-grey)"></path>
+    <path class="ln grey" d="M823 579 H936" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="880" y="567" text-anchor="middle">yes</text>
+    <path class="ln grey" d="M1092 579 H1166" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="1130" y="567" text-anchor="middle">yes</text>
+
+    <path class="ln grey" d="M748 639 V692" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="760" y="670">no</text>
+    <path class="ln grey" d="M654 733 H633 V329 H666" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="700" y="433" text-anchor="middle">shown to nannies</text>
+    <path class="ln grey" d="M1017 639 V813 H499 V622" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="1030" y="727">no</text>
+
+    <path class="ln grey" d="M1267 544 V372" marker-end="url(#fm-a-grey)"></path>
+    <text class="tiny" x="1316" y="433" text-anchor="middle">email notice</text>
+
+    <path class="ln ink" d="M864 329 H934" marker-end="url(#fm-a-ink)"></path>
+    <path class="ln ink" d="M1095 329 H1166" marker-end="url(#fm-a-ink)"></path>
+    <text class="tiny" x="1132" y="317" text-anchor="middle">yes</text>
+
+    <!-- nanny-side steps -->
+    <rect class="node" x="135" y="150" width="190" height="70" rx="12"></rect>
+    <text class="t" x="230" y="191" text-anchor="middle">Set availability</text>
+    <rect class="node" x="404" y="150" width="190" height="70" rx="12"></rect>
+    <text class="t" x="499" y="191" text-anchor="middle">Availability posted</text>
+    <rect class="node" x="672" y="294" width="191" height="70" rx="12"></rect>
+    <text class="t" x="767" y="324" text-anchor="middle">See open shift</text>
+    <text class="t" x="767" y="347" text-anchor="middle">request</text>
+    <path class="dia strong" d="M1017 267 L1095 329 L1017 391 L939 329 Z"></path>
+    <text class="t d on-strong" x="1017" y="335" text-anchor="middle">Accept shift?</text>
+    <rect class="node" x="1172" y="294" width="190" height="70" rx="12"></rect>
+    <text class="t" x="1267" y="335" text-anchor="middle">Booking shows up</text>
+
+    <!-- family-side steps -->
+    <rect class="node dash" x="404" y="544" width="190" height="70" rx="12"></rect>
+    <text class="t muted" x="499" y="585" text-anchor="middle">Browse nannies</text>
+    <path class="dia soft" d="M748 519 L823 579 L748 639 L673 579 Z"></path>
+    <text class="t d" x="748" y="575" text-anchor="middle">Time</text>
+    <text class="t d" x="748" y="596" text-anchor="middle">covered?</text>
+    <path class="dia soft" d="M1017 519 L1092 579 L1017 639 L942 579 Z"></path>
+    <text class="t d" x="1017" y="575" text-anchor="middle">Book this</text>
+    <text class="t d" x="1017" y="596" text-anchor="middle">nanny?</text>
+    <rect class="node dash" x="1172" y="544" width="190" height="70" rx="12"></rect>
+    <text class="t muted" x="1267" y="585" text-anchor="middle">Booking confirmed</text>
+    <rect class="node dash" x="654" y="698" width="190" height="70" rx="12"></rect>
+    <text class="t muted" x="749" y="728" text-anchor="middle">Request an open</text>
+    <text class="t muted" x="749" y="751" text-anchor="middle">shift</text>
 </svg>
 
 <style>
@@ -97,9 +97,10 @@
     .area-nanny {
         fill: #fff;
         stroke: #3a3a3a;
+        stroke-width: 1.5;
     }
     .area-label {
-        font-size: 16px;
+        font-size: 22px;
         font-weight: 500;
         fill: #3a3a3a;
     }
@@ -111,64 +112,46 @@
         stroke: #dcdcdc;
     }
     .tiny {
-        font-size: 13px;
+        font-size: 17px;
         fill: #8f949a;
     }
     .t {
-        font-size: 15.5px;
+        font-size: 19px;
         fill: #3a3a3a;
     }
-    .t.s {
-        font-size: 13.5px;
+    .t.d {
+        font-size: 16.5px;
         font-weight: 500;
     }
-    .soft-t {
+    .t.muted {
         fill: #8a8a8a;
     }
     .t.on-strong {
         fill: #fff;
-        font-size: 13.5px;
-        font-weight: 500;
     }
     .ln {
         fill: none;
+        stroke-width: 1.3;
         stroke-linejoin: round;
     }
     .ln.ink {
         stroke: #3a3a3a;
-        stroke-width: 1;
     }
     .ln.grey {
         stroke: #a3a7ad;
-        stroke-width: 1;
-    }
-    .hl {
-        fill: none;
-        stroke: #3a3a3a;
-        stroke-width: 1.5;
-        stroke-linejoin: round;
     }
     .node {
         fill: #fff;
-        stroke-width: 1;
-    }
-    .node.on {
         stroke: #3a3a3a;
         stroke-width: 1.5;
     }
-    .node.ink {
-        stroke: #3a3a3a;
-    }
-    .node.soft {
-        fill: #f6f6f6;
-        stroke: #dedede;
+    .node.dash {
+        fill: rgba(255, 255, 255, 0.55);
+        stroke: #cfcfcf;
+        stroke-dasharray: 5 4;
     }
     .dia.soft {
-        fill: #e1e1e1;
-    }
-    .dia.soft.on {
-        stroke: #3a3a3a;
-        stroke-width: 1.5;
+        fill: #e3e3e3;
     }
     .dia.strong {
         fill: #3a3a3a;

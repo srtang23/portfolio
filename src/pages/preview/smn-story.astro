@@ -271,7 +271,7 @@ const img = (f: string) => `/images/smn/${f}`
                 <p class="tag">#pivot</p>
                 <h2 class="h">From “keep nannies engaged” to “make the work easier.”</h2>
                 <p class="body">
-                    Retention and engagement are outcomes, not something we could design directly. Instead of asking how to keep nannies active and on the platform, we asked what was making that hard.
+                    Retention and engagement are outcomes, not something we could design directly, so we started by asking what stood in the way.
                 </p>
                 <!-- narrowing visual, two ways (?z=zoom|reframe) -->
                 <script is:inline>
@@ -279,14 +279,14 @@ const img = (f: string) => `/images/smn/${f}`
                 </script>
                 <div class="panel narrow z-zoom">
                     <div class="zm zm1">
-                        <p class="zl">The ask</p>
-                        <p class="zt">Improve nanny retention and engagement</p>
+                        <p class="zl">The client’s ask</p>
+                        <p class="zt">Increase nanny engagement and long-term retention.</p>
                         <div class="zm zm2">
-                            <p class="zl">What we asked instead</p>
-                            <p class="zt">Why do nannies disengage and drift away?</p>
+                            <p class="zl">The question we asked</p>
+                            <p class="zt">What’s making it difficult for nannies to engage with the platform?</p>
                             <div class="zm zm3">
-                                <p class="zl">What we found</p>
-                                <p class="zt">Friction in the work around every booking</p>
+                                <p class="zl">What research revealed</p>
+                                <p class="zt">The platform supported bookings, but overlooked the work surrounding them.</p>
                             </div>
                         </div>
                     </div>
@@ -294,16 +294,16 @@ const img = (f: string) => `/images/smn/${f}`
                 <div class="panel narrow z-reframe">
                     <ol class="rf">
                         <li>
-                            <p class="zl">The ask</p>
-                            <p class="zt"><s>How do we keep nannies engaged and on the platform?</s></p>
+                            <p class="zl">The client’s ask</p>
+                            <p class="zt muted">Increase nanny engagement and long-term retention.</p>
                         </li>
                         <li>
-                            <p class="zl">The reframe</p>
-                            <p class="zt">What makes staying engaged hard?</p>
+                            <p class="zl">The question we asked</p>
+                            <p class="zt">What’s making it difficult for nannies to engage with the platform?</p>
                         </li>
                         <li class="rf-end">
-                            <p class="zl">What we found</p>
-                            <p class="zt">Small frictions after every booking, spread across texts, calls and other apps</p>
+                            <p class="zl">What research revealed</p>
+                            <p class="zt">The platform supported bookings, but overlooked the work surrounding them.</p>
                         </li>
                     </ol>
                 </div>
@@ -1212,9 +1212,8 @@ const img = (f: string) => `/images/smn/${f}`
         bottom: -1.25rem;
         border-left: 1px dashed #c3c7cc;
     }
-    .rf s {
+    .rf .muted {
         color: var(--label);
-        text-decoration-thickness: 1px;
     }
     .rf-end::before {
         background: #3bb3b8 !important;

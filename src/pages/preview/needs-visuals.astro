@@ -1,510 +1,202 @@
 ---
-// Unlisted: four ways to visualise "A confirmed booking was only part of the job"
-// (mapping pain points to flows, the calendar insight, and prioritising), to compare.
+// Unlisted: the #my-role story told the way rachelchen.tech does it, with short headlines
+// carrying the story, a numbered run of user questions, then before → after decision diagrams.
 import Base from "../../layouts/Base.astro"
 
-type P = { t: string; s: "fix" | "later"; key?: "note" | "cal" | "approve" }
-const flows: { h: string; items: P[] }[] = [
+const asks = [
+    { n: "01", q: "“I’m booked… now what?”", p: "The booking is confirmed, but the details are spread across email and texts." },
+    { n: "02", q: "“Where did the family’s note go?”", p: "It disappears after accepting, so one nanny copied it before tapping accept." },
+    { n: "03", q: "“Is this on my calendar?”", p: "All 4 nannies re-entered every booking into a personal calendar by hand." },
+    { n: "04", q: "“What should I know before I go?”", p: "Kids’ interests and tips from other nannies are often missing." },
+]
+const decisions = [
     {
-        h: "Posting availability",
-        items: [
-            { t: "Desktop delete is hidden", s: "fix" },
-            { t: "One block per day on mobile", s: "fix" },
-            { t: "Can't cross midnight", s: "fix" },
-            { t: "Repeat option is buried", s: "fix" },
-            { t: "Can't save time presets", s: "fix" },
-            { t: "Cancelled slots aren't restored", s: "later" },
-        ],
+        k: "Decision 1",
+        h: "Keep the family’s note after accepting",
+        from: "Note disappears after accepting",
+        to: "Note stays on the appointment",
+        why: "Breaks preparation · fixable on the nanny side",
+        out: "fix",
     },
     {
-        h: "Finding or receiving bookings",
-        items: [
-            { t: "Open shifts by email only", s: "fix" },
-            { t: "No family search", s: "fix" },
-            { t: "Booking texts miss details", s: "later" },
-            { t: "Approve or decline bookings", s: "later", key: "approve" },
-            { t: "Favourite families", s: "later" },
-        ],
-    },
-    {
-        h: "Preparing for appointments",
-        items: [
-            { t: "Calendar workaround, 4 of 4 nannies", s: "fix", key: "cal" },
-            { t: "Family's note disappears", s: "fix", key: "note" },
-            { t: "No notes for the next nanny", s: "fix" },
-            { t: "No policy search", s: "fix" },
-            { t: "Kids' interests missing", s: "later" },
-            { t: "No way to flag a concern", s: "later" },
-        ],
+        k: "Decision 2",
+        h: "Defer an approve-or-decline step",
+        from: "Any family can book any slice of availability",
+        to: "Deferred: it would change how families book",
+        why: "Breaks booking fit · needs a family-side change",
+        out: "later",
     },
 ]
 ---
 
-<Base nav="none" noindex title="Preview · Needs visuals">
+<Base nav="none" noindex title="Preview · My role, Rachel-style">
     <main class="wrap">
-        <p class="kicker">Four ways to show “A confirmed booking was only part of the job”</p>
+        <p class="tag">#my-role</p>
 
-        <!-- A: timeline with the booking in the middle -->
-        <section class="opt">
-            <p class="ol">A · Timeline with “booking confirmed” in the middle</p>
-            <div class="panel">
-                <div class="tl">
-                    {
-                        flows.map((f, i) => (
-                            <>
-                                {i === 2 && (
-                                    <div class="marker">
-                                        <span>Booking confirmed</span>
-                                    </div>
-                                )}
-                                <div class="col">
-                                    <p class="ch">{f.h}</p>
-                                    <div class="stack">
-                                        {f.items.map((p) => (
-                                            <span class:list={["sticky", p.s, p.key && "key"]}>{p.t}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </>
-                        ))
-                    }
-                </div>
-                <p class="legend"><i class="dot fix"></i> Addressed <i class="dot later"></i> Deferred <i class="dot key"></i> Named in the story</p>
-            </div>
-        </section>
+        <!-- 1: the claim, then the evidence as a numbered run of the nanny's own questions -->
+        <h2 class="h">A confirmed booking was only part of the job…</h2>
+        <p class="body">
+            I led the team in mapping each pain point to what the nanny was trying to do at that moment. After a booking was confirmed, nannies were still left asking…
+        </p>
+        <div class="panel asks">
+            {
+                asks.map((a) => (
+                    <div class="ask">
+                        <p class="an">{a.n} /</p>
+                        <p class="aq">{a.q}</p>
+                        <p class="ap">{a.p}</p>
+                    </div>
+                ))
+            }
+        </div>
 
-        <!-- B: narrowing funnel -->
-        <section class="opt">
-            <p class="ol">B · Narrowing funnel</p>
-            <div class="panel funnel">
-                <div class="fs">
-                    <p class="fn">20</p>
-                    <p class="ft">pain points from 4 nanny interviews</p>
-                    <div class="dots">{Array.from({ length: 20 }, () => <i />)}</div>
-                </div>
-                <span class="fa">↓</span>
-                <div class="fs">
-                    <p class="fn">3</p>
-                    <p class="ft">core flows</p>
-                    <div class="chips">
-                        {flows.map((f) => (
-                            <span>{f.h}</span>
-                        ))}
+        <!-- 2: the turn, then the two decisions as before → after diagrams -->
+        <h2 class="h cont">…so I guided the team to prioritise by two questions.</h2>
+        <p class="body">How much does it disrupt a core flow, and can we change it on the nanny side?</p>
+        {
+            decisions.map((d) => (
+                <div class="dec">
+                    <p class="dk">{d.k}</p>
+                    <h3 class="dh">{d.h}</h3>
+                    <div class="panel diag">
+                        <div class="box from">{d.from}</div>
+                        <svg class="arr" viewBox="0 0 48 12" aria-hidden="true">
+                            <path d="M2 6h42m-6-5 6 5-6 5" />
+                        </svg>
+                        <div class:list={["box", "to", d.out]}>{d.to}</div>
                     </div>
+                    <p class="why">{d.why}</p>
                 </div>
-                <span class="fa">↓</span>
-                <div class="fs">
-                    <p class="fn">2</p>
-                    <p class="ft">questions to prioritise</p>
-                    <div class="chips q">
-                        <span>How much does it disrupt the flow?</span>
-                        <span>Can we change it on the nanny side?</span>
-                    </div>
-                </div>
-                <span class="fa">↓</span>
-                <div class="outs">
-                    <div class="oc fix">
-                        <p class="ok">Addressed</p>
-                        <p>Keep the family's note after accepting</p>
-                    </div>
-                    <div class="oc later">
-                        <p class="ok">Deferred</p>
-                        <p>Approve or decline bookings, since it changes how families book</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- C: piecing it together -->
-        <section class="opt">
-            <p class="ol">C · Piecing it together after the booking</p>
-            <div class="panel piece">
-                <svg class="lines" viewBox="0 0 800 360" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M400 180 L150 70 M400 180 L650 70 M400 180 L150 290 M400 180 L650 290"></path>
-                </svg>
-                <div class="pc center">
-                    <p class="pk">Booking confirmed</p>
-                    <p>…but nannies still need</p>
-                </div>
-                <div class="pc s1"><p class="pk">Email</p><p>Open shifts and edits land here, often missed during the workday</p></div>
-                <div class="pc s2"><p class="pk">Text message</p><p>Sometimes includes the address, sometimes not</p></div>
-                <div class="pc s3 warn"><p class="pk">Family's note</p><p>Gone after accepting, so one nanny copied it first</p></div>
-                <div class="pc s4 warn"><p class="pk">Personal calendar</p><p>Re-entered by hand by all 4 nannies</p></div>
-            </div>
-        </section>
-
-        <!-- D: decision path -->
-        <section class="opt">
-            <p class="ol">D · Decision path for the two examples</p>
-            <div class="panel dp">
-                <div class="row head">
-                    <span></span>
-                    <span>Disrupts a core flow?</span>
-                    <span>Fixable on the nanny side?</span>
-                    <span>Decision</span>
-                </div>
-                <div class="row">
-                    <span class="ex">Family's note disappears after accepting</span>
-                    <span class="yes">Yes, prep breaks</span>
-                    <span class="yes">Yes</span>
-                    <span class="res fix">Address now</span>
-                </div>
-                <div class="row">
-                    <span class="ex">Approve or decline bookings</span>
-                    <span class="yes">Yes, bookings don't fit</span>
-                    <span class="no">No, changes how families book</span>
-                    <span class="res later">Defer</span>
-                </div>
-            </div>
-        </section>
+            ))
+        }
     </main>
 </Base>
 
 <style>
     .wrap {
-        max-width: 56rem;
+        max-width: 50rem;
         margin: 0 auto;
-        padding: 3rem 1.5rem 6rem;
+        padding: 4rem 1.5rem 6rem;
         display: flex;
         flex-direction: column;
-        gap: 3.5rem;
+        gap: 1rem;
     }
-    .kicker {
-        font: 500 1.25rem/1.3 var(--serif);
+    .h {
+        margin-top: 0.25rem;
+        font: 500 1.4rem/1.3 var(--serif);
+        letter-spacing: -0.01em;
         color: var(--ink);
     }
-    .opt {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    .ol {
-        font: 400 14px/1.4 var(--sans);
-        color: var(--label);
+    .h.cont {
+        margin-top: 2.5rem;
     }
     .panel {
         position: relative;
-        padding: 1.75rem;
         border: 1px solid var(--border);
         border-radius: 1rem;
         background: url("/images/smn/grid.png") center / cover;
     }
 
-    /* A */
-    .tl {
+    /* numbered questions, like Rachel's "01 / The experience left users asking…" */
+    .asks {
         display: grid;
-        grid-template-columns: 1fr 1fr auto 1fr;
-        gap: 1rem;
-        align-items: stretch;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+        padding: 1.25rem;
     }
-    .ch {
+    .ask {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid #e3e3e3;
+        border-radius: 0.5rem;
+    }
+    .an {
+        font: 400 13px/1 var(--sans);
+        color: var(--label);
+    }
+    .aq {
         font: 500 15px/1.3 var(--serif);
         color: var(--ink);
-        margin-bottom: 0.75rem;
-        min-height: 2.6em;
     }
-    .stack {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .sticky {
-        padding: 0.625rem 0.75rem;
-        font: 400 13px/1.35 var(--para);
-        background: #fff;
-        border: 1px solid #3a3a3a;
-        color: var(--ink);
-    }
-    .sticky.later {
-        background: rgba(255, 255, 255, 0.5);
-        border: 1px dashed #c3c3c3;
-        color: #9a9a9a;
-    }
-    .sticky.key {
-        background: #ffe8a3;
-        border-color: #3a3a3a;
-        color: var(--ink);
-    }
-    .sticky.later.key {
-        background: #fff5d6;
-        border-style: dashed;
-    }
-    .marker {
-        position: relative;
-        width: 2.5rem;
-    }
-    .marker::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 0;
-        bottom: 0;
-        border-left: 1.5px dashed #3a3a3a;
-    }
-    .marker span {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%) rotate(-90deg);
-        white-space: nowrap;
-        padding: 0.25rem 0.625rem;
-        background: #3a3a3a;
-        color: #fff;
-        border-radius: 999px;
-        font: 500 12px/1 var(--sans);
-    }
-    .legend {
-        margin-top: 1.25rem;
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        font: 400 12px/1 var(--sans);
+    .ap {
+        font: 400 13px/1.45 var(--para);
         color: var(--label);
-    }
-    .dot {
-        display: inline-block;
-        width: 0.75rem;
-        height: 0.75rem;
-        margin-right: -0.5rem;
-        border: 1px solid #3a3a3a;
-        background: #fff;
-    }
-    .dot.later {
-        border: 1px dashed #c3c3c3;
-        background: transparent;
-    }
-    .dot.key {
-        background: #ffe8a3;
     }
 
-    /* B */
-    .funnel {
+    /* decisions, like Rachel's "Unclear tool steps → Precise & exhaustive edits" */
+    .dec {
         display: flex;
         flex-direction: column;
-        align-items: center;
         gap: 0.5rem;
-        text-align: center;
+        margin-top: 1rem;
     }
-    .fs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.375rem;
-    }
-    .fn {
-        font: 500 2rem/1 var(--serif);
-        color: var(--ink);
-    }
-    .ft {
-        font: 400 13px/1.3 var(--para);
+    .dk {
+        font: 400 13px/1 var(--sans);
         color: var(--label);
     }
-    .dots {
-        display: grid;
-        grid-template-columns: repeat(10, 0.625rem);
-        gap: 0.375rem;
-        margin-top: 0.25rem;
+    .dh {
+        font: 500 1.0625rem/1.3 var(--serif);
+        color: var(--ink);
     }
-    .dots i {
-        width: 0.625rem;
-        height: 0.625rem;
-        border-radius: 50%;
-        background: #3a3a3a;
-    }
-    .chips {
+    .diag {
         display: flex;
-        flex-wrap: wrap;
+        align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        margin-top: 0.25rem;
+        gap: 1.25rem;
+        padding: 2.25rem 1.5rem;
     }
-    .chips span {
-        padding: 0.375rem 0.75rem;
-        background: #fff;
-        border: 1px solid #3a3a3a;
-        font: 400 13px/1.2 var(--para);
-        color: var(--ink);
-    }
-    .chips.q span {
-        border-style: dashed;
-    }
-    .fa {
-        font: 400 18px/1 var(--sans);
-        color: #a3a7ad;
-    }
-    .outs {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
-        width: 100%;
-        max-width: 32rem;
-    }
-    .oc {
+    .box {
+        flex: 1;
+        max-width: 15rem;
         padding: 0.875rem 1rem;
-        text-align: left;
-        font: 400 13px/1.4 var(--para);
-        background: #fff;
-        border: 1px solid #3a3a3a;
-        color: var(--ink);
-    }
-    .oc.later {
-        border-style: dashed;
-        border-color: #c3c3c3;
-        color: var(--label);
-        background: rgba(255, 255, 255, 0.5);
-    }
-    .ok {
-        font: 500 12px/1.2 var(--sans);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 0.25rem;
-    }
-
-    /* C */
-    .piece {
-        height: 24rem;
-    }
-    .lines {
-        position: absolute;
-        inset: 1.75rem;
-        width: calc(100% - 3.5rem);
-        height: calc(100% - 3.5rem);
-    }
-    .lines path {
-        fill: none;
-        stroke: #a3a7ad;
-        stroke-width: 1;
-        stroke-dasharray: 4 4;
-        vector-effect: non-scaling-stroke;
-    }
-    .pc {
-        position: absolute;
-        width: 13rem;
-        padding: 0.75rem 0.875rem;
-        background: #fff;
-        border: 1px solid #d5d5d5;
-        font: 400 13px/1.4 var(--para);
-        color: var(--label);
-    }
-    .pc .pk {
-        font: 500 14px/1.3 var(--sans);
-        color: var(--ink);
-        margin-bottom: 0.125rem;
-    }
-    .pc.center {
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 12rem;
         text-align: center;
-        background: #3a3a3a;
-        border-color: #3a3a3a;
-        color: #d8d8d8;
+        font: 400 14px/1.4 var(--para);
+        border-radius: 0.5rem;
     }
-    .pc.center .pk {
-        color: #fff;
-    }
-    .pc.warn {
-        border-color: #3a3a3a;
-        background: #ffe8a3;
-        color: var(--ink);
-    }
-    .s1 {
-        left: 1.75rem;
-        top: 1.75rem;
-    }
-    .s2 {
-        right: 1.75rem;
-        top: 1.75rem;
-    }
-    .s3 {
-        left: 1.75rem;
-        bottom: 1.75rem;
-    }
-    .s4 {
-        right: 1.75rem;
-        bottom: 1.75rem;
-    }
-
-    /* D */
-    .dp {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .row {
-        display: grid;
-        grid-template-columns: 1.3fr 1fr 1fr 0.7fr;
-        gap: 0.5rem;
-        align-items: stretch;
-    }
-    .row > span {
-        padding: 0.75rem 0.875rem;
-        font: 400 13px/1.35 var(--para);
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        color: var(--ink);
-    }
-    .row.head > span {
-        background: none;
-        border: 0;
-        padding-bottom: 0;
-        font: 500 12px/1.2 var(--sans);
-        color: var(--label);
-    }
-    .row .ex {
-        font-weight: 500;
-    }
-    .row .no {
-        color: var(--label);
-        border-style: dashed;
-    }
-    .row > .res.fix {
-        background: #3a3a3a;
-        color: #fff;
-        border-color: #3a3a3a;
-        font-weight: 500;
-    }
-    .row > .res.later {
+    .box.from {
+        background: rgba(255, 255, 255, 0.6);
         border: 1px dashed #c3c3c3;
         color: var(--label);
     }
-
+    .box.to.fix {
+        background: #fff;
+        border: 1px solid #3a3a3a;
+        color: var(--ink);
+    }
+    .box.to.later {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid #c3c3c3;
+        color: var(--label);
+    }
+    .arr {
+        flex: none;
+        width: 3rem;
+        fill: none;
+        stroke: #3a3a3a;
+        stroke-width: 1.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+    .why {
+        font: 400 13px/1.4 var(--sans);
+        color: var(--label);
+    }
     @media (max-width: 809.98px) {
-        .tl {
-            grid-template-columns: 1fr;
-        }
-        .marker {
-            width: auto;
-            height: 2.5rem;
-        }
-        .marker::before {
-            left: 0;
-            right: 0;
-            top: 50%;
-            bottom: auto;
-            border-left: 0;
-            border-top: 1.5px dashed #3a3a3a;
-        }
-        .marker span {
-            transform: translate(-50%, -50%);
-        }
-        .piece {
-            height: auto;
-            display: grid;
-            gap: 0.5rem;
-        }
-        .lines {
-            display: none;
-        }
-        .pc,
-        .pc.center {
-            position: static;
-            transform: none;
-            width: auto;
-        }
-        .row {
+        .asks {
             grid-template-columns: 1fr 1fr;
+        }
+        .diag {
+            flex-direction: column;
+        }
+        .box {
+            max-width: none;
+            width: 100%;
+        }
+        .arr {
+            transform: rotate(90deg);
         }
     }
 </style>

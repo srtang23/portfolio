@@ -63,16 +63,13 @@ const flows = [
                                 const x = p.at[0] + r * Math.cos(a) * 1.25 + (rnd(1) - 0.5) * 1.2 - 3
                                 const y = p.at[1] + r * Math.sin(a) + (rnd(2) - 0.5) * 1.2 - 3
                                 const tilt = (rnd(3) - 0.5) * 9
-                                const t = p.notes[i % p.notes.length] + "x".repeat(i % 7)
                                 return (
                                     <span
                                         class:list={["st", { alt: rnd(4) > 0.6 }]}
                                         style={`left:${x.toFixed(2)}cqw;top:${y.toFixed(2)}cqw;transform:rotate(${tilt.toFixed(1)}deg);z-index:${Math.round(rnd(5) * 50)}`}
                                         aria-hidden="true"
                                     >
-                                        <i style={`width:${55 + ((t.length * 7) % 40)}%`} />
-                                        <i style={`width:${45 + ((t.length * 13) % 45)}%`} />
-                                        {t.length > 22 && <i style={`width:${30 + ((t.length * 5) % 35)}%`} />}
+                                        {p.notes[i % p.notes.length]}
                                     </span>
                                 )
                             })}
@@ -245,9 +242,9 @@ const flows = [
     }
     .st {
         position: absolute;
-        display: flex;
-        flex-direction: column;
-        gap: 0.42cqw;
+        overflow: hidden;
+        font: 400 0.5cqw/1.35 var(--sans);
+        color: rgba(58, 58, 58, 0.42);
         width: 6cqw;
         height: 6cqw;
         padding: 0.75cqw;
@@ -260,13 +257,7 @@ const flows = [
     .st.alt {
         background: #ffdb85;
     }
-    /* the writing is suggested with soft lines, not readable text */
-    .st i {
-        display: block;
-        height: 0.36cqw;
-        border-radius: 1cqw;
-        background: rgba(58, 58, 58, 0.16);
-    }
+    /* real note text, kept tiny and faint so it reads as writing rather than something to read */
     .pl {
         position: absolute;
         font: 400 2.2cqw/1.15 var(--sans);

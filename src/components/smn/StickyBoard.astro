@@ -1,0 +1,116 @@
+---
+// Affinity board: interview pain points (one sticky each) grouped into the three core flows,
+// drawn as loose, slightly tilted piles on the grid panel. The note text is real but tiny and
+// faint, so it reads as writing rather than something to read.
+const piles = [
+    {
+        name: ["Posting", "availability"],
+        count: 27,
+        at: [17, 22],
+        label: "under",
+        notes: ["Can’t cross midnight", "One block per day on mobile", "Desktop delete is hidden", "Repeat option is buried", "Presets can’t be saved", "Defaults don’t match my schedule", "Wants to type times", "Two-hour minimum blocks edits", "Cancelled slots aren’t restored", "Every edit sends an email", "Must post 2 months ahead", "Did my update save?"],
+    },
+    {
+        name: ["Finding or", "receiving bookings"],
+        count: 34,
+        at: [50, 22],
+        label: "under",
+        notes: ["Open shifts by email only", "First come, first served", "Checks the app all day", "No approve or decline", "Uses soft blocking", "Feels a lack of control", "Wants to star families", "Regulars go through Erin", "Can’t self-schedule regulars", "No family search", "Texts miss details", "“New to you” is wrong"],
+    },
+    {
+        name: ["Preparing for", "appointments"],
+        count: 37,
+        at: [83, 22],
+        label: "under",
+        notes: ["Family’s note disappears", "Re-enters bookings in my calendar", "Cross-checks Apple Calendar", "Confirms allergies first", "Checks the address in Maps", "No notes for the next nanny", "Kids’ interests missing", "Reads parking instructions", "No way to flag a concern", "Texts to cancel last minute", "No policy search", "Questions come up on the job"],
+    },
+]
+---
+
+<div class="board" aria-label="Interview pain points grouped into three core flows: posting availability, finding or receiving bookings, and preparing for appointments.">
+    {
+        piles.map((p) => (
+            <>
+                {Array.from({ length: p.count }, (_, i) => {
+                    // sunflower spiral: an even, organic round cluster; small seeded jitter and tilt
+                    const rnd = (k: number) => {
+                        const v = Math.sin((i + 1) * 12.9898 + k * 78.233 + p.count) * 43758.5453
+                        return v - Math.floor(v)
+                    }
+                    const R = Math.sqrt(p.count) * 1.95
+                    const r = R * Math.sqrt((i + 0.5) / p.count)
+                    const a = i * 2.39996
+                    const x = p.at[0] + r * Math.cos(a) * 1.15 + (rnd(1) - 0.5) * 0.9 - 2.3
+                    const y = p.at[1] + r * Math.sin(a) + (rnd(2) - 0.5) * 0.9 - 2.3
+                    const tilt = (rnd(3) - 0.5) * 9
+                    return (
+                        <span
+                            class:list={["st", { alt: rnd(4) > 0.6 }]}
+                            style={`left:${x.toFixed(2)}cqw;top:${y.toFixed(2)}cqw;transform:rotate(${tilt.toFixed(1)}deg);z-index:${Math.round(rnd(5) * 50)}`}
+                            aria-hidden="true"
+                        >
+                            {p.notes[i % p.notes.length]}
+                        </span>
+                    )
+                })}
+                <p class:list={["pl", p.label]} style={`--x:${p.at[0]}cqw;--y:${p.at[1]}cqw`} aria-hidden="true">
+                    {p.name[0]}
+                    <br />
+                    {p.name[1]}
+                </p>
+            </>
+        ))
+    }
+</div>
+
+<style>
+    /* 1: affinity board, piles of yellow stickies per core flow on the grid panel */
+    .board {
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        background: url("/images/smn/grid.png") center / cover;
+        position: relative;
+        container-type: inline-size;
+        height: 0;
+        padding-bottom: 50%;
+        overflow: hidden;
+    }
+    .bt {
+        position: absolute;
+        left: 2.5cqw;
+        top: 2.5cqw;
+    }
+    .st {
+        position: absolute;
+        overflow: hidden;
+        font: 400 0.38cqw/1.35 var(--sans);
+        color: rgba(58, 58, 58, 0.42);
+        width: 4.6cqw;
+        height: 4.6cqw;
+        padding: 0.55cqw;
+        background: #ffe299;
+        border-radius: 0.15cqw;
+        box-shadow:
+            0 0.05cqw 0.1cqw rgba(0, 0, 0, 0.08),
+            0 0.3cqw 0.8cqw rgba(120, 90, 20, 0.12);
+    }
+    .st.alt {
+        background: #ffdb85;
+    }
+    /* real note text, kept tiny and faint so it reads as writing rather than something to read */
+    .pl {
+        position: absolute;
+        font: 400 max(1.7cqw, 11px)/1.2 var(--sans);
+        color: #a3a3a3;
+        white-space: nowrap;
+    }
+    .pl {
+        z-index: 60;
+    }
+    .pl.under {
+        left: var(--x);
+        top: calc(var(--y) + 14.5cqw);
+        transform: translateX(-50%);
+        text-align: center;
+    }
+</style>

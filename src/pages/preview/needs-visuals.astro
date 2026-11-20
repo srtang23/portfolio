@@ -29,8 +29,8 @@ const flows = [
                     flows.map((f) => (
                         <div class="card">
                             <div class="art">
-                                <span class="chip" style={`--c:${f.c}`}>{f.chip}</span>
-                                <span class="sq" style={`--c:${f.c}`}>
+                                <span class="chip">{f.chip}</span>
+                                <span class="ico">
                                     <svg viewBox="0 0 24 24" set:html={f.i} />
                                 </span>
                             </div>
@@ -140,36 +140,42 @@ const flows = [
         flex-direction: column;
         gap: 0.625rem;
     }
+    /* cards in the portfolio style: grid panel, neutral greys, outlined icon */
     .art {
         position: relative;
-        aspect-ratio: 1.15;
+        aspect-ratio: 1.5;
         display: grid;
         place-items: center;
         border: 1px solid var(--border);
-        background: #f1f1f1;
+        border-radius: 0.75rem;
+        background: url("/images/smn/grid.png") center / cover;
     }
     .chip {
         position: absolute;
-        left: 0.625rem;
-        top: 0.625rem;
-        padding: 0.25rem 0.5rem;
-        font: 500 11px/1 var(--sans);
-        color: #fff;
-        background: var(--c);
+        left: 0.75rem;
+        top: 0.75rem;
+        padding: 0.3125rem 0.625rem;
+        font: 400 12px/1 var(--sans);
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid #dcdcdc;
+        border-radius: 999px;
     }
-    .sq {
+    .ico {
         display: grid;
         place-items: center;
-        width: 3.5rem;
-        height: 3.5rem;
-        background: var(--c);
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: inset 0 0 0 1.2px #3a3a3a;
     }
-    .sq svg {
-        width: 1.75rem;
-        height: 1.75rem;
+    .ico svg {
+        width: 1.375rem;
+        height: 1.375rem;
         fill: none;
-        stroke: #fff;
-        stroke-width: 1.6;
+        stroke: #3a3a3a;
+        stroke-width: 1.5;
         stroke-linecap: round;
         stroke-linejoin: round;
     }
@@ -224,6 +230,23 @@ const flows = [
         max-width: 14rem;
         margin-top: 1.75rem;
         border-top: 1.5px solid #3a3a3a;
+    }
+    .sq {
+        display: grid;
+        place-items: center;
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 50%;
+        background: var(--c);
+    }
+    .sq svg {
+        width: 1.375rem;
+        height: 1.375rem;
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
     .sq.dark {
         --c: #3a3a3a;

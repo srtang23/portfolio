@@ -14,21 +14,21 @@ const piles = [
     {
         name: ["Posting", "availability"],
         count: 27,
-        at: [5, 5],
+        at: [24, 24],
         label: "below",
         notes: ["Can’t cross midnight", "One block per day on mobile", "Desktop delete is hidden", "Repeat option is buried", "Presets can’t be saved", "Defaults don’t match my schedule", "Wants to type times", "Two-hour minimum blocks edits", "Cancelled slots aren’t restored", "Every edit sends an email", "Must post 2 months ahead", "Did my update save?"],
     },
     {
         name: ["Finding or", "receiving bookings"],
         count: 34,
-        at: [55, 5],
+        at: [74, 27],
         label: "belowr",
         notes: ["Open shifts by email only", "First come, first served", "Checks the app all day", "No approve or decline", "Uses soft blocking", "Feels a lack of control", "Wants to star families", "Regulars go through Erin", "Can’t self-schedule regulars", "No family search", "Texts miss details", "“New to you” is wrong"],
     },
     {
         name: ["Preparing for", "appointments"],
         count: 37,
-        at: [27, 43],
+        at: [46, 63],
         label: "right",
         notes: ["Family’s note disappears", "Re-enters bookings in my calendar", "Cross-checks Apple Calendar", "Confirms allergies first", "Checks the address in Maps", "No notes for the next nanny", "Kids’ interests missing", "Reads parking instructions", "No way to flag a concern", "Texts to cancel last minute", "No policy search", "Questions come up on the job"],
     },
@@ -52,12 +52,24 @@ const flows = [
                     piles.map((p) => (
                         <>
                             {Array.from({ length: p.count }, (_, i) => {
+                                // sunflower spiral: an even, organic round cluster; small seeded jitter and tilt
+                                const rnd = (k: number) => {
+                                    const v = Math.sin((i + 1) * 12.9898 + k * 78.233 + p.count) * 43758.5453
+                                    return v - Math.floor(v)
+                                }
+                                const R = Math.sqrt(p.count) * 2.65
+                                const r = R * Math.sqrt((i + 0.5) / p.count)
+                                const a = i * 2.39996
+                                const x = p.at[0] + r * Math.cos(a) * 1.25 + (rnd(1) - 0.5) * 1.2 - 3
+                                const y = p.at[1] + r * Math.sin(a) + (rnd(2) - 0.5) * 1.2 - 3
+                                const tilt = (rnd(3) - 0.5) * 9
                                 const t = p.notes[i % p.notes.length] + "x".repeat(i % 7)
-                                const col = i % 7, row = Math.floor(i / 7)
-                                const x = p.at[0] + col * 5.4 + (row % 2) * 1.6
-                                const y = p.at[1] + row * 4.6 + (col % 2) * 1.5
                                 return (
-                                    <span class="st" style={`left:${x}cqw;top:${y}cqw`} aria-hidden="true">
+                                    <span
+                                        class:list={["st", { alt: rnd(4) > 0.6 }]}
+                                        style={`left:${x.toFixed(2)}cqw;top:${y.toFixed(2)}cqw;transform:rotate(${tilt.toFixed(1)}deg);z-index:${Math.round(rnd(5) * 50)}`}
+                                        aria-hidden="true"
+                                    >
                                         <i style={`width:${55 + ((t.length * 7) % 40)}%`} />
                                         <i style={`width:${45 + ((t.length * 13) % 45)}%`} />
                                         {t.length > 22 && <i style={`width:${30 + ((t.length * 5) % 35)}%`} />}
@@ -223,7 +235,7 @@ const flows = [
         position: relative;
         container-type: inline-size;
         height: 0;
-        padding-bottom: 80%;
+        padding-bottom: 84%;
         overflow: hidden;
     }
     .bt {
@@ -240,7 +252,13 @@ const flows = [
         height: 6cqw;
         padding: 0.75cqw;
         background: #ffe299;
-        box-shadow: 0 0.15cqw 0.5cqw rgba(0, 0, 0, 0.12);
+        border-radius: 0.15cqw;
+        box-shadow:
+            0 0.05cqw 0.1cqw rgba(0, 0, 0, 0.08),
+            0 0.3cqw 0.8cqw rgba(120, 90, 20, 0.12);
+    }
+    .st.alt {
+        background: #ffdb85;
     }
     /* the writing is suggested with soft lines, not readable text */
     .st i {
@@ -255,19 +273,22 @@ const flows = [
         color: #a3a3a3;
         white-space: nowrap;
     }
+    .pl {
+        z-index: 60;
+    }
     .pl.below {
-        left: var(--x);
-        top: calc(var(--y) + 23cqw);
+        left: calc(var(--x) - 20cqw);
+        top: calc(var(--y) + 15cqw);
     }
     .pl.belowr {
-        left: calc(var(--x) + 40cqw);
-        top: calc(var(--y) + 28cqw);
+        left: calc(var(--x) + 22cqw);
+        top: calc(var(--y) + 16cqw);
         transform: translateX(-100%);
         text-align: right;
     }
     .pl.right {
-        left: calc(var(--x) + 43cqw);
-        top: calc(var(--y) + 22cqw);
+        left: calc(var(--x) + 23cqw);
+        top: calc(var(--y) + 9cqw);
     }
     /* 2: statement */
     .statement {

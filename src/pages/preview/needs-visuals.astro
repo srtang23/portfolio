@@ -13,19 +13,22 @@ const ic = {
 const piles = [
     {
         name: ["Posting", "availability"],
-        at: [3, 4],
+        count: 27,
+        at: [5, 5],
         label: "below",
         notes: ["Can’t cross midnight", "One block per day on mobile", "Desktop delete is hidden", "Repeat option is buried", "Presets can’t be saved", "Defaults don’t match my schedule", "Wants to type times", "Two-hour minimum blocks edits", "Cancelled slots aren’t restored", "Every edit sends an email", "Must post 2 months ahead", "Did my update save?"],
     },
     {
         name: ["Finding or", "receiving bookings"],
-        at: [55, 4],
+        count: 34,
+        at: [55, 5],
         label: "belowr",
         notes: ["Open shifts by email only", "First come, first served", "Checks the app all day", "No approve or decline", "Uses soft blocking", "Feels a lack of control", "Wants to star families", "Regulars go through Erin", "Can’t self-schedule regulars", "No family search", "Texts miss details", "“New to you” is wrong"],
     },
     {
         name: ["Preparing for", "appointments"],
-        at: [27, 38],
+        count: 37,
+        at: [27, 43],
         label: "right",
         notes: ["Family’s note disappears", "Re-enters bookings in my calendar", "Cross-checks Apple Calendar", "Confirms allergies first", "Checks the address in Maps", "No notes for the next nanny", "Kids’ interests missing", "Reads parking instructions", "No way to flag a concern", "Texts to cancel last minute", "No policy search", "Questions come up on the job"],
     },
@@ -48,13 +51,16 @@ const flows = [
                 {
                     piles.map((p) => (
                         <>
-                            {p.notes.map((t, i) => {
-                                const col = i % 4, row = Math.floor(i / 4)
-                                const x = p.at[0] + col * 9.6 + (row % 2) * 2.4
-                                const y = p.at[1] + row * 8.2 + (col % 2) * 2.2
+                            {Array.from({ length: p.count }, (_, i) => {
+                                const t = p.notes[i % p.notes.length] + "x".repeat(i % 7)
+                                const col = i % 7, row = Math.floor(i / 7)
+                                const x = p.at[0] + col * 5.4 + (row % 2) * 1.6
+                                const y = p.at[1] + row * 4.6 + (col % 2) * 1.5
                                 return (
                                     <span class="st" style={`left:${x}cqw;top:${y}cqw`} aria-hidden="true">
-                                        {t}
+                                        <i style={`width:${55 + ((t.length * 7) % 40)}%`} />
+                                        <i style={`width:${45 + ((t.length * 13) % 45)}%`} />
+                                        {t.length > 22 && <i style={`width:${30 + ((t.length * 5) % 35)}%`} />}
                                     </span>
                                 )
                             })}
@@ -217,7 +223,7 @@ const flows = [
         position: relative;
         container-type: inline-size;
         height: 0;
-        padding-bottom: 68%;
+        padding-bottom: 80%;
         overflow: hidden;
     }
     .bt {
@@ -227,32 +233,40 @@ const flows = [
     }
     .st {
         position: absolute;
-        width: 10cqw;
-        height: 10cqw;
-        padding: 1cqw;
+        display: flex;
+        flex-direction: column;
+        gap: 0.42cqw;
+        width: 6cqw;
+        height: 6cqw;
+        padding: 0.75cqw;
         background: #ffe299;
         box-shadow: 0 0.15cqw 0.5cqw rgba(0, 0, 0, 0.12);
-        font: 500 1.15cqw/1.3 var(--sans);
-        color: #3a3a3a;
+    }
+    /* the writing is suggested with soft lines, not readable text */
+    .st i {
+        display: block;
+        height: 0.36cqw;
+        border-radius: 1cqw;
+        background: rgba(58, 58, 58, 0.16);
     }
     .pl {
         position: absolute;
-        font: 400 2.4cqw/1.15 var(--sans);
+        font: 400 2.2cqw/1.15 var(--sans);
         color: #a3a3a3;
         white-space: nowrap;
     }
     .pl.below {
         left: var(--x);
-        top: calc(var(--y) + 30.5cqw);
+        top: calc(var(--y) + 23cqw);
     }
     .pl.belowr {
-        left: calc(var(--x) + 41.2cqw);
-        top: calc(var(--y) + 30.5cqw);
+        left: calc(var(--x) + 40cqw);
+        top: calc(var(--y) + 28cqw);
         transform: translateX(-100%);
         text-align: right;
     }
     .pl.right {
-        left: calc(var(--x) + 43.5cqw);
+        left: calc(var(--x) + 43cqw);
         top: calc(var(--y) + 22cqw);
     }
     /* 2: statement */

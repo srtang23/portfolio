@@ -4,15 +4,13 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
 type Item = { image?: { src: string; alt?: string }; caption: string; x: number; y: number; w: number; h: number }
 
+// x, y place each photo's centre (% of the stage); together they ring the intro text.
 const DEFAULTS: Item[] = [
-    { image: { src: "/images/about/mahjong.jpg", alt: "Mahjong tiles on a table" }, caption: "Mahjong is how my family connects. I love that you only ever see your own tiles, yet you make sense of everyone else’s through the patterns they leave on the table.", x: 9, y: 8, w: 230, h: 130 },
-    { image: { src: "/images/about/park.jpg", alt: "Sunlit trees in a park in Vancouver" }, caption: "I love exploring cities through their parks. They offer little glimpses into how people live, connect, and spend their everyday moments. This is one I came across in Vancouver, Canada.", x: 37, y: 4, w: 140, h: 187 },
-    { image: { src: "/images/about/graduation.jpg", alt: "Sophia at her University of Washington graduation" }, caption: "I recently graduated from the University of Washington with a degree in Human Centered Design & Engineering, and I’m currently pursuing a master’s in Engineering Design Innovation at Northwestern.", x: 63, y: 6, w: 135, h: 180 },
-    { image: { src: "/images/about/night-walk.jpg", alt: "Stray cats around a park bench at night" }, caption: "I have a soft spot for night walks, when the streets grow quiet, familiar places feel a little different, and my thoughts have room to wander. I love having nowhere in particular to be and noticing little things I might otherwise walk past. This is what I spotted one night.", x: 80, y: 26, w: 126, h: 168 },
-    { image: { src: "/images/about/barista.jpg", alt: "Sophia laughing behind the counter as a Starbucks barista" }, caption: "My coffee obsession started when I worked as a barista at my campus Starbucks. What started as making drinks for others turned into experimenting with my own little creations. Now, making coffee is one of my favorite parts of the day.", x: 4, y: 38, w: 135, h: 180 },
-    { caption: "Placeholder · with friends", x: 15, y: 66, w: 140, h: 165 },
-    { caption: "Placeholder · a hike", x: 47, y: 68, w: 150, h: 170 },
-    { caption: "Placeholder · a little joy", x: 73, y: 64, w: 125, h: 165 },
+    { image: { src: "/images/about/mahjong.jpg", alt: "Mahjong tiles on a table" }, caption: "Mahjong is how my family connects. I love that you only ever see your own tiles, yet you make sense of everyone else’s through the patterns they leave on the table.", x: 28.8, y: 75.5, w: 230, h: 130 },
+    { image: { src: "/images/about/park.jpg", alt: "Sunlit trees in a park in Vancouver" }, caption: "I love exploring cities through their parks. They offer little glimpses into how people live, connect, and spend their everyday moments. This is one I came across in Vancouver, Canada.", x: 15.8, y: 37.5, w: 140, h: 187 },
+    { image: { src: "/images/about/graduation.jpg", alt: "Sophia at her University of Washington graduation" }, caption: "I recently graduated from the University of Washington with a degree in Human Centered Design & Engineering, and I’m currently pursuing a master’s in Engineering Design Innovation at Northwestern.", x: 50.0, y: 14.0, w: 135, h: 180 },
+    { image: { src: "/images/about/night-walk.jpg", alt: "Stray cats around a park bench at night" }, caption: "I have a soft spot for night walks, when the streets grow quiet, familiar places feel a little different, and my thoughts have room to wander. I love having nowhere in particular to be and noticing little things I might otherwise walk past. This is what I spotted one night.", x: 84.2, y: 37.5, w: 126, h: 168 },
+    { image: { src: "/images/about/barista.jpg", alt: "Sophia laughing behind the counter as a Starbucks barista" }, caption: "My coffee obsession started when I worked as a barista at my campus Starbucks. What started as making drinks for others turned into experimenting with my own little creations. Now, making coffee is one of my favorite parts of the day.", x: 71.2, y: 75.5, w: 135, h: 180 },
 ]
 
 
@@ -158,7 +156,8 @@ export default function AboutScatter(props: Props) {
             </div>
             {list.map((it, i) => {
                 const on = active === i, dim = active !== null && !on
-                const base = { x: (pos[i].x / 100) * size.w, y: (my(pos[i].y) / 100) * size.h, w: it.w * scale, h: it.h * scale }
+                const bw = it.w * scale, bh = it.h * scale
+                const base = { x: (pos[i].x / 100) * size.w - bw / 2, y: (my(pos[i].y) / 100) * size.h - bh / 2, w: bw, h: bh }
                 const r = on ? f! : base
                 return (
                     <div

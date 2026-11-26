@@ -9,7 +9,22 @@ import "../../styles/case.css"
  * Scribble, an AI planning app. Being written section by section, starting with the overview.
  */
 
-const sections = [{ id: "overview", label: "Overview" }]
+const sections = [
+    { id: "overview", label: "Overview" },
+    { id: "principles", label: "Principles" },
+]
+
+// What makes a goal feel achievable: each principle and what it means for the design.
+const ic = {
+    clarity: `<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4M8.5 11h5M11 8.5v5"/>`,
+    action: `<path d="M5 6.5h9M5 12h9M5 17.5h6"/><path d="m16 15.5 2 2 3.5-4"/>`,
+    momentum: `<path d="m4 17 5-5 4 3 7-7"/><path d="M15 8h5v5"/>`,
+}
+const principles = [
+    { k: "Clarity", i: ic.clarity, p: "Conversational input that helps clarify unstructured thoughts into defined goals." },
+    { k: "Actionability", i: ic.action, p: "AI-generated task breakdowns, priorities, and suggested starting points." },
+    { k: "Momentum", i: ic.momentum, p: "Editable plans, progress visibility, and opportunities to revisit goals." },
+]
 
 const info = [
     { h: "My Role", items: ["Independent Designer"] },
@@ -55,6 +70,102 @@ const info = [
                     opportunities to make goal-setting more intuitive, approachable, and actionable.
                 </p>
             </section>
+
+            <!-- Principles -->
+            <section id="principles" class="sec">
+                <p class="tag">#principles</p>
+                <h2 class="h">What makes a goal feel achievable?</h2>
+                <p class="body">
+                    Through surveys, these 3 core principles for an achievable goal allowed me to ground the solution in what would best serve the goal being captured.
+                </p>
+                <div class="principles">
+                    {
+                        principles.map((x) => (
+                            <div class="pr">
+                                <div class="pr-art">
+                                    <span class="pr-chip">{x.k}</span>
+                                    <span class="pr-ico">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" set:html={x.i} />
+                                    </span>
+                                </div>
+                                <p class="pr-label">Design implication</p>
+                                <p class="pr-text">{x.p}</p>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
         </div>
     </main>
 </Base>
+
+<style>
+    /* principle cards: grid panel with a pill label and an outlined icon, the implication underneath */
+    .principles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    .pr {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+        min-width: 0;
+    }
+    .pr-art {
+        position: relative;
+        aspect-ratio: 1.45;
+        display: grid;
+        place-items: center;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        background: url("/images/smn/grid.png") center / cover;
+    }
+    .pr-chip {
+        position: absolute;
+        left: 0.75rem;
+        top: 0.75rem;
+        padding: 0.3125rem 0.625rem;
+        border: 1px solid #dcdcdc;
+        border-radius: 999px;
+        background: #fff;
+        font: 400 13px/1 var(--sans);
+        color: var(--ink);
+    }
+    .pr-ico {
+        display: grid;
+        place-items: center;
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: inset 0 0 0 1.2px var(--ink);
+    }
+    .pr-ico svg {
+        width: 1.375rem;
+        height: 1.375rem;
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+    .pr-label {
+        font: 400 13px/1.3 var(--sans);
+        color: var(--label);
+    }
+    .pr-text {
+        font: 400 15px/1.5 var(--para);
+        color: var(--ink);
+    }
+    @media (max-width: 809.98px) {
+        .principles {
+            grid-template-columns: 1fr;
+            gap: 1.75rem;
+        }
+        .pr-art {
+            aspect-ratio: 2.2;
+        }
+    }
+</style>

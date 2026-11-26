@@ -43,8 +43,8 @@ export const projects: Project[] = [
         descriptor: "P&G Air Care Innovation",
     },
     {
-        slug: "sprout",
-        href: "/work/sprout",
+        slug: "scribble",
+        href: "/work/scribble",
         title: "Scribble",
         blurb: "Turn scattered thoughts into clear next steps.",
         image: "/images/card-sprout-plant.jpg",
@@ -71,7 +71,7 @@ export const projects: Project[] = [
 ]
 
 // Order on the Work page (Home uses the array order above).
-export const workOrder = ["pg", "smn", "sprout", "turtlup"]
+export const workOrder = ["pg", "smn", "scribble", "turtlup"]
 
 export const links = {
     resume: "https://drive.google.com/file/d/1QOjQgCnON-LXrwcXECyTWqXfQvppSQKT/view?usp=sharing",

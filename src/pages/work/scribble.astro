@@ -1,0 +1,60 @@
+---
+import Base from "../../layouts/Base.astro"
+import "../../styles/case-mobile.css"
+import "../../styles/case-enter.css"
+import CaseNav from "../../components/CaseNav.astro"
+import "../../styles/case.css"
+
+/*
+ * Scribble, an AI planning app. Being written section by section, starting with the overview.
+ */
+
+const sections = [{ id: "overview", label: "Overview" }]
+
+const info = [
+    { h: "My Role", items: ["Independent Designer"] },
+    { h: "Methods", items: ["Competitive Analysis", "User Surveys"] },
+    { h: "Focus", items: ["AI-Assisted Planning"] },
+]
+---
+
+<Base nav="case" title="Scribble · Sophia Tang" description="Scribble, an AI planning app that turns scattered thoughts into clear next steps.">
+    <CaseNav sections={sections} />
+
+    <main class="case" style="--hero-bg: #4a4f52">
+        <!-- Hero -->
+        <header id="introduction" class="hero">
+            <div class="grain" aria-hidden="true"></div>
+            <div class="title-area">
+                <h1>Scribble<br />AI Planning App</h1>
+            </div>
+        </header>
+
+        <div class="content first">
+            <dl class="info">
+                {
+                    info.map((col) => (
+                        <div class="info-col">
+                            <dt>{col.h}</dt>
+                            <dd>
+                                {col.items.map((t) => (
+                                    <span>{t}</span>
+                                ))}
+                            </dd>
+                        </div>
+                    ))
+                }
+            </dl>
+
+            <!-- Overview -->
+            <section id="overview" class="sec">
+                <p class="tag">#overview</p>
+                <h2 class="h">How might we make goal planning feel less overwhelming and getting started more achievable?</h2>
+                <p class="body">
+                    As an independent designer, I explored how AI could reduce the cognitive effort of planning. Through competitive analysis and user surveys, I identified
+                    opportunities to make goal-setting more intuitive, approachable, and actionable.
+                </p>
+            </section>
+        </div>
+    </main>
+</Base>

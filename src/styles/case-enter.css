@@ -11,7 +11,8 @@ main.case .hero .title-area h1 {
 main.case .hero .hero-window {
     animation: case-rise 0.9s var(--spring) both 0.4s;
 }
-.top-nav .pill {
+.top-nav .pill,
+.logo-layer .logo {
     animation: case-fade 0.6s ease both 0.6s;
 }
 .case-nav {
@@ -60,6 +61,7 @@ main.case .hero .hero-window {
     main.case .hero .title-area h1,
     main.case .hero .hero-window,
     .top-nav .pill,
+    .logo-layer .logo,
     .case-nav {
         animation: none;
     }

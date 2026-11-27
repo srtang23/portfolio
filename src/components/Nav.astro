@@ -10,9 +10,13 @@ interface Props {
 }
 ---
 
+<!-- The logo keeps its own colour, so it sits in its own layer above the blended text links. -->
+<div class="logo-layer">
+    <a class="logo" href="/" aria-label="Home"><img src="/images/logo.svg" alt="" width="30" height="24" /></a>
+</div>
 <nav class="top-nav" aria-label="Main">
     <div class="pill main">
-        <a class="logo" href="/" aria-label="Home"><img src="/images/logo.svg" alt="" width="30" height="24" /></a>
+        <span class="logo-space" aria-hidden="true"></span>
         <a class="link" href="/#selected-work">Work</a>
         <a class="link" href="/about">About</a>
     </div>
@@ -23,7 +27,10 @@ interface Props {
 </nav>
 
 <style>
-    .top-nav {
+    /* Like kaachow.xyz: the nav stays put and its white text uses a difference blend, so it
+       inverts against whatever scrolls underneath (dark over light, light over dark images). */
+    .top-nav,
+    .logo-layer {
         position: fixed;
         z-index: 50;
         top: 0;
@@ -40,12 +47,27 @@ interface Props {
             opacity 0.3s ease;
     }
     /* slides away while scrolling down, comes back on scroll up */
-    .top-nav.hide {
-        transform: translateY(-110%);
-        opacity: 0;
+    .top-nav {
+        mix-blend-mode: difference;
     }
-    .top-nav.hide .pill {
+    .logo-layer {
+        z-index: 51;
+        display: flex;
+        align-items: center;
+        padding: 1.25rem var(--gutter);
         pointer-events: none;
+    }
+    .logo-layer .logo {
+        pointer-events: auto;
+        display: flex;
+        align-items: center;
+        height: 2.75rem;
+    }
+    .logo-space {
+        display: block;
+        margin-right: 0.25rem;
+        width: 1.875rem;
+        height: 1.5rem;
     }
     /* plain text links, no pill */
     .pill {
@@ -55,18 +77,19 @@ interface Props {
         height: 2.75rem;
         font: 400 15px/1.4 var(--sans);
         letter-spacing: 0.01em;
-        color: var(--nav);
-        transition: color 0.2s ease;
+        color: #fff;
+        transition: opacity 0.2s ease;
     }
     .main {
         gap: 1.75rem;
     }
     .link {
-        color: var(--nav);
-        transition: color 0.2s ease;
+        color: #fff;
+        opacity: 0.75;
+        transition: opacity 0.2s ease;
     }
     .link:hover {
-        color: var(--ink);
+        opacity: 1;
     }
     .logo {
         margin-right: 0.25rem;
@@ -80,8 +103,11 @@ interface Props {
         transform: rotate(360deg);
     }
 
+    .cv {
+        opacity: 0.75;
+    }
     .cv:hover {
-        color: var(--ink);
+        opacity: 1;
     }
     .sr {
         position: absolute;
@@ -93,8 +119,16 @@ interface Props {
     }
 
     @media (max-width: 809.98px) {
-        .top-nav {
+        .top-nav,
+        .logo-layer {
             padding: 1rem var(--gutter);
+        }
+        .logo-layer .logo {
+            height: 2.5rem;
+        }
+        .logo-space {
+            width: 1.625rem;
+            height: 1.3rem;
         }
         .pill {
             height: 2.5rem;
@@ -111,29 +145,5 @@ interface Props {
         .top-nav {
             transition: opacity 0.2s ease;
         }
-        .top-nav.hide {
-            transform: none;
-        }
     }
 </style>
-
-<script>
-    // Hide on scroll down, show on scroll up (always shown near the top of the page,
-    // and whenever something in the nav has keyboard focus).
-    const nav = document.querySelector<HTMLElement>(".top-nav")
-    if (nav) {
-        let lastY = scrollY
-        let frame = 0
-        const update = () => {
-            frame = 0
-            const y = Math.max(0, scrollY)
-            const dy = y - lastY
-            if (Math.abs(dy) < 6) return
-            const hide = dy > 0 && y > 120 && !nav.contains(document.activeElement)
-            nav.classList.toggle("hide", hide)
-            lastY = y
-        }
-        addEventListener("scroll", () => frame || (frame = requestAnimationFrame(update)), { passive: true })
-        nav.addEventListener("focusin", () => nav.classList.remove("hide"))
-    }
-</script>

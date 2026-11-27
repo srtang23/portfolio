@@ -28,7 +28,7 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
                                 i % 2 === col ? (
                                     <a class="card rise" href={p.href} style={`--d:${col * 0.08}s; --ratio:${ratios[i % ratios.length]}; --order:${i}`}>
                                         {p.phone ? (
-                                            <div class="thumb frame phone-thumb" style={`--bg:${p.phone.bg}`}>
+                                            <div class="thumb frame phone-thumb" style={`--bg:${p.phone.bg}`} data-lower={p.phone.lower?.join(",")}>
                                                 <div class="device">
                                                     <video autoplay muted loop playsinline preload="metadata" poster={p.phone.poster} aria-label={p.alt}>
                                                         <source src={p.phone.webm} type="video/webm" />
@@ -55,6 +55,29 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         </section>
     </main>
 </Base>
+
+<script>
+    // Phone cards: while the recording is on a bottom sheet, glide the phone up so the
+    // whole flow is visible, then back down when the sheet closes.
+    document.querySelectorAll<HTMLElement>(".phone-thumb[data-lower]").forEach((card) => {
+        const [from, to] = (card.dataset.lower || "").split(",").map(Number)
+        const device = card.querySelector<HTMLElement>(".device")
+        const video = card.querySelector("video")
+        if (!device || !video || !(to > from)) return
+        const lift = () => Math.max(0, device.offsetHeight + device.offsetTop * 2 - card.clientHeight)
+        let low = false
+        const sync = () => {
+            const want = video.currentTime >= from && video.currentTime < to
+            if (want === low) return
+            low = want
+            device.style.setProperty("--lift", low ? `${-lift()}px` : "0px")
+        }
+        video.addEventListener("timeupdate", sync)
+        addEventListener("resize", () => {
+            if (low) device.style.setProperty("--lift", `${-lift()}px`)
+        })
+    })
+</script>
 
 <style>
     .home {
@@ -289,7 +312,8 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
             inset 0 0 0 1px rgba(255, 255, 255, 0.8),
             0 0 0 1px rgba(22, 21, 15, 0.04);
         backdrop-filter: blur(6px);
-        transition: transform 0.9s var(--spring);
+        transform: translate(-50%, var(--lift, 0px));
+        transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
     }
     .device video {
         display: block;
@@ -299,14 +323,7 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         border-radius: 13.7% / 6.3%;
         background: #fff;
     }
-    .card:hover .device {
-        transform: translateX(-50%) translateY(-2%);
-    }
-    @media (prefers-reduced-motion: reduce) {
-        .card:hover .device {
-            transform: translateX(-50%);
-        }
-    }
+
 </style>
 
 <script>

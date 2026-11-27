@@ -12,7 +12,7 @@ export type Project = {
     subtitle: string // Home card line under the headline
     meta: string // short type/year label
     descriptor: string // Home card title: the project and what it is
-    phone?: { mp4: string; webm: string; poster: string; bg: string } // Home card: a screen recording in a translucent phone
+    phone?: { mp4: string; webm: string; poster: string; bg: string; lower?: [number, number] } // Home card: a screen recording in a translucent phone; between `lower` seconds the phone glides up to show the bottom of the screen
 }
 
 export const projects: Project[] = [
@@ -34,6 +34,7 @@ export const projects: Project[] = [
             webm: "/video/smn/card-screen.webm",
             poster: "/images/smn/card-screen-poster.jpg",
             bg: "#bfe5e6",
+            lower: [2.7, 17.4], // while the Add Availability sheet is open
         },
     },
     {

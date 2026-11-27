@@ -1,0 +1,141 @@
+---
+// A heap of goals that never got started: checkbox chips piled and tilted under a "To-do" count,
+// with "Done 0" below, on the portfolio's grid panel. Positions and tilts are seeded, so the pile
+// looks hand-dropped but is the same on every load.
+const goals = [
+    "Start working out", "Save for a house", "Change careers", "Finish the side project", "Write the book", "Read more",
+    "Go to bed earlier", "Run a marathon", "Eat healthier", "Call family more", "Learn to code", "Start the podcast",
+    "Get out of debt", "Travel more", "Meditate daily", "Finish the degree", "Ask for the raise", "Build an emergency fund",
+    "Declutter the house", "Learn an instrument", "Drink more water", "Launch the online course", "Grow my network",
+    "Start investing", "Spend less time on my phone", "Rebuild the portfolio", "Plan the big trip", "Volunteer",
+    "Journal every morning", "Get certified", "Fix my posture", "Cook at home more", "Start the business",
+    "Learn to swim", "Finally update my resume", "Make new friends", "Go back to therapy", "Plant a garden", "Paint again",
+    "Learn a language", "Wake up earlier", "Stretch every day",
+]
+const rnd = (i: number, k: number) => {
+    const v = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453
+    return v - Math.floor(v)
+}
+// lay chips in loose rows across the panel, then jitter and tilt each one
+const chips = goals.map((t, i) => {
+    const row = Math.floor(i / 6), col = i % 6
+    const x = -6 + col * 18 + (row % 2) * 7 + (rnd(i, 1) - 0.5) * 9
+    const y = 20 + row * 9.2 + (rnd(i, 2) - 0.5) * 6
+    const big = rnd(i, 4) < 0.12
+    const tilt = big ? (rnd(i, 3) < 0.5 ? -1 : 1) * (35 + rnd(i, 5) * 30) : (rnd(i, 3) - 0.5) * 24
+    return { t, x, y, tilt, z: Math.round(rnd(i, 6) * 60) }
+})
+---
+
+<div class="pile" role="img" aria-label={`A heap of ${goals.length} goals that never got started, such as start working out, save for a house and change careers, sits under a To-do count of ${goals.length}, while Done stays at 0.`}>
+    <p class="count todo" aria-hidden="true"><span class="badge"><i></i>To-do</span><span class="pile-num">{goals.length}</span></p>
+    <div class="heap" aria-hidden="true">
+        {
+            chips.map((c) => (
+                <span class="chip" style={`left:${c.x.toFixed(1)}%;top:${c.y.toFixed(1)}%;transform:rotate(${c.tilt.toFixed(1)}deg);z-index:${c.z}`}>
+                    <b />
+                    {c.t}
+                </span>
+            ))
+        }
+    </div>
+    <p class="count done" aria-hidden="true"><span class="badge"><i></i>Done</span><span class="pile-num">0</span></p>
+</div>
+
+<style>
+    .pile {
+        position: relative;
+        container-type: inline-size;
+        overflow: hidden;
+        aspect-ratio: 1.15;
+        border-radius: 4px;
+        background: url("/images/smn/grid.png") center / cover;
+    }
+    .pile::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 100;
+        border: 1px solid var(--border);
+        border-radius: inherit;
+        pointer-events: none;
+    }
+    .count {
+        position: absolute;
+        left: 50%;
+        z-index: 90;
+        display: flex;
+        align-items: center;
+        gap: 2.2cqw;
+        transform: translateX(-50%);
+        white-space: nowrap;
+    }
+    .todo {
+        top: 4cqw;
+    }
+    .done {
+        bottom: 4cqw;
+    }
+    .badge {
+        display: flex;
+        align-items: center;
+        gap: 1.4cqw;
+        padding: 1.2cqw 3cqw;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--border);
+        font: 500 4cqw/1 var(--sans);
+        color: var(--ink);
+    }
+    .badge i {
+        width: 1.8cqw;
+        height: 1.8cqw;
+        border-radius: 50%;
+        background: var(--ink);
+    }
+    .done .badge {
+        background: transparent;
+        color: var(--label);
+    }
+    .done .badge i {
+        background: transparent;
+        box-shadow: inset 0 0 0 1.2px var(--label);
+    }
+    .pile-num {
+        width: auto;
+        height: auto;
+        background: none;
+        font: 500 5cqw/1 var(--serif);
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+    }
+    .done .pile-num {
+        color: var(--label);
+    }
+    .heap {
+        position: absolute;
+        inset: 0;
+    }
+    .chip {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 1.1cqw;
+        padding: 1.2cqw 1.8cqw;
+        border-radius: 4px;
+        background: #fff;
+        border: 1px solid var(--border);
+        box-shadow: 0 0.3cqw 0.9cqw rgba(22, 21, 15, 0.06);
+        font: 400 2.25cqw/1.2 var(--para);
+        color: var(--ink);
+        white-space: nowrap;
+        transform-origin: center;
+    }
+    .chip b {
+        flex: none;
+        width: 1.7cqw;
+        height: 1.7cqw;
+        border-radius: 0.35cqw;
+        box-shadow: inset 0 0 0 1.2px var(--ink);
+    }
+</style>

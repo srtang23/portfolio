@@ -35,22 +35,29 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
                                                         <source src={p.phone.mp4} type="video/mp4" />
                                                     </video>
                                                 </div>
+                                                {p.tagline && (
+                                                    <div class="row hover-cap">
+                                                        <h2 class="name">
+                                                            {p.title} <span class="dash">—</span> <span class="tag-line">{p.tagline}</span>
+                                                        </h2>
+                                                        {p.year && <span class="year">{p.year}</span>}
+                                                    </div>
+                                                )}
                                             </div>
                                         ) : (
                                             <div class="thumb frame">
                                                 <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
+                                                {p.tagline && (
+                                                    <div class="row hover-cap">
+                                                        <h2 class="name">
+                                                            {p.title} <span class="dash">—</span> <span class="tag-line">{p.tagline}</span>
+                                                        </h2>
+                                                        {p.year && <span class="year">{p.year}</span>}
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
-                                        {p.tagline ? (
-                                            <div class="caption tagged hover-cap">
-                                                <div class="row">
-                                                    <h2 class="name">
-                                                        {p.title} <span class="dash">—</span> <span class="tag-line">{p.tagline}</span>
-                                                    </h2>
-                                                    {p.year && <span class="year">{p.year}</span>}
-                                                </div>
-                                            </div>
-                                        ) : (
+                                        {!p.tagline && (
                                             <div class="caption">
                                                 <h2 class="name">{p.descriptor}</h2>
                                                 <p class="line">{p.blurb}</p>
@@ -230,13 +237,35 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         color: var(--label);
         font-variant-numeric: tabular-nums;
     }
-    /* the caption stays hidden until the card is hovered */
+    /* the caption sits inside the card on a small frosted bar along the bottom, and fades in on hover */
     .hover-cap {
+        position: absolute;
+        z-index: 2;
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         opacity: 0;
-        transform: translateY(-0.25rem);
+        transform: translateY(0.375rem);
         transition:
             opacity 0.3s ease,
             transform 0.45s var(--spring);
+    }
+    .hover-cap .name,
+    .hover-cap .year {
+        font-size: 0.8125rem;
+        line-height: 1.3;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+    .hover-cap .name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .card:hover .hover-cap,
     .card:focus-visible .hover-cap {
@@ -340,8 +369,9 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         transform: translate(-50%, -50%);
         transition: transform 0.9s var(--spring);
     }
+    /* the phone lifts a little on hover, making room for the caption */
     .card:hover .device {
-        transform: translate(-50%, -51.5%);
+        transform: translate(-50%, -54%);
     }
     .device video {
         display: block;

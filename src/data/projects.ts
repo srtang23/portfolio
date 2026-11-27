@@ -52,6 +52,7 @@ export const projects: Project[] = [
         subtitle: "Procter & Gamble, product innovation",
         meta: "Research",
         descriptor: "P&G Air Care Innovation",
+        tagline: "Uncovering new opportunities for air care",
     },
     {
         slug: "scribble",
@@ -65,6 +66,7 @@ export const projects: Project[] = [
         subtitle: "Scribble, an AI planning app",
         meta: "Academic 2025",
         descriptor: "Scribble AI Planning App",
+        tagline: "Turning scattered thoughts into clear next steps",
     },
     {
         slug: "turtlup",
@@ -78,6 +80,8 @@ export const projects: Project[] = [
         subtitle: "TurtlUp, a posture-sensing wearable",
         meta: "Hardware 2025",
         descriptor: "TurtlUp Posture Wearable",
+        tagline: "Real-time posture feedback you can tune",
+        year: "2025",
     },
 ]
 

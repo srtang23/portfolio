@@ -42,14 +42,13 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
                                             </div>
                                         )}
                                         {p.tagline ? (
-                                            <div class="caption tagged">
+                                            <div class="caption tagged hover-cap">
                                                 <div class="row">
                                                     <h2 class="name">
                                                         {p.title} <span class="dash">—</span> <span class="tag-line">{p.tagline}</span>
                                                     </h2>
                                                     {p.year && <span class="year">{p.year}</span>}
                                                 </div>
-                                                <p class="line hover-line">{p.blurb}</p>
                                             </div>
                                         ) : (
                                             <div class="caption">
@@ -214,7 +213,7 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         letter-spacing: 0.005em;
         color: var(--body);
     }
-    /* "Name — tagline" with the year on the right; the description slides in on hover */
+    /* "Name — tagline" with the year on the right */
     .row {
         display: flex;
         align-items: baseline;
@@ -231,26 +230,22 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         color: var(--label);
         font-variant-numeric: tabular-nums;
     }
-    .hover-line {
-        max-height: 0;
-        overflow: hidden;
+    /* the caption stays hidden until the card is hovered */
+    .hover-cap {
         opacity: 0;
         transform: translateY(-0.25rem);
         transition:
-            max-height 0.45s var(--spring),
             opacity 0.3s ease,
             transform 0.45s var(--spring);
     }
-    .card:hover .hover-line,
-    .card:focus-visible .hover-line {
-        max-height: 4.5em;
+    .card:hover .hover-cap,
+    .card:focus-visible .hover-cap {
         opacity: 1;
         transform: none;
     }
     /* touch screens can't hover, so show it there */
     @media (hover: none) {
-        .hover-line {
-            max-height: none;
+        .hover-cap {
             opacity: 1;
             transform: none;
         }

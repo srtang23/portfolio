@@ -12,6 +12,7 @@ export type Project = {
     subtitle: string // Home card line under the headline
     meta: string // short type/year label
     descriptor: string // Home card title: the project and what it is
+    phone?: { mp4: string; webm: string; poster: string; bg: string } // Home card: a screen recording in a translucent phone
 }
 
 export const projects: Project[] = [
@@ -28,6 +29,12 @@ export const projects: Project[] = [
         subtitle: "Spilt Milk Nannies, a childcare booking platform",
         meta: "Client 2026",
         descriptor: "Spilt Milk Nannies Caregiver Experience",
+        phone: {
+            mp4: "/video/smn/card-screen.mp4",
+            webm: "/video/smn/card-screen.webm",
+            poster: "/images/smn/card-screen-poster.jpg",
+            bg: "radial-gradient(120% 90% at 50% 10%, #f4fbfb 0%, #cfeced 55%, #a9dcdf 100%)",
+        },
     },
     {
         slug: "pg",

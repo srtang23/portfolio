@@ -27,9 +27,20 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
                             {projects.map((p, i) =>
                                 i % 2 === col ? (
                                     <a class="card rise" href={p.href} style={`--d:${col * 0.08}s; --ratio:${ratios[i % ratios.length]}; --order:${i}`}>
-                                        <div class="thumb frame">
-                                            <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
-                                        </div>
+                                        {p.phone ? (
+                                            <div class="thumb frame phone-thumb" style={`--bg:${p.phone.bg}`}>
+                                                <div class="device">
+                                                    <video autoplay muted loop playsinline preload="metadata" poster={p.phone.poster} aria-label={p.alt}>
+                                                        <source src={p.phone.webm} type="video/webm" />
+                                                        <source src={p.phone.mp4} type="video/mp4" />
+                                                    </video>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div class="thumb frame">
+                                                <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
+                                            </div>
+                                        )}
                                         <div class="caption">
                                             <h2 class="name">{p.descriptor}</h2>
                                             <p class="line">{p.blurb}</p>
@@ -253,6 +264,44 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         }
         .thumb {
             aspect-ratio: 1.5;
+        }
+    }
+
+    /* screen recording in a translucent, frosted phone outline on a soft gradient; the phone
+       runs off the bottom of the card */
+    .phone-thumb {
+        background: var(--bg);
+    }
+    .device {
+        position: absolute;
+        left: 50%;
+        top: 9%;
+        width: 34%;
+        aspect-ratio: 548 / 1192;
+        transform: translateX(-50%);
+        padding: 2.2%;
+        border-radius: 13% / 6%;
+        background: rgba(255, 255, 255, 0.5);
+        box-shadow:
+            inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+            0 0 0 1px rgba(22, 21, 15, 0.04);
+        backdrop-filter: blur(6px);
+        transition: transform 0.9s var(--spring);
+    }
+    .device video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10.5% / 4.9%;
+        background: #fff;
+    }
+    .card:hover .device {
+        transform: translateX(-50%) translateY(-2%);
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .card:hover .device {
+            transform: translateX(-50%);
         }
     }
 </style>

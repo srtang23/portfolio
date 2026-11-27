@@ -14,7 +14,7 @@ const list = workOrder.map((slug) => projects.find((p) => p.slug === slug)!)
         <div class="list">
             {
                 list.map((p, i) => (
-                    <a class="feature reveal" href={p.href}>
+                    <a class="feature frame reveal" href={p.href}>
                         <div class="text">
                             <h2>{p.title}</h2>
                             <p class="body">{p.blurb}</p>

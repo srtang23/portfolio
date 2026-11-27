@@ -8,7 +8,7 @@
     --ink-2: #333333;
     --body: #666666;
     --label: #8a8a8a;
-    --border: #dedede;
+    --border: #dedad0; /* warm hairline, used for every frame and divider */
     --paper: #fefefe; /* with the grain on top, the page averages out to #fafafa */
     --white: #ffffff;
     --accent: #5c7af2;
@@ -135,4 +135,21 @@ h3 {
         transform: none;
         transition: none;
     }
+}
+
+/* Media frame: 4px corners with a hairline drawn on top of the image, so photos and
+   screenshots sit in a crisp, consistent tile (no drop shadow). */
+.frame {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border: 1px solid var(--border);
+    border-radius: inherit;
+    pointer-events: none;
 }

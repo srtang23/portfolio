@@ -170,7 +170,7 @@ export default function AboutScatter(props: Props) {
                             transform: dim ? "scale(.94)" : "none",
                             transition: drag.current?.i === i ? "none" : `left .6s ${ease}, top .6s ${ease}, width .6s ${ease}, height .6s ${ease}, opacity .4s ease, filter .4s ease, transform .4s ease`,
                             background: it.image?.src ? `center/cover url(${it.image.src})` : placeholderColor,
-                            boxShadow: "0 1px 2px rgba(0,0,0,.06), 0 10px 24px -12px rgba(0,0,0,.25)",
+                            borderRadius: 4, boxShadow: "inset 0 0 0 1px #dedad0",
                             display: "flex", alignItems: "center", justifyContent: "center",
                         }}
                     >

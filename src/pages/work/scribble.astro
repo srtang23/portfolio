@@ -111,7 +111,7 @@ const info = [
                     {
                         principles.map((x) => (
                             <div class="pr">
-                                <div class="pr-art">
+                                <div class="pr-art frame">
                                     <span class="pr-chip">{x.k}</span>
                                     <span class="pr-ico">
                                         <svg viewBox="0 0 24 24" aria-hidden="true" set:html={x.i} />
@@ -147,7 +147,6 @@ const info = [
         display: grid;
         place-items: center;
         margin-bottom: 0.5rem;
-        border: 1px solid var(--border);
         border-radius: 4px;
         background: url("/images/smn/grid.png") center / cover;
     }
@@ -156,7 +155,7 @@ const info = [
         left: 0.75rem;
         top: 0.75rem;
         padding: 0.3125rem 0.625rem;
-        border: 1px solid #dcdcdc;
+        border: 1px solid var(--border);
         border-radius: 999px;
         background: #fff;
         font: 400 13px/1 var(--sans);

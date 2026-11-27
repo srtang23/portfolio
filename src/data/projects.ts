@@ -31,7 +31,7 @@ export const projects: Project[] = [
         subtitle: "Spilt Milk Nannies, a childcare booking platform",
         meta: "Client 2026",
         descriptor: "Spilt Milk Nannies Caregiver Experience",
-        tagline: "Streamlining the digital caregiver workflow",
+        tagline: "Streamlining caregiver workflows",
         year: "2026",
         phone: {
             mp4: "/video/smn/card-screen.mp4",
@@ -52,7 +52,7 @@ export const projects: Project[] = [
         subtitle: "Procter & Gamble, product innovation",
         meta: "Research",
         descriptor: "P&G Air Care Innovation",
-        tagline: "Uncovering new opportunities for air care",
+        tagline: "New opportunities for air care",
     },
     {
         slug: "scribble",
@@ -66,7 +66,7 @@ export const projects: Project[] = [
         subtitle: "Scribble, an AI planning app",
         meta: "Academic 2025",
         descriptor: "Scribble AI Planning App",
-        tagline: "Turning scattered thoughts into clear next steps",
+        tagline: "Scattered thoughts into next steps",
     },
     {
         slug: "turtlup",
@@ -80,7 +80,7 @@ export const projects: Project[] = [
         subtitle: "TurtlUp, a posture-sensing wearable",
         meta: "Hardware 2025",
         descriptor: "TurtlUp Posture Wearable",
-        tagline: "Real-time posture feedback you can tune",
+        tagline: "Real-time posture feedback",
         year: "2025",
     },
 ]

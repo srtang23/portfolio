@@ -28,7 +28,7 @@ const chips = goals.map((t, i) => {
 ---
 
 <div class="pile" role="img" aria-label={`A heap of ${goals.length} goals that never got started, such as start working out, save for a house and change careers, sits under a To-do count of ${goals.length}, while Done stays at 0.`}>
-    <p class="count todo" aria-hidden="true"><span class="badge"><i></i>To-do</span><span class="pile-num">{goals.length}</span></p>
+    <p class="count todo" aria-hidden="true"><span class="lab">To-do</span><span class="pile-num">{goals.length}</span></p>
     <div class="heap" aria-hidden="true">
         {
             chips.map((c) => (
@@ -39,7 +39,7 @@ const chips = goals.map((t, i) => {
             ))
         }
     </div>
-    <p class="count done" aria-hidden="true"><span class="badge"><i></i>Done</span><span class="pile-num">0</span></p>
+    <p class="count done" aria-hidden="true"><span class="lab">Done</span><span class="pile-num">0</span></p>
 </div>
 
 <style>
@@ -66,7 +66,8 @@ const chips = goals.map((t, i) => {
         z-index: 90;
         display: flex;
         align-items: center;
-        gap: 2.2cqw;
+        align-items: baseline;
+        gap: 1.4cqw;
         transform: translateX(-50%);
         white-space: nowrap;
     }
@@ -76,30 +77,10 @@ const chips = goals.map((t, i) => {
     .done {
         bottom: 4cqw;
     }
-    .badge {
-        display: flex;
-        align-items: center;
-        gap: 1.4cqw;
-        padding: 1.2cqw 3cqw;
-        border-radius: 999px;
-        background: #fff;
-        border: 1px solid var(--border);
-        font: 500 4cqw/1 var(--sans);
-        color: var(--ink);
-    }
-    .badge i {
-        width: 1.8cqw;
-        height: 1.8cqw;
-        border-radius: 50%;
-        background: var(--ink);
-    }
-    .done .badge {
-        background: transparent;
+    /* plain labels in the portfolio's grey sans, with the count in the serif */
+    .lab {
+        font: 400 2.6cqw/1 var(--sans);
         color: var(--label);
-    }
-    .done .badge i {
-        background: transparent;
-        box-shadow: inset 0 0 0 1.2px var(--label);
     }
     .pile-num {
         width: auto;

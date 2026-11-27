@@ -129,6 +129,62 @@ const info = [
 </Base>
 
 <style>
+    /* Layout and type follow the SMN story preview: grey sans info labels, ~20px from tag to
+       headline to text, ~16px between blocks and ~64px between sections. */
+    main.case .content {
+        gap: 3.3333rem;
+        padding-top: 1.6667rem;
+        padding-bottom: 1.6667rem;
+    }
+    main.case .content.first {
+        padding-top: 6rem;
+    }
+    main.case .content:last-of-type {
+        padding-bottom: 7.5rem;
+    }
+    main.case .sec {
+        gap: 0.8333rem;
+    }
+    main.case .sec > .tag + .h,
+    main.case .sec > .h + .body {
+        margin-top: 0.2083rem;
+    }
+    main.case .info dt {
+        font: 500 15px/1.4 var(--para);
+        letter-spacing: 0;
+        color: var(--label);
+    }
+    main.case .info dd {
+        font: 400 15px/1.4 var(--para);
+        color: var(--ink);
+    }
+    @media (max-width: 1199.98px) {
+        main.case .content {
+            padding-top: 1.6667rem;
+            padding-bottom: 1.6667rem;
+        }
+        main.case .content.first {
+            padding-top: 4rem;
+        }
+    }
+    @media (max-width: 809.98px) {
+        main.case .content {
+            gap: 3rem;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        main.case .content.first {
+            padding-top: 4rem;
+        }
+        main.case .content:last-of-type {
+            padding-bottom: 6rem;
+        }
+        main.case .info dt,
+        main.case .info dd {
+            font-size: 14px;
+        }
+    }
+
     /* principle cards: grid panel with a pill label and an outlined icon, the implication underneath */
     .principles {
         display: grid;

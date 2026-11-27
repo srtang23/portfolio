@@ -41,10 +41,22 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
                                                 <img src={p.image} alt={p.alt} loading={i < 2 ? "eager" : "lazy"} />
                                             </div>
                                         )}
-                                        <div class="caption">
-                                            <h2 class="name">{p.descriptor}</h2>
-                                            <p class="line">{p.blurb}</p>
-                                        </div>
+                                        {p.tagline ? (
+                                            <div class="caption tagged">
+                                                <div class="row">
+                                                    <h2 class="name">
+                                                        {p.title} <span class="dash">—</span> <span class="tag-line">{p.tagline}</span>
+                                                    </h2>
+                                                    {p.year && <span class="year">{p.year}</span>}
+                                                </div>
+                                                <p class="line hover-line">{p.blurb}</p>
+                                            </div>
+                                        ) : (
+                                            <div class="caption">
+                                                <h2 class="name">{p.descriptor}</h2>
+                                                <p class="line">{p.blurb}</p>
+                                            </div>
+                                        )}
                                     </a>
                                 ) : null,
                             )}
@@ -201,6 +213,47 @@ const ratios = [1.78, 1.42, 1.42, 1.78]
         font: 400 0.9375rem/1.45 var(--sans);
         letter-spacing: 0.005em;
         color: var(--body);
+    }
+    /* "Name — tagline" with the year on the right; the description slides in on hover */
+    .row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    .dash,
+    .tag-line {
+        color: var(--label);
+    }
+    .year {
+        flex: none;
+        font: 400 0.9375rem/1.35 var(--sans);
+        color: var(--label);
+        font-variant-numeric: tabular-nums;
+    }
+    .hover-line {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-0.25rem);
+        transition:
+            max-height 0.45s var(--spring),
+            opacity 0.3s ease,
+            transform 0.45s var(--spring);
+    }
+    .card:hover .hover-line,
+    .card:focus-visible .hover-line {
+        max-height: 4.5em;
+        opacity: 1;
+        transform: none;
+    }
+    /* touch screens can't hover, so show it there */
+    @media (hover: none) {
+        .hover-line {
+            max-height: none;
+            opacity: 1;
+            transform: none;
+        }
     }
 
     /* cards lift and settle in as they scroll into view */

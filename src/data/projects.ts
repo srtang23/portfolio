@@ -12,6 +12,8 @@ export type Project = {
     subtitle: string // Home card line under the headline
     meta: string // short type/year label
     descriptor: string // Home card title: the project and what it is
+    tagline?: string // Home card: "Name — tagline" with the year; the blurb then shows on hover
+    year?: string
     phone?: { mp4: string; webm: string; poster: string; bg: string } // Home card: a screen recording in a translucent phone
 }
 
@@ -29,6 +31,8 @@ export const projects: Project[] = [
         subtitle: "Spilt Milk Nannies, a childcare booking platform",
         meta: "Client 2026",
         descriptor: "Spilt Milk Nannies Caregiver Experience",
+        tagline: "Connecting the moments between bookings",
+        year: "2026",
         phone: {
             mp4: "/video/smn/card-screen.mp4",
             webm: "/video/smn/card-screen.webm",

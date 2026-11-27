@@ -401,7 +401,12 @@ const img = (f: string) => `/images/smn/${f}`
         flex-direction: column;
         align-items: center;
         overflow: hidden;
-        border-radius: 0 0 4px 4px;
+        border-radius: 0 0 24px 24px;
+        /* the hero sits like a sheet over the page: a hairline edge and a soft, layered drop shadow */
+        box-shadow:
+            inset 0 -1px 0 rgba(22, 21, 15, 0.08),
+            0 14px 16px -12px rgba(22, 21, 15, 0.14),
+            0 34px 58px -28px rgba(22, 21, 15, 0.22);
         background: url("/images/smn/hero-bg.jpg") center / cover no-repeat;
     }
     .grain {

@@ -33,7 +33,7 @@ export const projects: Project[] = [
             mp4: "/video/smn/card-screen.mp4",
             webm: "/video/smn/card-screen.webm",
             poster: "/images/smn/card-screen-poster.jpg",
-            bg: "radial-gradient(120% 90% at 50% 10%, #f4fbfb 0%, #cfeced 55%, #a9dcdf 100%)",
+            bg: "#bfe5e6",
         },
     },
     {

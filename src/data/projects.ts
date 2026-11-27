@@ -31,7 +31,7 @@ export const projects: Project[] = [
         subtitle: "Spilt Milk Nannies, a childcare booking platform",
         meta: "Client 2026",
         descriptor: "Spilt Milk Nannies Caregiver Experience",
-        tagline: "Connecting the moments between bookings",
+        tagline: "Streamlining the digital caregiver workflow",
         year: "2026",
         phone: {
             mp4: "/video/smn/card-screen.mp4",
